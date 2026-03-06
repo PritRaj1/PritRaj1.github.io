@@ -258,6 +258,31 @@
                 border-color: #1a2028;
             }
 
+            .pillars {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0;
+                margin-bottom: 72px;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.95rem;
+                color: #666;
+            }
+
+            .pillars li {
+                list-style: none;
+                padding: 6px 0;
+            }
+
+            .pillars li span {
+                color: #e8a04a;
+                font-weight: 500;
+            }
+
+            .pillars li::before {
+                content: '—  ';
+                color: #333;
+            }
+
             @media (max-width: 640px) {
                 body {
                     padding: 32px 16px;
@@ -302,6 +327,16 @@
                     . Find me in San Francisco! Originally from north-west UK.
                 </p>
             </header>
+
+            <ul class="pillars">
+                <li>Building towards AI that's <span>sustainable</span></li>
+                <li><span>interpretable</span></li>
+                <li><span>informed</span></li>
+                <li><span>accessible</span></li>
+                <li><span>standardised</span></li>
+            </ul>
+
+            <hr class="divider" />
 
             <div class="section">
                 <div class="speaker-section">
@@ -496,8 +531,8 @@
                         that data is where magic manifests. Uncertainty quantification is how
                         engineers compensate where our data-driven methods fail, since we can't
                         afford to be wrong. Epistemic uncertainty is used to guide where we
-                        prioritise drug synthesis, experimentation, and risk assessments, since
-                        mistakes are expensive and unnecessary.
+                        prioritise drug synthesis, experimentation, and risk assessments.
+                        Mistakes are expensive and unnecessary.
                     </p>
                 </div>
 
