@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prithvi Raj</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 48px 24px;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        header { margin-bottom: 64px; }
+
+        h1 {
+            font-size: 2.2rem;
+            letter-spacing: -1.5px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .tagline {
+            color: #555;
+            font-size: 0.8rem;
+            margin-top: 12px;
+        }
+
+        .section {
+            margin-bottom: 72px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            color: #ccc;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .section p {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            max-width: 720px;
+        }
+
+        a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #fff;
+        }
+
+        .paper-link {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #666;
+            border-bottom: 1px solid #333;
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .paper-link:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #1a1a1a;
+            margin: 64px 0;
+        }
+
+        .project-header {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin: 24px 0 10px;
+        }
+
+        .project-header h3 {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .project-header .repo-link {
+            font-size: 0.7rem;
+            color: #444;
+            transition: color 0.2s;
+        }
+
+        .project-header .repo-link:hover {
+            color: #999;
+        }
+
+        .gif-row {
+            display: flex;
+            gap: 12px;
+            margin: 12px 0 8px;
+        }
+
+        .gif-item {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .gif-item img {
+            width: 100%;
+            display: block;
+            border-radius: 3px;
+            border: 1px solid #1a1a1a;
+            transition: border-color 0.3s;
+        }
+
+        .gif-item img:hover {
+            border-color: #333;
+        }
+
+        .gif-label {
+            font-size: 0.65rem;
+            color: #444;
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .gif-row-pair {
+            max-width: 560px;
+        }
+
+        .gif-single {
+            max-width: 520px;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 32px 16px; }
+            h1 { font-size: 1.6rem; }
+            .gif-row { flex-direction: column; gap: 16px; }
+            .gif-single { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>Hi, I'm Prithvi</h1>
+            <p class="subtitle">CTO of <a href="https://zettalaboratories.com/" target="_blank" rel="noopener">Zetta</a>. Find me in San Francisco! Originally from north-west UK.</p>
+            <p class="tagline">No blog. No substack. No fricking manifestos. This is it.</p>
+        </header>
+
+        <div class="section">
+            <h2 class="section-label">Generative Model</h2>
+            <h3 class="section-title">KAEM: Kolmogorov-Arnold Energy Model</h3>
+            <p>KAEM is a fast and interpretable generative model for any data modality. Inverse transform sampling from its latent prior produces exact samples within a single forward pass. All training strategies avoid the use of encoders and diffusion. It can even be trained with importance sampling on some datasets, which is stupid cheap.</p>
+            <p>KAEM was created as a first step towards my strict requirements for the scientific method. Things are currently unsustainable, uninterpretable, uninformed, inaccessible, not standardised, and unpredictable. That's expected for new tech, but we clearly have a lot of work to do.</p>
+            <a href="https://arxiv.org/abs/2506.14167" target="_blank" rel="noopener" class="paper-link">Read the paper →</a>
+        </div>
+
+        <hr class="divider">
+
+        <div class="section">
+            <h2 class="section-label">Approach</h2>
+            <h3 class="section-title">Inductive Biases</h3>
+            <p>Attention encodes very little inductive bias. Its weights are entirely data-driven. Flexible when abundant data is available, but less suitable to domains where data is limited or relationships lie on a complex manifold. Here, bespoke models with stronger inductive biases perform better in terms of training efficiency, generalisation, explainability, accuracy, and data efficiency.</p>
+            <p>Neural Operators are designed for problems governed by PDEs, since they learn mappings between infinite-dimensional function spaces. Once trained, they can map to a space of interest within a single model pass. People think AI is unsustainable, but this is a hopeful end-to-end replacement of the traditionally iterative, slow, and expensive solvers running on today's HPCs.</p>
+
+            <div class="project-header">
+                <h3>Darcy Flow</h3>
+                <a href="https://github.com/exa-laboratories/wavKAN-conv2D" target="_blank" rel="noopener" class="repo-link">github ↗</a>
+            </div>
+            <div class="gif-row">
+                <div class="gif-item">
+                    <img src="gifs/MLP CNN_prediction.gif" alt="MLP + CNN prediction on Darcy flow">
+                    <div class="gif-label">MLP + CNN. 5,982,121 params</div>
+                </div>
+                <div class="gif-item">
+                    <img src="gifs/KAN CNN_prediction.gif" alt="KAN + CNN prediction on Darcy flow">
+                    <div class="gif-label">KAN + CNN. 35,919 params + wavelet bias</div>
+                </div>
+                <div class="gif-item">
+                    <img src="gifs/MLP FNO_prediction.gif" alt="MLP + FNO prediction on Darcy flow">
+                    <div class="gif-label">MLP + FNO. 4,667,665 params + PDE bias</div>
+                </div>
+            </div>
+
+            <div class="project-header">
+                <h3>Viscoelastic Materials</h3>
+                <a href="https://github.com/PritRaj1/Julia-Wav-KAN" target="_blank" rel="noopener" class="repo-link">github ↗</a>
+            </div>
+            <div class="gif-row gif-row-pair">
+                <div class="gif-item">
+                    <img src="gifs/Transformer_visco_prediction.gif" alt="Transformer prediction on viscoelastic stress field">
+                    <div class="gif-label">Transformer. 4,209,205 parameters</div>
+                </div>
+                <div class="gif-item">
+                    <img src="gifs/RNO_visco_prediction.gif" alt="RNO prediction on viscoelastic stress field">
+                    <div class="gif-label">RNO. 52 parameters + inductive bias</div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="section">
+            <h2 class="section-label">Approach</h2>
+            <h3 class="section-title">Intelligence is Hierarchical</h3>
+            <p>Good mechanics can compensate for bad software. Good software will never be able to compensate for bad mechanics. The industry is quick to default to fancy algorithms, but the best engineers will always be looking for solutions in the form of mechanical or analogue systems for their simplicity, reliability, and cost-effectiveness.</p>
+            <p>"Analogue" systems that reflect the physical systems that they're controlling generally outperform unspecific designs. CPGs are quick to recover their oscillatory gaits with little feedback. They're analytically simpler to design, tune, and implement, and are utterly inexpensive compared to optimisation or data-driven approaches to control.</p>
+
+            <div class="project-header">
+                <h3>Central Pattern Generators</h3>
+                <a href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic" target="_blank" rel="noopener" class="repo-link">github ↗</a>
+            </div>
+            <div class="gif-row">
+                <div class="gif-item gif-single">
+                    <img src="gifs/robots.gif" alt="Quadrupedal robots using CPG locomotion">
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="section">
+            <h2 class="section-label">Approach</h2>
+            <h3 class="section-title">Uncertainty Quantification</h3>
+            <p>While there are cults arising in service of algorithms, the engineers know that data is where magic manifests. Uncertainty quantification is how engineers compensate where our data-driven methods fail, since we can't afford to be wrong. Epistemic uncertainty is used to guide where we prioritise drug synthesis, experimentation, and risk assessments, since mistakes are expensive and unnecessary.</p>
+
+            <div class="project-header">
+                <h3>Active Learning on AqSolDB</h3>
+                <a href="https://github.com/PritRaj1/GP-AqSolDB" target="_blank" rel="noopener" class="repo-link">github ↗</a>
+            </div>
+            <div class="gif-row">
+                <div class="gif-item gif-single">
+                    <img src="gifs/active_learning.gif" alt="Active learning with Gaussian Processes">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
