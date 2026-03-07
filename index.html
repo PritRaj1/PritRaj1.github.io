@@ -173,9 +173,19 @@
             }
 
             .gif-row-pair {
-                max-width: 560px;
+                max-width: 640px;
                 margin-left: auto;
                 margin-right: auto;
+            }
+
+            .gif-row-pair .gif-item {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .gif-row-pair .gif-item img {
+                flex: 1;
+                object-fit: cover;
             }
 
             .gif-single {
@@ -554,12 +564,15 @@
                         github &#8599;
                     </a>
                 </div>
-                <div class="gif-row">
-                    <div class="gif-item gif-single">
+                <div class="gif-row gif-row-pair">
+                    <div class="gif-item">
                         <img
                             src="images/robots.gif"
                             alt="Quadrupedal robots using CPG locomotion"
                         />
+                    </div>
+                    <div class="gif-item">
+                        <img src="images/neuron.gif" alt="Spiking neuron" />
                     </div>
                 </div>
             </div>
