@@ -258,11 +258,19 @@
                 border-color: #1a2028;
             }
 
+            .pillars-lead {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.9rem;
+                color: #555;
+                margin-bottom: 16px;
+            }
+
             .pillars {
                 display: flex;
-                flex-wrap: wrap;
+                flex-direction: column;
                 gap: 0;
                 margin-bottom: 72px;
+                margin-left: 20px;
                 font-family: 'JetBrains Mono', monospace;
                 font-size: 0.95rem;
                 color: #666;
@@ -270,7 +278,7 @@
 
             .pillars li {
                 list-style: none;
-                padding: 6px 0;
+                padding: 4px 0;
             }
 
             .pillars li span {
@@ -279,8 +287,39 @@
             }
 
             .pillars li::before {
-                content: '—  ';
+                content: '→  ';
                 color: #333;
+            }
+
+            .featured {
+                border-left: 3px solid #d4af37;
+                padding: 24px 28px;
+                margin-bottom: 0;
+            }
+
+            .featured .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .featured .paper-link {
+                font-size: 1rem;
+            }
+
+            .philosophies-header {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #888;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .philosophies-intro {
+                color: #666;
+                font-size: 0.95rem;
+                margin-bottom: 48px;
+                max-width: 760px;
             }
 
             @media (max-width: 640px) {
@@ -328,8 +367,9 @@
                 </p>
             </header>
 
+            <p class="pillars-lead">Building towards AI that's</p>
             <ul class="pillars">
-                <li>Building towards AI that's <span>sustainable</span></li>
+                <li><span>sustainable</span></li>
                 <li><span>interpretable</span></li>
                 <li><span>informed</span></li>
                 <li><span>accessible</span></li>
@@ -339,20 +379,19 @@
             <hr class="divider" />
 
             <div class="section">
-                <div class="speaker-section">
-                    <img src="images/cat_left.png" alt="" class="cat active" aria-hidden="true" />
-                    <img
-                        src="images/cat_left_mouth_open.png"
-                        alt=""
-                        class="cat"
-                        aria-hidden="true"
-                    />
+                <div class="featured">
                     <h3 class="section-title">KAEM: Kolmogorov-Arnold Energy Model</h3>
                     <p>
-                        KAEM was created as a first step towards my strict requirements for the
-                        scientific method. Things are currently unsustainable, uninterpretable,
-                        uninformed, inaccessible, not standardised, and unpredictable. That's
-                        expected for new tech, but we clearly have a lot of work to do.
+                        KAEM is a generative model built on the Kolmogorov-Arnold Representation
+                        theorem rather than perceptrons. It produces exact samples in a single
+                        forward pass via inverse transform sampling, and is interpretable by the
+                        univariate design of its latent space and its simple probabilistic nature.
+                    </p>
+                    <p>
+                        Generative models typically trade off between inference speed, sample
+                        quality, and training stability, (they can usually only hit two out of
+                        three). KAEM juggles all of them, and is a first step to realising my above
+                        requirements.
                     </p>
                     <a
                         href="https://arxiv.org/abs/2506.14167"
@@ -375,6 +414,11 @@
 
             <hr class="divider" />
 
+            <h2 class="philosophies-header">Design Philosophies</h2>
+            <p class="philosophies-intro">
+                I personally (and respectfully) don't subscribe to perceptrons and scaling compute.
+            </p>
+
             <div class="section">
                 <div class="speaker-section right-cat alt">
                     <img src="images/cat_right.png" alt="" class="cat active" aria-hidden="true" />
@@ -384,14 +428,16 @@
                         class="cat"
                         aria-hidden="true"
                     />
-                    <h3 class="section-title">Inductive Biases</h3>
+                    <h3 class="section-title">Representation</h3>
                     <p>
                         Attention encodes very little inductive bias. Its weights are entirely
-                        data-driven. Flexible when abundant data is available, but less suitable to
+                        data-driven. Flexible when abundant data is available, but less suited to
                         domains where data is limited or relationships lie on a complex manifold.
                         Here, bespoke models with stronger inductive biases perform better in terms
                         of training efficiency, generalisation, explainability, accuracy, and data
-                        efficiency.
+                        efficiency. There is a better representation for natural language, (it's a
+                        PDE system), we just don't know what it is yet, and question that needs
+                        answering.
                     </p>
                 </div>
 
@@ -525,14 +571,19 @@
                         class="cat"
                         aria-hidden="true"
                     />
-                    <h3 class="section-title">Uncertainty Quantification</h3>
+                    <h3 class="section-title">Reasoning under uncertainty</h3>
                     <p>
                         While there are cults arising in service of algorithms, the engineers know
                         that data is where magic manifests. Uncertainty quantification is how
                         engineers compensate where our data-driven methods fail, since we can't
-                        afford to be wrong. Epistemic uncertainty is used to guide where we
-                        prioritise drug synthesis, experimentation, and risk assessments.
-                        Mistakes are expensive and unnecessary.
+                        afford to be wrong.
+                    </p>
+                    <p>
+                        Epistemic uncertainty is used to guide where we prioritise drug synthesis,
+                        experimentation, and risk assessments. Mistakes are expensive and
+                        unnecessary. Another example is a self-driving car that's 99% accurate. It
+                        still gets 1 in 100 decisions wrong. This could happen at a school crossing,
+                        and that last 1% is where uncertainty quantification saves lives.
                     </p>
                 </div>
 
