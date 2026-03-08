@@ -806,10 +806,16 @@
                         <p>
                             In KAEM, annealing is only applied during training.
                             Power posteriors temper from prior to full posterior, and the
-                            thermodynamic criterion decomposes the marginal likelihood across
-                            temperatures. At inference time, the learned prior is sampled exactly
-                            via inverse transform, no annealing involved. Diffusion pays its sequential cost 
-                            at every generation, this pays it only during training.
+                            thermodynamic criterion decomposes the true marginal likelihood
+                            across temperatures. No amortisation gap, no variational bound,
+                            just MCMC on a low-dimensional latent space where it's actually
+                            viable.
+                        </p>
+                        <p>
+                            At inference time, the learned prior is sampled exactly
+                            via inverse transform, no annealing or MCMC involved. Diffusion pays its
+                            sequential cost at every generation, this pays it solely during
+                            training and scales in parallel with temperatures.
                         </p>
                     </div>
 
@@ -826,7 +832,7 @@
                         </a>
                     </div>
                     <div class="gif-row">
-                        <div class="gif-item gif-single">
+                        <div class="gif-item">
                             <img
                                 src="images/pt_kbf.gif"
                                 alt="Parallel tempering exploring a non-convex energy landscape"
