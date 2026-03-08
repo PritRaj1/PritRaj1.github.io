@@ -564,7 +564,7 @@
                         />
                         <h3 class="section-title">Representation first</h3>
                         <p>
-                            Attention encodes very little inductive bias. Its weights are entirely
+                            Attention encodes very little inductive bias! Its weights are entirely
                             data-driven. Flexible when abundant data is available, but 1. it's wrong
                             (all models are - George Box), 2. it's less suited to domains where data
                             is limited or relationships lie on a complex manifold.
@@ -769,6 +769,67 @@
                             <img
                                 src="images/active_learning.gif"
                                 alt="Active learning with Gaussian Processes"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider" />
+
+                <div class="section">
+                    <div class="speaker-section">
+                        <img
+                            src="images/cat_left.png"
+                            alt=""
+                            class="cat active"
+                            aria-hidden="true"
+                        />
+                        <img
+                            src="images/cat_left_mouth_open.png"
+                            alt=""
+                            class="cat"
+                            aria-hidden="true"
+                        />
+                        <h3 class="section-title">Question the default</h3>
+                        <p>
+                            Diffusion models add noise until the distribution is flat, then learn
+                            to denoise. The forward process is an isotropic SDE, it doesn't preserve
+                            the structure of your target. Prior information about modes and
+                            geometry is gone by construction.
+                        </p>
+                        <p>
+                            Annealing is the thermodynamic alternative. High temperature MCMC chains
+                            cross energy barriers, colder ones resolve local structure, and global exchange 
+                            passes information between them. The prior stays entirely intact, you're simply
+                            smoothing the posterior energy landscape.
+                        </p>
+                        <p>
+                            In KAEM, thermodynamic integration is only applied during training.
+                            Power posteriors temper from prior to full posterior, and the
+                            steppingstone criterion decomposes the marginal likelihood across
+                            temperatures. At inference time, the learned prior is sampled exactly
+                            via inverse transform, no annealing involved. Diffusion pays its sequential cost 
+                            at every generation, this pays it only during training.
+                        </p>
+                    </div>
+
+                    <div class="project-header">
+                        <h3>Parallel Tempering</h3>
+                        <a
+                            href="https://github.com/PritRaj1/NonConvex-RUST"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="Non-Convex Optimisation on GitHub"
+                        >
+                            github &#8599;
+                        </a>
+                    </div>
+                    <div class="gif-row">
+                        <div class="gif-item gif-single">
+                            <img
+                                src="images/pt_kbf.gif"
+                                alt="Parallel tempering exploring a non-convex energy landscape"
                             />
                         </div>
                     </div>
