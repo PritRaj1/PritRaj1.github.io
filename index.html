@@ -804,9 +804,9 @@
                             smoothing the posterior energy landscape.
                         </p>
                         <p>
-                            In KAEM, thermodynamic integration is only applied during training.
+                            In KAEM, annealing is only applied during training.
                             Power posteriors temper from prior to full posterior, and the
-                            steppingstone criterion decomposes the marginal likelihood across
+                            thermodynamic criterion decomposes the marginal likelihood across
                             temperatures. At inference time, the learned prior is sampled exactly
                             via inverse transform, no annealing involved. Diffusion pays its sequential cost 
                             at every generation, this pays it only during training.
