@@ -792,30 +792,29 @@
                         />
                         <h3 class="section-title">Question the default</h3>
                         <p>
-                            Diffusion models add noise until the distribution is flat, then learn
-                            to denoise. The forward process is an isotropic SDE, it doesn't preserve
-                            the structure of your target. Prior information about modes and
-                            geometry is gone by construction.
+                            Diffusion models add noise until the distribution is flat, then learn to
+                            denoise. The forward process is an isotropic SDE, it doesn't preserve
+                            the structure of your target. Prior information about modes and geometry
+                            is gone by construction.
                         </p>
                         <p>
                             Annealing is the thermodynamic alternative. High temperature MCMC chains
-                            cross energy barriers, colder ones resolve local structure, and global exchange 
-                            passes information between them. The prior stays entirely intact, you're simply
-                            smoothing the posterior energy landscape.
+                            cross energy barriers, colder ones resolve local structure, and global
+                            exchange passes information between them. The prior stays entirely
+                            intact, you're simply smoothing the posterior energy landscape.
                         </p>
                         <p>
-                            In KAEM, annealing is only applied during training.
-                            Power posteriors temper from prior to full posterior, and the
-                            thermodynamic criterion decomposes the true marginal likelihood
-                            across temperatures. No amortisation gap, no variational bound,
-                            just MCMC on a low-dimensional latent space where it's actually
-                            viable.
+                            In KAEM, annealing is only applied during training. Power posteriors
+                            temper from prior to full posterior, and the thermodynamic criterion
+                            decomposes the true marginal likelihood across temperatures. No
+                            amortisation gap, no variational bound, just MCMC on a low-dimensional
+                            latent space where it's actually viable.
                         </p>
                         <p>
-                            At inference time, the learned prior is sampled exactly
-                            via inverse transform, no annealing or MCMC involved. Diffusion pays its
-                            sequential cost at every generation, this pays it solely during
-                            training and scales in parallel with temperatures.
+                            At inference time, the learned prior is sampled exactly via inverse
+                            transform, no annealing or MCMC involved. Diffusion pays its sequential
+                            cost at every generation, this pays it solely during training and scales
+                            in parallel with temperatures.
                         </p>
                     </div>
 
