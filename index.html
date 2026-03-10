@@ -442,8 +442,8 @@
                         <a href="https://zettalaboratories.com/" target="_blank" rel="noopener">
                             Zetta
                         </a>
-                        , building energy-efficient chips for scientific computing. Based in San Francisco, originally from
-                        north-west UK.
+                        , building energy-efficient chips for scientific computing. Based in San
+                        Francisco, originally from north-west UK.
                     </p>
                 </div>
                 <nav aria-label="Social links" class="social-links">
@@ -513,16 +513,10 @@
                         <h2 class="section-title">KAEM: Kolmogorov-Arnold Energy Model</h2>
                         <p>
                             KAEM is a generative model built on the Kolmogorov-Arnold Representation
-                            theorem rather than perceptrons. It produces exact samples in a single
-                            forward pass via inverse transform sampling, and is interpretable by the
-                            univariate design of its latent space and its simple probabilistic
-                            nature.
-                        </p>
-                        <p>
-                            Generative models typically trade off between inference speed, sample
-                            quality, and training stability, (they can usually only hit two out of
-                            three). KAEM juggles all three, is built for Zetta's hardware, and is a
-                            first step to realising my above requirements.
+                            theorem rather than perceptrons. Generative models typically trade off
+                            between inference speed, sample quality, and training stability, (they
+                            can usually only hit 2/3). KAEM juggles all three, is built for Zetta's
+                            hardware, and is a first step to realising my above 5 requirements.
                         </p>
                         <a
                             href="https://arxiv.org/abs/2506.14167"
@@ -540,9 +534,9 @@
                 <h2 class="philosophies-header">Design Philosophies</h2>
                 <p class="philosophies-intro">
                     I don't subscribe to perceptrons and scaling compute! Respect to the giants, but
-                    the principles below are what I'm pursuing. They've shaped the hardware bets at
-                    Zetta and they will remain at the heat death of the final Delaware C-corp.
-                    Statistics victorious.
+                    the principles below are how I'm pursuing my 5 requirements! They've shaped the
+                    hardware bets at Zetta and they will remain at the heat death of the final
+                    Delaware C-corp. Statistics victorious.
                 </p>
 
                 <div class="section">
@@ -562,16 +556,16 @@
                         <h3 class="section-title">Representation first</h3>
                         <p>
                             Attention encodes very little inductive bias! Its weights are entirely
-                            data-driven. Flexible when abundant data is available, but 1. it's wrong
-                            (all models are - George Box), 2. it's less suited to domains where data
-                            is limited or relationships lie on a complex manifold.
+                            data-driven. Flexible when abundant data is available, but it's wrong
+                            (all models are - George Box), and it fails on datasets where samples
+                            are limited or relationships lie on a complex manifold.
                         </p>
                         <p>
-                            Bespoke models with stronger inductive biases perform better in terms of
-                            training efficiency, generalisation, explainability, accuracy, and data
-                            efficiency. There is a better representation for natural language too,
-                            (it's a PDE system), we just don't know what it is yet, and that's a
-                            question that needs answering.
+                            Bespoke models with stronger inductive biases are better in terms of
+                            training efficiency, generalisation, explainability, accuracy, data
+                            efficiency, etc. There is a better representation for natural language
+                            too, (it's a PDE system), we just don't know what it is yet, and that's
+                            a question that needs answering.
                         </p>
                     </div>
 
@@ -660,25 +654,23 @@
                         <h3 class="section-title">Intelligence is Hierarchical</h3>
                         <p>
                             Real intelligence is hierarchical. Low-level, dumb control is handled by
-                            simple neuronal circuits in the central nervous system. These exploit
-                            physical structure to handle unconscious, rhythmic locomotion for
-                            walking, flying, and swimming gaits, which frees up the brain for
-                            higher-level control and decision making.
+                            simple circuits in the central nervous system, (central pattern
+                            generators, CPGs). \ These make use of physical structure to handle
+                            unconscious, rhythmic signals for walking, flying, and swimming gaits,
+                            while freeing up the brain for higher-level control and decision making.
                         </p>
                         <p>
-                            The industry is quick to default to fancy algorithms for everything, but
-                            the best engineers will always be looking for solutions in the form of
-                            mechanical or analogue systems for their simplicity, reliability, and
-                            cost-effectiveness. Good mechanics can compensate for bad software. Good
-                            software will never be able to compensate for bad mechanics.
-                        </p>
-                        <p>
-                            "Analogue" systems that reflect the physical systems they're controlling
-                            generally outperform unspecific designs. Central Pattern Generators are
-                            quick to recover their oscillatory gaits with little feedback. They're
-                            analytically simpler to design, tune, and implement, have robust
+                            CPGs are quick to recover their oscillatory gaits with little feedback.
+                            They're analytically simpler to design, tune, and implement, have robust
                             transfer characteristics, and are utterly inexpensive compared to
                             optimisation-based or data-driven control.
+                        </p>
+                        <p>
+                            People are quick to default to fancy algorithms for everything, but the
+                            best engineers will always be looking for mechanical, analogue, or
+                            physically-informed solutions for their simplicity, reliability, and
+                            cost-effectiveness. Good mechanics can compensate for bad software. Good
+                            software will never be able to compensate for bad mechanics.
                         </p>
                     </div>
 
@@ -795,17 +787,18 @@
                             is gone by construction.
                         </p>
                         <p>
-                            Annealing is the thermodynamic alternative. High temperature MCMC chains
-                            cross energy barriers, colder ones resolve local structure, and global
-                            exchange passes information between them. The prior stays entirely
-                            intact, you're simply smoothing the posterior energy landscape.
+                            Annealing is my proposed alternative to improving multimodal sampling
+                            for EBMs. High temperature MCMC chains cross energy barriers, colder
+                            ones resolve local structure, and global exchange passes information
+                            between them. The prior stays entirely intact, you're just smoothening
+                            the posterior energy landscape.
                         </p>
                         <p>
                             In KAEM, annealing is only applied during training. Power posteriors
                             temper from prior to full posterior, and the thermodynamic criterion
                             decomposes the true marginal likelihood across temperatures. No
                             amortisation gap, no variational bound, just MCMC on a low-dimensional
-                            latent space where it's actually viable.
+                            latent space, (where it's actually viable/affordable).
                         </p>
                         <p>
                             At inference time, the learned prior is sampled exactly via inverse
