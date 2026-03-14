@@ -337,6 +337,37 @@
                 border-color: #201812;
             }
 
+            .reach-out-lead {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.9rem;
+                color: #808080;
+                margin-bottom: 16px;
+            }
+
+            .reach-out {
+                display: flex;
+                flex-direction: column;
+                margin-left: 20px;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.95rem;
+                color: #878787;
+            }
+
+            .reach-out li {
+                list-style: none;
+                padding: 4px 0;
+            }
+
+            .reach-out li span {
+                color: #d4a080;
+                font-weight: 500;
+            }
+
+            .reach-out li::before {
+                content: '→  ';
+                color: #505050;
+            }
+
             .pillars-lead {
                 font-family: 'JetBrains Mono', monospace;
                 font-size: 0.9rem;
@@ -803,11 +834,11 @@
                             is gone by construction.
                         </p>
                         <p>
-                            Annealing is an underexplored alternative. I propose using it to
-                            improve multimodal sampling for EBMs. High temperature MCMC chains
-                            explore global landscapes, colder ones resolve local structure, and
-                            global exchange passes information between them. The prior stays
-                            entirely intact, you're just smoothening the posterior energy landscape.
+                            Annealing is an underexplored alternative. I propose using it to improve
+                            multimodal sampling for EBMs. High temperature MCMC chains explore
+                            global landscapes, colder ones resolve local structure, and global
+                            exchange passes information between them. The prior stays entirely
+                            intact, you're just smoothening the posterior energy landscape.
                         </p>
                         <p>
                             In KAEM, annealing is only applied during training. Power posteriors
@@ -851,6 +882,20 @@
                         </div>
                     </div>
                 </div>
+
+                <hr class="divider" />
+
+                <p class="reach-out-lead">Please reach out if your workloads involve:</p>
+                <ul class="reach-out">
+                    <li><span>FP64 arithmetic</span></li>
+                    <li><span>RBF kernel methods</span></li>
+                    <li><span>1st/2nd/3rd order differentiability</span></li>
+                    <li><span>stencils and linear algebra</span></li>
+                    <li><span>non-convex optimisation or linear programming</span></li>
+                </ul>
+                <p class="reach-out-lead" style="margin-top: 20px">
+                    Would love to hear about what you're doing :)
+                </p>
             </main>
         </div>
 
