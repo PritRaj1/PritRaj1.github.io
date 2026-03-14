@@ -317,6 +317,16 @@
                 right: -58px;
             }
 
+            .speaker-section ul {
+                margin: 8px 0 14px 20px;
+                color: #a0a0a0;
+                font-size: 1rem;
+            }
+
+            .speaker-section ul li {
+                margin-bottom: 4px;
+            }
+
             .speaker-section.alt {
                 background: #0f0f0f;
                 border-color: #201812;
@@ -661,10 +671,16 @@
                         </p>
                         <p>
                             CPGs are quick to recover their oscillatory gaits with little feedback.
-                            They're analytically simple to design, tune, and implement, have robust
-                            transfer characteristics, and are utterly inexpensive compared to
-                            optimisation-based or data-driven control.
+                            They're:
                         </p>
+                        <ul>
+                            <li>analytically simple to design, tune, and implement</li>
+                            <li>robust transfer characteristics</li>
+                            <li>
+                                utterly inexpensive compared to optimisation-based or data-driven
+                                control
+                            </li>
+                        </ul>
                         <p>
                             People are quick to default to fancy algorithms for everything, but the
                             best engineers will always be looking for mechanical, analogue, or
@@ -726,10 +742,10 @@
                         />
                         <h3 class="section-title">Reasoning under uncertainty</h3>
                         <p>
-                            While there are cults arising in service of algorithms, the engineers
-                            know that data is where magic manifests! Uncertainty quantification is
-                            how engineers compensate where our data-driven methods fail, since we
-                            can't afford to be wrong.
+                            All models are wrong. While there are cults arising in service of
+                            algorithms, the engineers know that data is where magic manifests!
+                            Uncertainty quantification is how engineers compensate where our
+                            data-driven methods fail, since we can't afford to be wrong.
                         </p>
                         <p>
                             Epistemic uncertainty is used to guide where we prioritise drug
@@ -787,19 +803,25 @@
                             is gone by construction.
                         </p>
                         <p>
-                            Annealing is an underexplored alternative. I propose using it to improving
-                            multimodal sampling for EBMs. High temperature MCMC chains explore
-                            global landscapes, colder ones resolve local structure, and global
-                            exchange passes information between them. The prior stays entirely
-                            intact, you're just smoothening the posterior energy landscape.
+                            Annealing is an underexplored alternative. I propose using it to
+                            improve multimodal sampling for EBMs. High temperature MCMC chains
+                            explore global landscapes, colder ones resolve local structure, and
+                            global exchange passes information between them. The prior stays
+                            entirely intact, you're just smoothening the posterior energy landscape.
                         </p>
                         <p>
                             In KAEM, annealing is only applied during training. Power posteriors
                             temper from prior to full posterior, and the thermodynamic criterion
-                            decomposes the true marginal likelihood across temperatures. No
-                            amortisation gap, no variational bound, just MCMC on a low-dimensional
-                            latent space, (where it's actually viable/affordable).
+                            decomposes the true marginal likelihood across temperatures.
                         </p>
+                        <ul>
+                            <li>No amortisation gap</li>
+                            <li>No variational bound</li>
+                            <li>
+                                Just MCMC on a low-dimensional latent space, (where it's actually
+                                viable/affordable)
+                            </li>
+                        </ul>
                         <p>
                             At inference time, the learned prior is sampled exactly via inverse
                             transform, no annealing or MCMC involved. Diffusion pays its sequential
