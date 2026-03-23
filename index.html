@@ -923,9 +923,42 @@
                             </li>
                         </ul>
                         <p>
-                            My gut says these aren't mutually exclusive. More soon to confirm the
-                            thesis.
+                            These aren't mutually exclusive and I will never bow to trade-offs.
+                            Ozaki scheme II gets FP64 exact results from INT8 integer ops. Split
+                            floats to integers, modular matmuls, CRT reconstruction. Here's how it
+                            can be emulated in cheap silicon: INT8 MAC is 16x smaller than FP64,
+                            same die area gives 16x more compute. Everything pipelines, no kernel
+                            launch overhead.
                         </p>
+                    </div>
+
+                    <div class="project-header">
+                        <h3>FP Emulation</h3>
+                        <a
+                            href="https://github.com/thezettascale/fp-emulation"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="FP Emulation on GitHub"
+                        >
+                            github &#8599;
+                        </a>
+                    </div>
+                    <div class="gif-row gif-row-pair" style="max-width: 800px">
+                        <div class="gif-item">
+                            <img
+                                src="images/benchmark.png"
+                                alt="T4 GPU benchmark, Ozaki vs native FP64"
+                            />
+                            <div class="gif-label">T4 GPU. 130 TOPS INT8 vs 0.25 TFLOPS FP64</div>
+                        </div>
+                        <div class="gif-item">
+                            <img
+                                src="images/synth.png"
+                                alt="Yosys gate-level cell counts, INT8 vs FP64"
+                            />
+                            <div class="gif-label">Yosys synthesis. INT8 MAC 16x less</div>
+                        </div>
                     </div>
                 </div>
 
