@@ -936,36 +936,41 @@
                             same die area -> 16x more compute. This pipelines, fuses, and avoids
                             kernel launch slowdowns on Zetta hardware.
                         </p>
-                        <p>
-                            <a
-                                href="https://github.com/thezettascale/fp-emulation"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                fp-emulation
-                            </a>
-                            applies this to PINN training, recovering gradient quality for stable,
-                            high-order differentiation.
-                            <a
-                                href="https://github.com/PritRaj1/tensor_inv"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                tensor_inv
-                            </a>
-                            extends it to matrix decompositions (LU, Cholesky, RSVD) on cheap
-                            fixed-point systolic arrays.
-                            <a
-                                href="https://github.com/PritRaj1/smelt"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                smelt
-                            </a>
-                            goes the other direction: pure integer ops for LLMs (ternary
-                            quantisation + bit-shift only activations) so anyone can run models on
-                            commodity CPUs or cheap int hardware.
-                        </p>
+                        <ul>
+                            <li>
+                                <a
+                                    href="https://github.com/thezettascale/fp-emulation"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    fp-emulation
+                                </a>
+                                — recovering high precision gradient quality from low precision
+                                hardware for stable, high-order differentiation in PINN training
+                            </li>
+                            <li>
+                                <a
+                                    href="https://github.com/PritRaj1/tensor_inv"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    tensor_inv
+                                </a>
+                                — matrix decompositions (LU, Cholesky, RSVD) on cheap fixed-point
+                                systolic arrays with scalar units and VPUs
+                            </li>
+                            <li>
+                                <a
+                                    href="https://github.com/PritRaj1/smelt"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    smelt
+                                </a>
+                                — pure integer ops for LLMs (ternary quantisation + bit-shift only
+                                activations) on commodity CPUs or cheap int hardware
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="project-header">
