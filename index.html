@@ -865,7 +865,8 @@
                             At inference time, the learned prior is sampled exactly via inverse
                             transform, no annealing or MCMC involved. Diffusion pays its sequential
                             cost at every generation, this pays it solely during training and scales
-                            in parallel with temperatures.
+                            in parallel with temperatures. You want to be greedy with your hardware
+                            usage, not your time spent.
                         </p>
                     </div>
 
