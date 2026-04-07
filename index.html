@@ -416,6 +416,11 @@
                 font-size: 1rem;
             }
 
+            .accent {
+                color: #d4a080;
+                font-weight: 500;
+            }
+
             .philosophies-header {
                 font-size: 1.1rem;
                 font-weight: 600;
@@ -600,7 +605,7 @@
                         <p>
                             Attention encodes very little inductive bias! Its weights are entirely
                             data-driven. Flexible when abundant data is available, but it's wrong
-                            (all models are - George Box), and it fails on datasets where samples
+                            (<span class="accent">all models are</span> - George Box), and it fails on datasets where samples
                             are limited or relationships lie on a complex manifold.
                         </p>
                         <p>Bespoke models with stronger inductive biases are better in terms of:</p>
@@ -724,8 +729,8 @@
                             People are quick to default to fancy algorithms for everything, but the
                             best engineers will always be looking for mechanical, analogue, or
                             physically-informed solutions for their simplicity, reliability, and
-                            cost-effectiveness. Good mechanics can compensate for bad software. Good
-                            software will never be able to compensate for bad mechanics.
+                            cost-effectiveness. <span class="accent">Good mechanics can compensate for bad software. Good
+                            software will never be able to compensate for bad mechanics.</span>
                         </p>
                     </div>
 
@@ -791,8 +796,8 @@
                             synthesis, experimentation, and risk assessments. Mistakes are expensive
                             and unnecessary. Another example is a self-driving car that's 99%
                             accurate. It still gets 1 in 100 decisions wrong. This could happen at a
-                            school crossing, and that last 1% is where uncertainty quantification
-                            saves lives.
+                            school crossing, and <span class="accent">that last 1% is where uncertainty quantification
+                            saves lives.</span>
                         </p>
                     </div>
 
@@ -865,8 +870,8 @@
                             At inference time, the learned prior is sampled exactly via inverse
                             transform, no annealing or MCMC involved. Diffusion pays its sequential
                             cost at every generation, this pays it solely during training and scales
-                            in parallel with temperatures. You want to be greedy with your hardware
-                            usage, not your time spent.
+                            in parallel with temperatures. <span class="accent">You want to be greedy with your hardware
+                            usage, not your time spent.</span>
                         </p>
                     </div>
 
@@ -927,8 +932,8 @@
                             While it's tempting as a hardware company to just platform low-cost
                             inference alone, there is a rich and long history of real analysis
                             needed for engineering and the type of intelligence I'm building. I'm
-                            not sure much of it holds without floating point representation, and I
-                            will never bow to trade-offs and mutual exclusivity.
+                            not sure much of it holds without floating point representation, and <span class="accent">I
+                            will never bow to trade-offs and mutual exclusivity.</span>
                         </p>
                         <p>
                             Ozaki scheme II recovers FP64 accuracy from INT8/FP16 by decomposing
