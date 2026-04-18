@@ -416,6 +416,42 @@
                 font-size: 1rem;
             }
 
+            .metrics-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 12px 0;
+                font-size: 0.85rem;
+                font-family: 'JetBrains Mono', monospace;
+            }
+
+            .metrics-table th,
+            .metrics-table td {
+                padding: 8px 12px;
+                text-align: center;
+                vertical-align: middle;
+                border-bottom: 1px solid #1e1a16;
+            }
+
+            .metrics-table th {
+                color: #808080;
+                font-weight: 400;
+                font-size: 0.78rem;
+            }
+
+            .metrics-table td {
+                color: #b0b0b0;
+            }
+
+            .metrics-table tbody th {
+                text-align: left;
+                font-size: 0.85rem;
+            }
+
+            .metrics-table .best {
+                color: #d4a080;
+                font-weight: 600;
+            }
+
             .accent {
                 color: #d4a080;
                 font-weight: 500;
@@ -559,12 +595,30 @@
                     <div class="featured">
                         <h2 class="section-title">KAEM: Kolmogorov-Arnold Energy Model</h2>
                         <p>
-                            KAEM is a generative model built on the Kolmogorov-Arnold Representation
-                            theorem rather than perceptrons. Generative models typically trade off
-                            between inference speed, sample quality, and training stability, (they
-                            can usually only hit 2/3). KAEM juggles all three, is built for Zetta's
-                            hardware, and is a first step to realising my above 5 requirements for
-                            the scientific method!
+                            Generative models face a three-way trade-off: GANs sacrifice training
+                            stability, VAEs sacrifice sample quality, and diffusion models sacrifice
+                            inference speed. KAEM addresses all three.
+                        </p>
+                        <p>
+                            KAEM is not built on neural networks. It's built off the
+                            Kolmogorov-Arnold Representation Theorem, which is a finite,
+                            deterministic representation capable of capturing any multivariate
+                            function. This isn't readily applied to probabilistic modelling, but
+                            KAEM accomplishes it using ideas from computational statistics.
+                        </p>
+                        <p>
+                            The paper additionally presents
+                            <span class="accent">annealing instead of diffusion.</span>
+                            Annealing is applied only during training to handle multimodal
+                            posteriors, preserving single-pass sampling speed at generation time.
+                            Diffusion models scatter their learned structure across iterative
+                            denoising steps. KAEM keeps it intact and inspectable.
+                        </p>
+                        <p>
+                            The result is the first application of deterministic representation to
+                            generative modelling, and it opens new pathways for latent space
+                            interpretability and finding agreed-on and standardised representations
+                            for images, language, and scientific data.
                         </p>
                         <a
                             href="https://arxiv.org/abs/2506.14167"
@@ -575,6 +629,69 @@
                             Read the paper &rarr;
                         </a>
                     </div>
+
+                    <div class="gif-row gif-row-pair" style="margin-top: 24px">
+                        <div class="gif-item">
+                            <img
+                                src="images/02b_sampling_time_only.png"
+                                alt="Sampling time: KAEM vs VAE across latent dimensions"
+                            />
+                            <div class="gif-label">Sampling speed comparable to VAE</div>
+                        </div>
+                        <div class="gif-item">
+                            <img
+                                src="images/slerp_6.png"
+                                alt="SLERP interpolation on CelebA with inspectable prior densities"
+                            />
+                            <div class="gif-label">SLERP interpolation with inspectable priors</div>
+                        </div>
+                    </div>
+
+                    <table class="metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Dataset</th>
+                                <th>Model</th>
+                                <th>FID&infin;</th>
+                                <th>KID&infin;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" rowspan="3">SVHN</th>
+                                <td>KAEM (MLE)</td>
+                                <td class="best">64.50</td>
+                                <td class="best">0.0535</td>
+                            </tr>
+                            <tr>
+                                <td>KAEM (Thermo)</td>
+                                <td>173.21</td>
+                                <td>0.1761</td>
+                            </tr>
+                            <tr>
+                                <td>VAE</td>
+                                <td>75.45</td>
+                                <td>0.0656</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" rowspan="3">CelebA</th>
+                                <td>KAEM (MLE)</td>
+                                <td>139.41</td>
+                                <td>0.1484</td>
+                            </tr>
+                            <tr>
+                                <td>KAEM (Thermo)</td>
+                                <td class="best">127.89</td>
+                                <td class="best">0.1344</td>
+                            </tr>
+                            <tr>
+                                <td>VAE</td>
+                                <td>131.65</td>
+                                <td>0.1403</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="gif-label">Image quality metrics (lower is better)</div>
                 </div>
 
                 <hr class="divider" />
@@ -604,9 +721,10 @@
                         <h3 class="section-title">Representation first</h3>
                         <p>
                             Attention encodes very little inductive bias! Its weights are entirely
-                            data-driven. Flexible when abundant data is available, but it's wrong
-                            (<span class="accent">all models are</span> - George Box), and it fails on datasets where samples
-                            are limited or relationships lie on a complex manifold.
+                            data-driven. Flexible when abundant data is available, but it's wrong (
+                            <span class="accent">all models are</span>
+                            - George Box), and it fails on datasets where samples are limited or
+                            relationships lie on a complex manifold.
                         </p>
                         <p>Bespoke models with stronger inductive biases are better in terms of:</p>
                         <ul>
@@ -729,8 +847,11 @@
                             People are quick to default to fancy algorithms for everything, but the
                             best engineers will always be looking for mechanical, analogue, or
                             physically-informed solutions for their simplicity, reliability, and
-                            cost-effectiveness. <span class="accent">Good mechanics can compensate for bad software. Good
-                            software will never be able to compensate for bad mechanics.</span>
+                            cost-effectiveness.
+                            <span class="accent">
+                                Good mechanics can compensate for bad software. Good software will
+                                never be able to compensate for bad mechanics.
+                            </span>
                         </p>
                     </div>
 
@@ -796,8 +917,10 @@
                             synthesis, experimentation, and risk assessments. Mistakes are expensive
                             and unnecessary. Another example is a self-driving car that's 99%
                             accurate. It still gets 1 in 100 decisions wrong. This could happen at a
-                            school crossing, and <span class="accent">that last 1% is where uncertainty quantification
-                            saves lives.</span>
+                            school crossing, and
+                            <span class="accent">
+                                that last 1% is where uncertainty quantification saves lives.
+                            </span>
                         </p>
                     </div>
 
@@ -870,8 +993,10 @@
                             At inference time, the learned prior is sampled exactly via inverse
                             transform, no annealing or MCMC involved. Diffusion pays its sequential
                             cost at every generation, this pays it solely during training and scales
-                            in parallel with temperatures. <span class="accent">You want to be greedy with your hardware
-                            usage, not your time spent.</span>
+                            in parallel with temperatures.
+                            <span class="accent">
+                                You want to be greedy with your hardware usage, not your time spent.
+                            </span>
                         </p>
                     </div>
 
@@ -932,8 +1057,10 @@
                             While it's tempting as a hardware company to just platform low-cost
                             inference alone, there is a rich and long history of real analysis
                             needed for engineering and the type of intelligence I'm building. I'm
-                            not sure much of it holds without floating point representation, and <span class="accent">I
-                            will never bow to trade-offs and mutual exclusivity.</span>
+                            not sure much of it holds without floating point representation, and
+                            <span class="accent">
+                                I will never bow to trade-offs and mutual exclusivity.
+                            </span>
                         </p>
                         <p>
                             Ozaki scheme II recovers FP64 accuracy from INT8/FP16 by decomposing
@@ -1046,6 +1173,21 @@
                             speakers[index].classList.add('active');
                         }, delay);
                     }
+                });
+
+                var _n = 0;
+                document.querySelectorAll('.pillars li').forEach(function (el, i) {
+                    el.addEventListener('click', function () {
+                        if (i === _n) {
+                            _n++;
+                            if (_n === 5)
+                                window.open(
+                                    '\x68\x74\x74\x70\x73\x3a\x2f\x2f\x79\x6f\x75\x74\x75\x2e\x62\x65\x2f\x71\x68\x4f\x55\x45\x78\x59\x6e\x50\x78\x77',
+                                    '_blank',
+                                );
+                        }
+                        _n = _n === 5 || i !== _n - 1 ? 0 : _n;
+                    });
                 });
             });
         </script>
