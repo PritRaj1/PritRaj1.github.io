@@ -15,10 +15,50 @@
             rel="stylesheet"
         />
         <style>
+            :root {
+                --bg: #0a0a0a;
+                --bg-bubble: #111;
+                --bg-bubble-alt: #0f0f0f;
+
+                --text-strong: #ffffff;
+                --text: #c8c8c8;
+                --text-soft: #9a9a9a;
+                --text-muted: #7a7a7a;
+
+                --accent: #d4a080;
+                --accent-bright: #e8c0a0;
+                --accent-dim: #b88060;
+                --arrow: #505050;
+
+                --border: #28201a;
+                --border-alt: #201812;
+                --border-subtle: #1e1a16;
+                --border-hairline: #1a1a1a;
+
+                --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                --font-mono: 'JetBrains Mono', monospace;
+
+                --space-section: 56px;
+                --space-divider: 56px;
+                --max-width: 900px;
+                --max-text-width: 760px;
+            }
+
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
+            }
+
+            body {
+                font-family: var(--font-sans);
+                background: var(--bg);
+                min-height: 100vh;
+                color: var(--text);
+                line-height: 1.65;
+                padding: 48px 24px;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
             }
 
             .skip-link {
@@ -27,8 +67,8 @@
                 top: 0;
                 z-index: 100;
                 padding: 8px 16px;
-                background: #d4a080;
-                color: #0a0a0a;
+                background: var(--accent);
+                color: var(--bg);
                 font-weight: 600;
                 font-size: 0.9rem;
                 text-decoration: none;
@@ -38,29 +78,28 @@
                 left: 0;
             }
 
-            body {
-                font-family:
-                    'Inter',
-                    -apple-system,
-                    BlinkMacSystemFont,
-                    'Segoe UI',
-                    sans-serif;
-                background: linear-gradient(165deg, #0c0a09 0%, #0a0a0a 40%, #0a0b0d 100%);
-                min-height: 100vh;
-                color: #d6d6d6;
-                line-height: 1.8;
-                padding: 48px 24px;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-
             .container {
-                max-width: 900px;
+                max-width: var(--max-width);
                 margin: 0 auto;
             }
 
+            a {
+                color: var(--accent-dim);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+            a:hover {
+                color: var(--accent-bright);
+            }
+
+            :focus-visible {
+                outline: 2px solid var(--accent);
+                outline-offset: 3px;
+            }
+
             header {
-                margin-bottom: 72px;
+                margin-bottom: var(--space-section);
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-start;
@@ -76,17 +115,17 @@
                 font-weight: 600;
                 letter-spacing: -1.5px;
                 margin-bottom: 8px;
-                color: #fff;
+                color: var(--text-strong);
             }
 
             .subtitle {
-                color: #a8a8a8;
+                color: var(--text-soft);
                 font-size: 1rem;
                 line-height: 1.6;
             }
 
             .tagline {
-                color: #878787;
+                color: var(--text-muted);
                 font-size: 0.9rem;
                 margin-top: 14px;
             }
@@ -99,7 +138,7 @@
             }
 
             .social-links a {
-                color: #757575;
+                color: var(--text-muted);
                 transition:
                     color 0.2s,
                     transform 0.2s;
@@ -108,7 +147,7 @@
             }
 
             .social-links a:hover {
-                color: #e8c0a0;
+                color: var(--accent-bright);
                 transform: scale(1.15);
             }
 
@@ -119,44 +158,40 @@
             }
 
             .section {
-                margin-bottom: 80px;
+                margin-bottom: var(--space-section);
             }
 
             .section-title {
                 font-size: 1.3rem;
                 font-weight: 600;
-                color: #d4a080;
+                color: var(--accent);
                 margin-bottom: 14px;
                 letter-spacing: -0.3px;
             }
 
             .section p {
-                color: #b0b0b0;
+                color: var(--text);
                 font-size: 1rem;
                 margin-bottom: 14px;
-                max-width: 760px;
+                max-width: var(--max-text-width);
             }
 
-            a {
-                color: #b88060;
-                text-decoration: none;
-                transition: color 0.2s;
+            .divider {
+                border: none;
+                border-top: 1px solid var(--border-subtle);
+                margin: var(--space-divider) 0;
             }
 
-            a:hover {
-                color: #e8c0a0;
-            }
-
-            :focus-visible {
-                outline: 2px solid #d4a080;
-                outline-offset: 3px;
+            .accent {
+                color: var(--accent);
+                font-weight: 600;
             }
 
             .paper-link {
                 display: inline-block;
                 margin-top: 14px;
                 font-size: 0.95rem;
-                border-bottom: 1px solid #28201a;
+                border-bottom: 1px solid var(--border);
                 padding-bottom: 2px;
                 transition:
                     color 0.2s,
@@ -164,13 +199,11 @@
             }
 
             .paper-link:hover {
-                border-color: #e8c0a0;
+                border-color: var(--accent-bright);
             }
 
-            .divider {
-                border: none;
-                border-top: 1px solid #1e1a16;
-                margin: 72px 0;
+            .paper-link + .paper-link {
+                margin-left: 20px;
             }
 
             .project-header {
@@ -183,29 +216,33 @@
             .project-header h3,
             .project-header .repo-link,
             .gif-label {
-                font-family: 'JetBrains Mono', monospace;
+                font-family: var(--font-mono);
             }
 
             .project-header h3 {
                 font-size: 0.9rem;
-                color: #888;
+                color: var(--text-soft);
                 font-weight: 400;
             }
 
             .project-header .repo-link {
                 font-size: 0.8rem;
-                color: #808080;
+                color: var(--text-muted);
                 transition: color 0.2s;
             }
 
             .project-header .repo-link:hover {
-                color: #999;
+                color: var(--text-soft);
             }
 
             .gif-row {
                 display: flex;
                 gap: 12px;
                 margin: 12px 0 8px;
+            }
+
+            .featured + .gif-row {
+                margin-top: 24px;
             }
 
             .gif-item {
@@ -217,7 +254,7 @@
                 width: 100%;
                 display: block;
                 border-radius: 4px;
-                border: 1px solid #1a1a1a;
+                border: 1px solid var(--border-hairline);
                 transition: border-color 0.3s;
             }
 
@@ -227,7 +264,7 @@
 
             .gif-label {
                 font-size: 0.75rem;
-                color: #808080;
+                color: var(--text-muted);
                 text-align: center;
                 margin-top: 8px;
             }
@@ -258,18 +295,22 @@
                 max-width: 380px;
             }
 
-            .paper-link + .paper-link {
-                margin-left: 20px;
-            }
-
-            /* Speech bubble + cat speaker */
+            /* Speech-bubble philosophy blocks. --bubble-bg lets the .alt
+               modifier swap background + arrow in one place. */
             .speaker-section {
+                --bubble-bg: var(--bg-bubble);
+                --bubble-border: var(--border);
                 position: relative;
-                background: #111;
-                border: 1px solid #28201a;
+                background: var(--bubble-bg);
+                border: 1px solid var(--bubble-border);
                 border-radius: 16px;
                 padding: 24px 28px;
                 margin-left: 64px;
+            }
+
+            .speaker-section.alt {
+                --bubble-bg: var(--bg-bubble-alt);
+                --bubble-border: var(--border-alt);
             }
 
             .speaker-section::after {
@@ -279,10 +320,33 @@
                 left: -7px;
                 width: 12px;
                 height: 12px;
-                background: #111;
-                border-left: 1px solid #28201a;
-                border-bottom: 1px solid #28201a;
+                background: var(--bubble-bg);
+                border-left: 1px solid var(--bubble-border);
+                border-bottom: 1px solid var(--bubble-border);
                 transform: rotate(45deg);
+            }
+
+            .speaker-section.right-cat {
+                margin-left: 0;
+                margin-right: 64px;
+            }
+
+            .speaker-section.right-cat::after {
+                left: auto;
+                right: -7px;
+                border: none;
+                border-right: 1px solid var(--bubble-border);
+                border-top: 1px solid var(--bubble-border);
+            }
+
+            .speaker-section ul {
+                margin: 8px 0 14px 20px;
+                color: var(--text);
+                font-size: 1rem;
+            }
+
+            .speaker-section ul li {
+                margin-bottom: 4px;
             }
 
             .cat {
@@ -300,109 +364,58 @@
                 opacity: 1;
             }
 
-            .speaker-section.right-cat {
-                margin-left: 0;
-                margin-right: 64px;
-            }
-
-            .speaker-section.right-cat::after {
-                left: auto;
-                right: -7px;
-                border: none;
-                border-right: 1px solid #28201a;
-                border-top: 1px solid #28201a;
-            }
-
             .speaker-section.right-cat .cat {
                 left: auto;
                 right: -58px;
             }
 
-            .speaker-section ul {
-                margin: 8px 0 14px 20px;
-                color: #b0b0b0;
-                font-size: 1rem;
-            }
-
-            .speaker-section ul li {
-                margin-bottom: 4px;
-            }
-
-            .speaker-section.alt {
-                background: #0f0f0f;
-                border-color: #201812;
-            }
-
-            .speaker-section.alt::after {
-                background: #0f0f0f;
-                border-color: #201812;
-            }
-
+            /* Arrow-prefixed lists (shared by .pillars and .reach-out) */
+            .pillars-lead,
             .reach-out-lead {
-                font-family: 'JetBrains Mono', monospace;
+                font-family: var(--font-mono);
                 font-size: 0.9rem;
-                color: #808080;
+                color: var(--text-muted);
                 margin-bottom: 16px;
             }
 
+            .pillars,
             .reach-out {
                 display: flex;
                 flex-direction: column;
                 margin-left: 20px;
-                font-family: 'JetBrains Mono', monospace;
+                font-family: var(--font-mono);
                 font-size: 0.95rem;
-                color: #878787;
+                color: var(--text-muted);
             }
 
+            .pillars li,
             .reach-out li {
                 list-style: none;
                 padding: 4px 0;
             }
 
+            .pillars li span,
             .reach-out li span {
-                color: #d4a080;
+                color: var(--accent);
                 font-weight: 500;
             }
 
+            .pillars li::before,
             .reach-out li::before {
                 content: '→  ';
-                color: #505050;
-            }
-
-            .pillars-lead {
-                font-family: 'JetBrains Mono', monospace;
-                font-size: 0.9rem;
-                color: #808080;
-                margin-bottom: 16px;
+                color: var(--arrow);
             }
 
             .pillars {
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 72px;
-                margin-left: 20px;
-                font-family: 'JetBrains Mono', monospace;
-                font-size: 0.95rem;
-                color: #878787;
+                margin-bottom: var(--space-section);
             }
 
-            .pillars li {
-                list-style: none;
-                padding: 4px 0;
-            }
-
-            .pillars li span {
-                color: #d4a080;
-                font-weight: 500;
-            }
-
-            .pillars li::before {
-                content: '→  ';
-                color: #505050;
+            .reach-out + .reach-out-lead {
+                margin-top: 20px;
             }
 
             .featured {
-                border-left: 3px solid #8a6848;
+                border-left: 4px solid var(--accent-dim);
                 padding: 24px 28px;
                 margin-bottom: 0;
             }
@@ -421,7 +434,7 @@
                 border-collapse: collapse;
                 margin: 12px 0;
                 font-size: 0.85rem;
-                font-family: 'JetBrains Mono', monospace;
+                font-family: var(--font-mono);
             }
 
             .metrics-table th,
@@ -429,17 +442,17 @@
                 padding: 8px 12px;
                 text-align: center;
                 vertical-align: middle;
-                border-bottom: 1px solid #1e1a16;
+                border-bottom: 1px solid var(--border-subtle);
             }
 
             .metrics-table th {
-                color: #808080;
+                color: var(--text-muted);
                 font-weight: 400;
                 font-size: 0.78rem;
             }
 
             .metrics-table td {
-                color: #b0b0b0;
+                color: var(--text);
             }
 
             .metrics-table tbody th {
@@ -448,29 +461,23 @@
             }
 
             .metrics-table .best {
-                color: #d4a080;
+                color: var(--accent);
                 font-weight: 600;
-            }
-
-            .accent {
-                color: #d4a080;
-                font-weight: 500;
             }
 
             .philosophies-header {
-                font-size: 1.1rem;
+                font-size: 1.5rem;
                 font-weight: 600;
-                color: #888;
-                margin-bottom: 10px;
-                text-transform: uppercase;
-                letter-spacing: 1px;
+                color: var(--text-strong);
+                margin-bottom: 12px;
+                letter-spacing: -0.5px;
             }
 
             .philosophies-intro {
-                color: #878787;
+                color: var(--text-soft);
                 font-size: 0.95rem;
-                margin-bottom: 48px;
-                max-width: 760px;
+                margin-bottom: 40px;
+                max-width: var(--max-text-width);
             }
 
             @media (prefers-reduced-motion: reduce) {
@@ -595,30 +602,26 @@
                     <div class="featured">
                         <h2 class="section-title">KAEM: Kolmogorov-Arnold Energy Model</h2>
                         <p>
-                            Generative models face a three-way trade-off: GANs sacrifice training
-                            stability, VAEs sacrifice sample quality, and diffusion models sacrifice
-                            inference speed. KAEM addresses all three.
+                            Generative models succumb to trade-offs. GANs sacrifice training stability,
+                            VAEs sacrifice sample quality, diffusion sacrifices inference speed.
+                            KAEM addresses all three.
                         </p>
                         <p>
-                            KAEM is not built on neural networks. It's built off the
-                            Kolmogorov-Arnold Representation Theorem, which is a finite,
+                            It's built on the Kolmogorov-Arnold Representation Theorem, a finite,
                             deterministic representation capable of capturing any multivariate
-                            function. This isn't readily applied to probabilistic modelling, but
-                            KAEM accomplishes it using ideas from computational statistics.
+                            function. That isn't readily applied to probabilistic modelling, but
+                            KAEM gets there using ideas from computational statistics. The paper
+                            also presents
+                            <span class="accent">annealing instead of diffusion,</span>
+                            running only during training to handle multimodal posteriors. Unlike
+                            diffusion, fast single-pass sampling speed is preserved at generation
+                            time, and the learned structure stays intact and inspectable.
                         </p>
                         <p>
-                            The paper additionally presents
-                            <span class="accent">annealing instead of diffusion.</span>
-                            Annealing is applied only during training to handle multimodal
-                            posteriors, preserving single-pass sampling speed at generation time.
-                            Diffusion models scatter their learned structure across iterative
-                            denoising steps. KAEM keeps it intact and inspectable.
-                        </p>
-                        <p>
-                            The result is the first application of deterministic representation to
-                            generative modelling, and it opens new pathways for latent space
-                            interpretability and finding agreed-on and standardised representations
-                            for images, language, and scientific data.
+                            This is the first application of deterministic representation to
+                            generative modelling. It opens pathways for latent space
+                            interpretability and for agreed-on, standardised representations across
+                            images, language, and scientific data.
                         </p>
                         <a
                             href="https://arxiv.org/abs/2506.14167"
@@ -630,7 +633,7 @@
                         </a>
                     </div>
 
-                    <div class="gif-row gif-row-pair" style="margin-top: 24px">
+                    <div class="gif-row gif-row-pair">
                         <div class="gif-item">
                             <img
                                 src="images/02b_sampling_time_only.png"
@@ -720,24 +723,23 @@
                         />
                         <h3 class="section-title">Representation first</h3>
                         <p>
-                            Attention encodes very little inductive bias! Its weights are entirely
-                            data-driven. Flexible when abundant data is available, but it's wrong (
+                            Attention encodes very little inductive bias. Its weights are entirely
+                            data-driven. Flexible when data is abundant, but wrong (
                             <span class="accent">all models are</span>
-                            - George Box), and it fails on datasets where samples are limited or
-                            relationships lie on a complex manifold.
+                            , George Box) and fragile when samples are limited or relationships lie
+                            on a complex manifold.
                         </p>
-                        <p>Bespoke models with stronger inductive biases are better in terms of:</p>
+                        <p>Bespoke models with stronger inductive biases tend to be better on:</p>
                         <ul>
-                            <li>Training efficiency</li>
-                            <li>Generalisation</li>
-                            <li>Explainability</li>
-                            <li>Accuracy</li>
-                            <li>Sample/data efficiency</li>
+                            <li>training efficiency</li>
+                            <li>generalisation</li>
+                            <li>explainability</li>
+                            <li>accuracy</li>
+                            <li>sample and data efficiency</li>
                         </ul>
                         <p>
-                            There is a better representation for natural language too, (it's a PDE
-                            system), we just don't know what it is yet, and that's a question that
-                            needs asking.
+                            Natural language almost certainly has a better representation too,
+                            probably a PDE system. That's a question worth asking.
                         </p>
                     </div>
 
@@ -825,32 +827,27 @@
                         />
                         <h3 class="section-title">Intelligence is Hierarchical</h3>
                         <p>
-                            Real intelligence is hierarchical. Low-level, dumb control is handled by
-                            simple circuits in the central nervous system, (central pattern
-                            generators, CPGs). These make use of physical structure to handle
-                            unconscious, rhythmic signals for walking, flying, and swimming gaits,
-                            while freeing up the brain for higher-level control and decision making.
+                            Real intelligence is hierarchical. Low-level control is handled by
+                            simple circuits in the central nervous system, central pattern
+                            generators (CPGs). These use physical structure to produce unconscious,
+                            rhythmic signals for walking, flying, and swimming, freeing the brain
+                            for higher-level control and decision making.
                         </p>
-                        <p>
-                            CPGs are quick to recover their oscillatory gaits with little feedback.
-                            They're:
-                        </p>
+                        <p>CPGs recover their gaits quickly with little feedback. They are:</p>
                         <ul>
                             <li>analytically simple to design, tune, and implement</li>
                             <li>equipped with robust transfer characteristics</li>
                             <li>
-                                utterly inexpensive compared to optimisation-based or data-driven
-                                control
+                                inexpensive compared to optimisation-based or data-driven control
                             </li>
                         </ul>
                         <p>
-                            People are quick to default to fancy algorithms for everything, but the
-                            best engineers will always be looking for mechanical, analogue, or
-                            physically-informed solutions for their simplicity, reliability, and
-                            cost-effectiveness.
+                            The default is to reach for fancy algorithms. The best engineers look
+                            first for mechanical, analogue, or physically-informed solutions because
+                            they are simpler, more reliable, and cheaper.
                             <span class="accent">
                                 Good mechanics can compensate for bad software. Good software will
-                                never be able to compensate for bad mechanics.
+                                never compensate for bad mechanics.
                             </span>
                         </p>
                     </div>
@@ -964,38 +961,36 @@
                         />
                         <h3 class="section-title">Question the default</h3>
                         <p>
-                            Diffusion models add noise until the distribution is flat, then learn to
-                            denoise. The forward process is an isotropic SDE, it doesn't preserve
+                            Diffusion adds noise until the distribution is flat, then learns to
+                            denoise. The forward process is an isotropic SDE. It does not preserve
                             the structure of your target. Prior information about modes and geometry
                             is gone by construction.
                         </p>
                         <p>
-                            Annealing is an underexplored alternative. I propose using it to improve
-                            multimodal sampling for EBMs. High temperature MCMC chains explore
-                            global landscapes, colder ones resolve local structure, and global
-                            exchange passes information between them. The prior stays entirely
-                            intact, you're just smoothening the posterior energy landscape.
+                            Annealing is an underexplored alternative for EBMs. High-temperature
+                            MCMC chains explore the global landscape, colder ones resolve local
+                            structure, and exchanges pass information between them. The prior stays
+                            intact. You are smoothing the posterior energy landscape, not destroying
+                            its geometry.
                         </p>
-                        <p>
-                            In KAEM, annealing is only applied during training. Power posteriors
-                            temper from prior to full posterior, and the thermodynamic criterion
-                            decomposes the true marginal likelihood across temperatures.
-                        </p>
+                        <p>In KAEM, this only runs during training, and it gives you:</p>
                         <ul>
-                            <li>No amortisation gap</li>
-                            <li>No variational bound</li>
+                            <li>no amortisation gap</li>
+                            <li>no variational bound</li>
                             <li>
-                                Just MCMC on a low-dimensional latent space, (where it's actually
-                                viable/affordable)
+                                MCMC on a low-dimensional latent space, where it is actually
+                                affordable
+                            </li>
+                            <li>
+                                parallel scaling across temperatures, rather than sequential cost
                             </li>
                         </ul>
                         <p>
-                            At inference time, the learned prior is sampled exactly via inverse
-                            transform, no annealing or MCMC involved. Diffusion pays its sequential
-                            cost at every generation, this pays it solely during training and scales
-                            in parallel with temperatures.
+                            Diffusion pays its sequential cost at every generation. This pays it
+                            only during training.
                             <span class="accent">
-                                You want to be greedy with your hardware usage, not your time spent.
+                                You want to be greedy with your hardware usage, not with your time
+                                spent.
                             </span>
                         </p>
                     </div>
@@ -1040,34 +1035,33 @@
                         />
                         <h3 class="section-title">Numeric extremism</h3>
                         <p>
-                            Having spoken to many knowledgeable and passionate people, there's a
-                            clear split in what next gen infrastructure should optimise for:
+                            There is a clear split in what next-gen infrastructure should optimise
+                            for:
                         </p>
                         <ul>
                             <li>
-                                Model compression, quantisation, tokens/s for LLM serving and
-                                inference providers
+                                LLM serving and inference providers want compression, quantisation,
+                                and tokens per second
                             </li>
                             <li>
-                                High precision/stability, high order differentiability, versatility
-                                for science and engineering
+                                Science and engineering want precision, stability, high-order
+                                differentiability, and versatility
                             </li>
                         </ul>
                         <p>
-                            While it's tempting as a hardware company to just platform low-cost
-                            inference alone, there is a rich and long history of real analysis
-                            needed for engineering and the type of intelligence I'm building. I'm
-                            not sure much of it holds without floating point representation, and
+                            It is tempting as a hardware company to platform cheap inference alone,
+                            but there is a long, rich history of real analysis in engineering that I
+                            don't think holds without floating-point representation.
                             <span class="accent">
-                                I will never bow to trade-offs and mutual exclusivity.
+                                I will not bow to trade-offs and mutual exclusivity.
                             </span>
                         </p>
                         <p>
-                            Ozaki scheme II recovers FP64 accuracy from INT8/FP16 by decomposing
-                            floats, running the matmuls in smaller precisions, then reconstructing
-                            with the Chinese Remainder Theorem. INT8 MACs are 16x smaller than FP64;
-                            same die area -> 16x more compute. This pipelines, fuses, and avoids
-                            kernel launch slowdowns on Zetta hardware.
+                            Ozaki scheme II recovers FP64 accuracy from INT8 and FP16 by decomposing
+                            floats, running the matmuls at lower precisions, and reconstructing with
+                            the Chinese Remainder Theorem. INT8 MACs are 16x smaller than FP64, so
+                            the same die area gives 16x the compute. The scheme pipelines, fuses,
+                            and avoids kernel launch overhead on Zetta hardware.
                         </p>
                         <ul>
                             <li>
@@ -1078,8 +1072,8 @@
                                 >
                                     fp-emulation
                                 </a>
-                                — recovering high precision gradient quality from low precision
-                                hardware for stable, high-order differentiation in PINN training
+                                - Recovering high-precision gradient quality from low-precision
+                                hardware, for stable high-order differentiation in PINN training.
                             </li>
                             <li>
                                 <a
@@ -1089,8 +1083,8 @@
                                 >
                                     tensor_inv
                                 </a>
-                                — matrix decompositions (LU, Cholesky, RSVD) on cheap fixed-point
-                                systolic arrays with scalar units and VPUs
+                                - Matrix decompositions (LU, Cholesky, RSVD) on cheap fixed-point
+                                systolic arrays with scalar units and VPUs.
                             </li>
                             <li>
                                 <a
@@ -1100,41 +1094,10 @@
                                 >
                                     smelt
                                 </a>
-                                — pure integer ops for LLMs (ternary quantisation + bit-shift only
-                                activations) on commodity CPUs or cheap int hardware
+                                - Pure integer ops for LLMs (ternary quantisation plus bit-shift
+                                activations) on commodity CPUs or cheap integer hardware.
                             </li>
                         </ul>
-                    </div>
-
-                    <div class="project-header">
-                        <h3>Numerically extreme demos</h3>
-                        <a
-                            href="https://github.com/thezettascale/fp-emulation"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="FP Emulation on GitHub"
-                        >
-                            fp-emulation &#8599;
-                        </a>
-                        <a
-                            href="https://github.com/PritRaj1/tensor_inv"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="tensor_inv on GitHub"
-                        >
-                            tensor_inv &#8599;
-                        </a>
-                        <a
-                            href="https://github.com/PritRaj1/smelt"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="smelt on GitHub"
-                        >
-                            smelt &#8599;
-                        </a>
                     </div>
                 </div>
 
@@ -1151,9 +1114,7 @@
                     <li><span>stencils and linear algebra</span></li>
                     <li><span>non-convex optimisation or linear programming</span></li>
                 </ul>
-                <p class="reach-out-lead" style="margin-top: 20px">
-                    Would love to hear about what you're doing :)
-                </p>
+                <p class="reach-out-lead">Would love to hear about what you're doing :)</p>
             </main>
         </div>
 
