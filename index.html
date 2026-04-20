@@ -602,9 +602,9 @@
                     <div class="featured">
                         <h2 class="section-title">KAEM: Kolmogorov-Arnold Energy Model</h2>
                         <p>
-                            Generative models succumb to trade-offs. GANs sacrifice training stability,
-                            VAEs sacrifice sample quality, diffusion sacrifices inference speed.
-                            KAEM addresses all three.
+                            Generative models succumb to trade-offs. GANs sacrifice training
+                            stability, VAEs sacrifice sample quality, diffusion sacrifices inference
+                            speed. KAEM addresses all three.
                         </p>
                         <p>
                             It's built on the Kolmogorov-Arnold Representation Theorem, a finite,
@@ -675,6 +675,22 @@
                                 <td>VAE</td>
                                 <td>75.45</td>
                                 <td>0.0656</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" rowspan="3">CIFAR10</th>
+                                <td>KAEM (MLE)</td>
+                                <td class="best">129.39</td>
+                                <td class="best">0.1213</td>
+                            </tr>
+                            <tr>
+                                <td>KAEM (Thermo)</td>
+                                <td>244.50</td>
+                                <td>0.2577</td>
+                            </tr>
+                            <tr>
+                                <td>VAE</td>
+                                <td>158.69</td>
+                                <td>0.1452</td>
                             </tr>
                             <tr>
                                 <th scope="row" rowspan="3">CelebA</th>
