@@ -45,8 +45,7 @@
                     Ozaki scheme II recovers FP64 accuracy from INT8 and FP16 by decomposing floats,
                     running the matmuls at lower precisions, and reconstructing with the Chinese
                     Remainder Theorem. INT8 MACs are 16x smaller than FP64, so the same die area
-                    gives 16x the compute. smelt extends the same approach to LLMs with ternary
-                    quantisation and bit-shift activations on commodity hardware.
+                    gives 16x the compute.
                 </p>
             </div>
 
@@ -103,6 +102,30 @@
                 <div class="gif-label">
                     Randomised SVD on cameraman. Reconstruction error drops from 0.13 at rank 5 to
                     0.07 at rank 50.
+                </div>
+            </div>
+
+            <div class="project-header">
+                <h3>smelt</h3>
+                <a
+                    href="https://github.com/PritRaj1/smelt"
+                    target="_blank"
+                    rel="noopener"
+                    class="repo-link"
+                    aria-label="smelt on GitHub"
+                >
+                    github &#8599;
+                </a>
+            </div>
+            <div class="gif-single wide">
+                <img
+                    src="images/QK_smelt.png"
+                    alt="QK^T per-head attention latency: float (MKL) versus int8 (smelt) across decode and prefill configurations"
+                />
+                <div class="gif-label">
+                    QK&#8868; per-head latency. smelt INT8 beats float MKL across decode and
+                    prefill: 3.9us vs 8.3us at hd=128 kv=512, down through 8.4us vs 14.1us at
+                    prefill 64 hd=128.
                 </div>
             </div>
         </div>
