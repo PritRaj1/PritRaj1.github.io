@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>KAEM - Prithvi Raj</title>
+        <meta
+            name="description"
+            content="KAEM: Kolmogorov-Arnold Energy Model. Five requirements for a standard representation of the marginal likelihood, and how KAEM meets them."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Source+Sans+3:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <a href="index.html" class="back-link">&larr; Prithvi Raj</a>
+
+            <div class="featured">
+                <h2>KAEM: Kolmogorov-Arnold Energy Model</h2>
+                <p>
+                    Generative models succumb to trade-offs. GANs sacrifice training stability, VAEs
+                    sample quality, diffusion inference speed. KAEM addresses all three.
+                </p>
+                <a
+                    href="https://arxiv.org/abs/2506.14167"
+                    target="_blank"
+                    rel="noopener"
+                    class="paper-link"
+                >
+                    Read the paper &rarr;
+                </a>
+            </div>
+
+            <p class="kaem-question">
+                What are the requirements for discovering the true, agreed-upon, standard
+                representation of the marginal likelihood - across images, language, and scientific
+                data?
+            </p>
+            <ol class="requirements">
+                <li><span>standardised</span></li>
+                <li><span>sustainable</span></li>
+                <li><span>interpretable</span></li>
+                <li><span>informed</span></li>
+                <li><span>accessible</span></li>
+            </ol>
+
+            <div class="requirement-section">
+                <h3>Standardised</h3>
+                <p>
+                    The Kolmogorov-Arnold Representation Theorem decomposes any continuous
+                    multivariate function into a finite sum of univariate ones. Finite.
+                    Deterministic. Capable of representing anything.
+                </p>
+                <p>
+                    That isn't readily applied to probabilistic modelling. KAEM gets there by
+                    reinterpreting the inner functions
+                    <code class="math">&psi;_{q,p} : [0,1] &rarr; &#8477;</code>
+                    as Markov kernels: inverse CDFs acting on uniform noise on [0,1].
+                </p>
+                <p>
+                    Inverse transform sampling becomes a measurable map from uniform noise into the
+                    target, so KART's deterministic structure is preserved and a probabilistic
+                    interpretation falls out without injecting stochasticity into the
+                    representation.
+                </p>
+                <p>
+                    The result is one skeleton across modalities.
+                    <span class="accent">First application of deterministic representation</span>
+                    to generative modelling. You don't refit the architecture every time the domain
+                    changes.
+                </p>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Sustainable</h3>
+                <p>
+                    Wu et al. (2022) report a
+                    <span class="accent">30 : 29 : 41</span>
+                    lifecycle split for an industrial-scale language model, across data processing,
+                    experimentation/training, and inference (
+                    <a href="https://arxiv.org/abs/2111.00364" target="_blank" rel="noopener">
+                        arXiv 2111.00364
+                    </a>
+                    ).
+                </p>
+                <p>
+                    Inference is the largest slice, KAEM keeps it single-pass. Annealing only runs
+                    during training, and parallelises across temperatures instead of paying a
+                    sequential cost every generation.
+                </p>
+                <p>
+                    Experimentation is the second largest. A standardised representation with strong
+                    inductive bias cuts the architecture search.
+                </p>
+                <div class="gif-single">
+                    <img
+                        src="images/02b_sampling_time_only.png"
+                        alt="Sampling time: KAEM vs VAE, neural latent EBM, and DDPM across latent dimensions"
+                    />
+                    <div class="gif-label">
+                        Sampling speed comparable to VAE, ~700x faster than DDPM
+                    </div>
+                </div>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Interpretable</h3>
+                <p>
+                    The prior is a product of 1D densities. You can plot them. Modes and tails are
+                    easily visible. SLERP traversals on the latent have a meaning you can read off
+                    the plot.
+                </p>
+                <div class="gif-single">
+                    <img
+                        src="images/slerp_1.png"
+                        alt="SLERP interpolation on CelebA with inspectable prior densities"
+                    />
+                    <div class="gif-label">SLERP interpolation with inspectable priors</div>
+                </div>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Informed</h3>
+                <p>Three places to inject what you know about the problem:</p>
+                <ul>
+                    <li>the reference prior</li>
+                    <li>the generator architecture</li>
+                    <li>the choice of univariate basis functions</li>
+                </ul>
+                <p>Pick the ones that match the domain, KAEM's architecture enables you.</p>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Accessible</h3>
+                <p>KAEM is a robust probabilistic model. It can run on laptops.</p>
+                <p>
+                    With the correct priors and biases, posterior expectations can be estimated with
+                    importance sampling. No large, amortised encoder. Just a sample-based estimator
+                    with no parameters of its own. Plus, generation/inference is a fast,
+                    single-pass, exact inverse transform on uniform noise. No MCMC at inference.
+                </p>
+                <p>
+                    The univariate 1D priors are easy to plot and understand. A domain expert
+                    without a computational-statistics background can read them.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

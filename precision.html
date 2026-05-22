@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Numeric extremism - Prithvi Raj</title>
+        <meta
+            name="description"
+            content="FP64 accuracy from INT8 hardware. I will not bow to trade-offs."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Source+Sans+3:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <a href="index.html" class="back-link">&larr; Prithvi Raj</a>
+
+            <div class="speaker-section right-cat alt">
+                <img src="images/cat_right.png" alt="" class="cat active" aria-hidden="true" />
+                <img src="images/cat_right_mouth_open.png" alt="" class="cat" aria-hidden="true" />
+                <h2>Numeric extremism</h2>
+                <p>There is a clear split in what next-gen infrastructure should optimise for:</p>
+                <ul>
+                    <li>
+                        LLM serving and inference providers want compression, quantisation, and
+                        tokens per second
+                    </li>
+                    <li>
+                        Science and engineering want precision, stability, high-order
+                        differentiability, and versatility
+                    </li>
+                </ul>
+                <p>
+                    It is tempting as a hardware company to platform cheap inference alone, but
+                    there is a long, rich history of real analysis in engineering that I don't think
+                    holds without floating-point representation.
+                    <span class="accent">I will not bow to trade-offs and mutual exclusivity.</span>
+                </p>
+                <p>
+                    Ozaki scheme II recovers FP64 accuracy from INT8 and FP16 by decomposing floats,
+                    running the matmuls at lower precisions, and reconstructing with the Chinese
+                    Remainder Theorem. INT8 MACs are 16x smaller than FP64, so the same die area
+                    gives 16x the compute. smelt extends the same approach to LLMs with ternary
+                    quantisation and bit-shift activations on commodity hardware.
+                </p>
+            </div>
+
+            <div class="project-header">
+                <h3>fp-emulation</h3>
+                <a
+                    href="https://github.com/thezettascale/fp-emulation"
+                    target="_blank"
+                    rel="noopener"
+                    class="repo-link"
+                    aria-label="fp-emulation on GitHub"
+                >
+                    github &#8599;
+                </a>
+            </div>
+            <div class="gif-single wide">
+                <img
+                    src="images/synth.png"
+                    alt="MAC unit cell counts (INT8 Ozaki vs FP8+SR vs FP64) and PWL slope synthesis scaling (multiplier vs shift-add)"
+                />
+                <div class="gif-label">
+                    INT8 Ozaki: 1,239 cells. FP8+SR: 418. FP64: 20,071. PWL slope synthesis is O(N)
+                    shift-add versus O(N&sup2;) multipliers.
+                </div>
+            </div>
+            <div class="gif-single wide">
+                <img
+                    src="images/dt_pinn_loss.png"
+                    alt="Burgers PINN training loss: Vanilla PINN vs DT-PINN FP64 vs DT-PINN INT8"
+                />
+                <div class="gif-label">
+                    Burgers equation. DT-PINN FP64 reaches the same loss as vanilla in 9.5s vs
+                    43.1s. INT8 stays on the same trajectory.
+                </div>
+            </div>
+
+            <div class="project-header">
+                <h3>tensor_inv</h3>
+                <a
+                    href="https://github.com/PritRaj1/tensor_inv"
+                    target="_blank"
+                    rel="noopener"
+                    class="repo-link"
+                    aria-label="tensor_inv on GitHub"
+                >
+                    github &#8599;
+                </a>
+            </div>
+            <div class="gif-single wide">
+                <img
+                    src="images/rsvd.png"
+                    alt="Randomised SVD reconstruction of cameraman at rank 5, 20, and 50 alongside the original"
+                />
+                <div class="gif-label">
+                    Randomised SVD on cameraman. Reconstruction error drops from 0.13 at rank 5 to
+                    0.07 at rank 50.
+                </div>
+            </div>
+        </div>
+        <script src="cats.js"></script>
+    </body>
+</html>

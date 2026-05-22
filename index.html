@@ -6,544 +6,34 @@
         <title>Prithvi Raj</title>
         <meta
             name="description"
-            content="Prithvi Raj. Co-founder of the Zettascale Computing Corp. Compilers, hardware, and machine learning. Building sustainable, interpretable AI."
+            content="Prithvi Raj. CTO of Zetta Laboratories. Compilers, hardware, and machine learning. Building sustainable, interpretable AI."
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Source+Sans+3:wght@400;500;600&display=swap"
             rel="stylesheet"
         />
-        <style>
-            :root {
-                --bg: #0a0a0a;
-                --bg-bubble: #111;
-                --bg-bubble-alt: #0f0f0f;
-
-                --text-strong: #ffffff;
-                --text: #c8c8c8;
-                --text-soft: #9a9a9a;
-                --text-muted: #7a7a7a;
-
-                --accent: #d4a080;
-                --accent-bright: #e8c0a0;
-                --accent-dim: #b88060;
-                --arrow: #505050;
-
-                --border: #28201a;
-                --border-alt: #201812;
-                --border-subtle: #1e1a16;
-                --border-hairline: #1a1a1a;
-
-                --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                --font-mono: 'JetBrains Mono', monospace;
-
-                --space-section: 56px;
-                --space-divider: 56px;
-                --max-width: 900px;
-                --max-text-width: 760px;
-            }
-
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                font-family: var(--font-sans);
-                background: var(--bg);
-                min-height: 100vh;
-                color: var(--text);
-                line-height: 1.65;
-                padding: 48px 24px;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-
-            .skip-link {
-                position: absolute;
-                left: -9999px;
-                top: 0;
-                z-index: 100;
-                padding: 8px 16px;
-                background: var(--accent);
-                color: var(--bg);
-                font-weight: 600;
-                font-size: 0.9rem;
-                text-decoration: none;
-            }
-
-            .skip-link:focus {
-                left: 0;
-            }
-
-            .container {
-                max-width: var(--max-width);
-                margin: 0 auto;
-            }
-
-            a {
-                color: var(--accent-dim);
-                text-decoration: none;
-                transition: color 0.2s;
-            }
-
-            a:hover {
-                color: var(--accent-bright);
-            }
-
-            :focus-visible {
-                outline: 2px solid var(--accent);
-                outline-offset: 3px;
-            }
-
-            header {
-                margin-bottom: var(--space-section);
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-            }
-
-            .header-text {
-                flex: 1;
-                min-width: 0;
-            }
-
-            h1 {
-                font-size: 2.6rem;
-                font-weight: 600;
-                letter-spacing: -1.5px;
-                margin-bottom: 8px;
-                color: var(--text-strong);
-            }
-
-            .subtitle {
-                color: var(--text-soft);
-                font-size: 1rem;
-                line-height: 1.6;
-            }
-
-            .tagline {
-                color: var(--text-muted);
-                font-size: 0.9rem;
-                margin-top: 14px;
-            }
-
-            .social-links {
-                display: flex;
-                gap: 14px;
-                padding-top: 6px;
-                flex-shrink: 0;
-            }
-
-            .social-links a {
-                color: var(--text-muted);
-                transition:
-                    color 0.2s,
-                    transform 0.2s;
-                display: flex;
-                align-items: center;
-            }
-
-            .social-links a:hover {
-                color: var(--accent-bright);
-                transform: scale(1.15);
-            }
-
-            .social-links a svg {
-                width: 20px;
-                height: 20px;
-                fill: currentColor;
-            }
-
-            .section {
-                margin-bottom: var(--space-section);
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-                font-weight: 600;
-                color: var(--accent);
-                margin-bottom: 14px;
-                letter-spacing: -0.3px;
-            }
-
-            .section p {
-                color: var(--text);
-                font-size: 1rem;
-                margin-bottom: 14px;
-                max-width: var(--max-text-width);
-            }
-
-            .divider {
-                border: none;
-                border-top: 1px solid var(--border-subtle);
-                margin: var(--space-divider) 0;
-            }
-
-            .accent {
-                color: var(--accent);
-                font-weight: 600;
-            }
-
-            .paper-link {
-                display: inline-block;
-                margin-top: 14px;
-                font-size: 0.95rem;
-                border-bottom: 1px solid var(--border);
-                padding-bottom: 2px;
-                transition:
-                    color 0.2s,
-                    border-color 0.2s;
-            }
-
-            .paper-link:hover {
-                border-color: var(--accent-bright);
-            }
-
-            .paper-link + .paper-link {
-                margin-left: 20px;
-            }
-
-            .project-header {
-                display: flex;
-                align-items: baseline;
-                gap: 10px;
-                margin: 28px 0 12px;
-            }
-
-            .project-header h3,
-            .project-header .repo-link,
-            .gif-label {
-                font-family: var(--font-mono);
-            }
-
-            .project-header h3 {
-                font-size: 0.9rem;
-                color: var(--text-soft);
-                font-weight: 400;
-            }
-
-            .project-header .repo-link {
-                font-size: 0.8rem;
-                color: var(--text-muted);
-                transition: color 0.2s;
-            }
-
-            .project-header .repo-link:hover {
-                color: var(--text-soft);
-            }
-
-            .gif-row {
-                display: flex;
-                gap: 12px;
-                margin: 12px 0 8px;
-            }
-
-            .featured + .gif-row {
-                margin-top: 24px;
-            }
-
-            .gif-item {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .gif-item img {
-                width: 100%;
-                display: block;
-                border-radius: 4px;
-                border: 1px solid var(--border-hairline);
-                transition: border-color 0.3s;
-            }
-
-            .gif-item img:hover {
-                border-color: #333;
-            }
-
-            .gif-label {
-                font-size: 0.75rem;
-                color: var(--text-muted);
-                text-align: center;
-                margin-top: 8px;
-            }
-
-            .gif-row-pair {
-                max-width: 640px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .gif-row-pair .gif-item {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .gif-row-pair .gif-item img {
-                flex: 1;
-                object-fit: cover;
-            }
-
-            .gif-single {
-                max-width: 520px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .gif-single.gif-small {
-                max-width: 380px;
-            }
-
-            /* Speech-bubble philosophy blocks. --bubble-bg lets the .alt
-               modifier swap background + arrow in one place. */
-            .speaker-section {
-                --bubble-bg: var(--bg-bubble);
-                --bubble-border: var(--border);
-                position: relative;
-                background: var(--bubble-bg);
-                border: 1px solid var(--bubble-border);
-                border-radius: 16px;
-                padding: 24px 28px;
-                margin-left: 64px;
-            }
-
-            .speaker-section.alt {
-                --bubble-bg: var(--bg-bubble-alt);
-                --bubble-border: var(--border-alt);
-            }
-
-            .speaker-section::after {
-                content: '';
-                position: absolute;
-                bottom: 22px;
-                left: -7px;
-                width: 12px;
-                height: 12px;
-                background: var(--bubble-bg);
-                border-left: 1px solid var(--bubble-border);
-                border-bottom: 1px solid var(--bubble-border);
-                transform: rotate(45deg);
-            }
-
-            .speaker-section.right-cat {
-                margin-left: 0;
-                margin-right: 64px;
-            }
-
-            .speaker-section.right-cat::after {
-                left: auto;
-                right: -7px;
-                border: none;
-                border-right: 1px solid var(--bubble-border);
-                border-top: 1px solid var(--bubble-border);
-            }
-
-            .speaker-section ul {
-                margin: 8px 0 14px 20px;
-                color: var(--text);
-                font-size: 1rem;
-            }
-
-            .speaker-section ul li {
-                margin-bottom: 4px;
-            }
-
-            .cat {
-                position: absolute;
-                left: -58px;
-                bottom: 10px;
-                width: 44px;
-                height: 44px;
-                object-fit: contain;
-                opacity: 0;
-                transition: opacity 0.15s ease-in-out;
-            }
-
-            .cat.active {
-                opacity: 1;
-            }
-
-            .speaker-section.right-cat .cat {
-                left: auto;
-                right: -58px;
-            }
-
-            /* Arrow-prefixed lists (shared by .pillars and .reach-out) */
-            .pillars-lead,
-            .reach-out-lead {
-                font-family: var(--font-mono);
-                font-size: 0.9rem;
-                color: var(--text-muted);
-                margin-bottom: 16px;
-            }
-
-            .pillars,
-            .reach-out {
-                display: flex;
-                flex-direction: column;
-                margin-left: 20px;
-                font-family: var(--font-mono);
-                font-size: 0.95rem;
-                color: var(--text-muted);
-            }
-
-            .pillars li,
-            .reach-out li {
-                list-style: none;
-                padding: 4px 0;
-            }
-
-            .pillars li span,
-            .reach-out li span {
-                color: var(--accent);
-                font-weight: 500;
-            }
-
-            .pillars li::before,
-            .reach-out li::before {
-                content: '→  ';
-                color: var(--arrow);
-            }
-
-            .pillars {
-                margin-bottom: var(--space-section);
-            }
-
-            .reach-out + .reach-out-lead {
-                margin-top: 20px;
-            }
-
-            .featured {
-                border-left: 4px solid var(--accent-dim);
-                padding: 24px 28px;
-                margin-bottom: 0;
-            }
-
-            .featured .section-title {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-
-            .featured .paper-link {
-                font-size: 1rem;
-            }
-
-            .metrics-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin: 12px 0;
-                font-size: 0.85rem;
-                font-family: var(--font-mono);
-            }
-
-            .metrics-table th,
-            .metrics-table td {
-                padding: 8px 12px;
-                text-align: center;
-                vertical-align: middle;
-                border-bottom: 1px solid var(--border-subtle);
-            }
-
-            .metrics-table th {
-                color: var(--text-muted);
-                font-weight: 400;
-                font-size: 0.78rem;
-            }
-
-            .metrics-table td {
-                color: var(--text);
-            }
-
-            .metrics-table tbody th {
-                text-align: left;
-                font-size: 0.85rem;
-            }
-
-            .metrics-table .best {
-                color: var(--accent);
-                font-weight: 600;
-            }
-
-            .metrics-table tr.ref td {
-                color: var(--text-muted);
-                font-style: italic;
-            }
-
-            .philosophies-header {
-                font-size: 1.5rem;
-                font-weight: 600;
-                color: var(--text-strong);
-                margin-bottom: 12px;
-                letter-spacing: -0.5px;
-            }
-
-            .philosophies-intro {
-                color: var(--text-soft);
-                font-size: 0.95rem;
-                margin-bottom: 40px;
-                max-width: var(--max-text-width);
-            }
-
-            @media (prefers-reduced-motion: reduce) {
-                *,
-                *::before,
-                *::after {
-                    transition-duration: 0.01ms !important;
-                    animation-duration: 0.01ms !important;
-                }
-            }
-
-            @media (max-width: 640px) {
-                body {
-                    padding: 32px 16px;
-                }
-                h1 {
-                    font-size: 1.8rem;
-                }
-                .section p {
-                    font-size: 0.95rem;
-                }
-                .gif-row {
-                    flex-direction: column;
-                    gap: 16px;
-                }
-                .gif-single,
-                .gif-row-pair {
-                    max-width: 100%;
-                }
-                .speaker-section,
-                .speaker-section.right-cat {
-                    margin: 0;
-                }
-                .cat {
-                    display: none;
-                }
-                .speaker-section::after,
-                .speaker-section.right-cat::after {
-                    display: none;
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <a href="#main-content" class="skip-link">Skip to content</a>
+        <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
             <header>
                 <div class="header-text">
-                    <h1>Hi, I'm Prithvi</h1>
+                    <h1>Prithvi Raj</h1>
                     <p class="subtitle">
                         CTO of
                         <a href="https://zettalaboratories.com/" target="_blank" rel="noopener">
                             Zetta
                         </a>
-                        , building energy-efficient chips for scientific computing! Based in San
+                        , building energy-efficient chips for scientific computing. Based in San
                         Francisco, originally from north-west UK.
                     </p>
                 </div>
                 <nav aria-label="Social links" class="social-links">
                     <a
-                        href="https://www.linkedin.com/in/prithvi-raj-eng/"
+                        href="https://linkedin.com/in/prithvi-raj-eng"
                         target="_blank"
                         rel="noopener"
                         aria-label="LinkedIn"
@@ -591,577 +81,158 @@
                 </nav>
             </header>
 
-            <main id="main-content">
+            <main id="main">
                 <p class="pillars-lead">Building towards AI that's</p>
                 <ul class="pillars">
-                    <li><span>sustainable</span></li>
-                    <li><span>interpretable</span></li>
-                    <li><span>informed</span></li>
-                    <li><span>accessible</span></li>
-                    <li><span>standardised</span></li>
+                    <li>
+                        <span class="name">standardised</span>
+                        <span class="why">methodologies must corroborate, no guessing</span>
+                    </li>
+                    <li>
+                        <span class="name">sustainable</span>
+                        <span class="why">
+                            the scientific method is iterative - RNGs, datasets, settings,
+                            optimisation dynamics, scales, architectures
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">interpretable</span>
+                        <span class="why">
+                            predictions at the edge of human knowledge must be verifiable and
+                            understood
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">informed</span>
+                        <span class="why">
+                            centuries worth of human knowledge shouldn't be discarded plus STEM data
+                            is from sensors, lab setups, and physical surrogates
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">accessible</span>
+                        <span class="why">
+                            knowledgeable and passionate people from many different backgrounds will
+                            use it
+                        </span>
+                    </li>
                 </ul>
 
                 <hr class="divider" />
 
-                <div class="section">
-                    <div class="featured">
-                        <h2 class="section-title">KAEM: Kolmogorov-Arnold Energy Model</h2>
-                        <p>
-                            Generative models succumb to trade-offs. GANs sacrifice training
-                            stability, VAEs sacrifice sample quality, diffusion sacrifices inference
-                            speed. KAEM addresses all three.
+                <a href="kaem.html" class="featured-row">
+                    <div class="row-body">
+                        <h2 class="row-title">KAEM: Kolmogorov-Arnold Energy Model</h2>
+                        <p class="row-teaser">
+                            Generative models succumb to trade-offs. GANs sacrifice stability, VAEs
+                            sample quality, diffusion speed. KAEM addresses all three.
                         </p>
-                        <p>
-                            It's built on the Kolmogorov-Arnold Representation Theorem, a finite,
-                            deterministic representation capable of capturing any multivariate
-                            function. That isn't readily applied to probabilistic modelling, but
-                            KAEM gets there using ideas from computational statistics. The paper
-                            also presents
-                            <span class="accent">annealing instead of diffusion,</span>
-                            running only during training to handle multimodal posteriors. Unlike
-                            diffusion, fast single-pass sampling speed is preserved at generation
-                            time, and the learned structure stays intact and inspectable.
-                        </p>
-                        <p>
-                            This is the first application of deterministic representation to
-                            generative modelling. It opens pathways for latent space
-                            interpretability and for agreed-on, standardised representations across
-                            images, language, and scientific data.
-                        </p>
-                        <a
-                            href="https://arxiv.org/abs/2506.14167"
-                            target="_blank"
-                            rel="noopener"
-                            class="paper-link"
-                        >
-                            Read the paper &rarr;
-                        </a>
                     </div>
-
-                    <div class="gif-row">
-                        <div class="gif-item">
-                            <img
-                                src="images/02b_sampling_time_only.png"
-                                alt="Sampling time: KAEM vs VAE, neural latent EBM, and DDPM across latent dimensions"
-                            />
-                            <div class="gif-label">
-                                Sampling speed comparable to VAE, ~700x faster than DDPM
-                            </div>
-                        </div>
-                        <div class="gif-item">
-                            <img
-                                src="images/slerp_1.png"
-                                alt="SLERP interpolation on CelebA with inspectable prior densities"
-                            />
-                            <div class="gif-label">SLERP interpolation with inspectable priors</div>
-                        </div>
-                    </div>
-
-                    <table class="metrics-table">
-                        <thead>
-                            <tr>
-                                <th>Dataset</th>
-                                <th>Model</th>
-                                <th>FID&infin;</th>
-                                <th>KID&infin;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row" rowspan="5">SVHN</th>
-                                <td>KAEM (MLE)</td>
-                                <td class="best">63.86</td>
-                                <td class="best">0.0532</td>
-                            </tr>
-                            <tr>
-                                <td>KAEM (Thermo)</td>
-                                <td>108.74</td>
-                                <td>0.1018</td>
-                            </tr>
-                            <tr>
-                                <td>VAE</td>
-                                <td>91.65</td>
-                                <td>0.0871</td>
-                            </tr>
-                            <tr>
-                                <td>Neural Latent EBM</td>
-                                <td>272.88</td>
-                                <td>0.2751</td>
-                            </tr>
-                            <tr class="ref">
-                                <td>DDPM (ref.)</td>
-                                <td>66.03</td>
-                                <td>0.0478</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" rowspan="5">CIFAR10</th>
-                                <td>KAEM (MLE)</td>
-                                <td class="best">137.39</td>
-                                <td class="best">0.1338</td>
-                            </tr>
-                            <tr>
-                                <td>KAEM (Thermo)</td>
-                                <td>225.34</td>
-                                <td>0.2263</td>
-                            </tr>
-                            <tr>
-                                <td>VAE</td>
-                                <td>176.74</td>
-                                <td>0.1669</td>
-                            </tr>
-                            <tr>
-                                <td>Neural Latent EBM</td>
-                                <td>356.52</td>
-                                <td>0.2986</td>
-                            </tr>
-                            <tr class="ref">
-                                <td>DDPM (ref.)</td>
-                                <td>53.37</td>
-                                <td>0.0406</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" rowspan="5">CelebA</th>
-                                <td>KAEM (MLE)</td>
-                                <td>126.89</td>
-                                <td>0.1394</td>
-                            </tr>
-                            <tr>
-                                <td>KAEM (Thermo)</td>
-                                <td>108.04</td>
-                                <td>0.1129</td>
-                            </tr>
-                            <tr>
-                                <td>VAE</td>
-                                <td>137.67</td>
-                                <td>0.1465</td>
-                            </tr>
-                            <tr>
-                                <td>Neural Latent EBM</td>
-                                <td class="best">90.03</td>
-                                <td class="best">0.0846</td>
-                            </tr>
-                            <tr class="ref">
-                                <td>DDPM (ref.)</td>
-                                <td>266.54</td>
-                                <td>0.2448</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="gif-label">
-                        Image quality across latent-prior models (lower is better). Best marked
-                        among latent-prior models. DDPM shown as pixel-space reference with ~700x
-                        slower inference.
-                    </div>
-                </div>
+                    <span class="row-cta">Read &rarr;</span>
+                </a>
 
                 <hr class="divider" />
 
-                <h2 class="philosophies-header">Design Philosophies</h2>
-                <p class="philosophies-intro">
-                    I don't subscribe to perceptrons and pure scaling! Respect to the giants, but
-                    the principles below are how I'm pursuing my 5 requirements! They've shaped the
-                    hardware bets at Zetta and they will remain at the heat death of the final
-                    Delaware C-corp. Statistics victorious.
+                <h2 class="list-heading">Design philosophies</h2>
+                <p class="list-intro">
+                    I don't subscribe to perceptrons and pure scaling. Respect to the giants, but
+                    the principles below are how I'm pursuing my five requirements. Statistics
+                    victorious.
                 </p>
 
-                <div class="section">
-                    <div class="speaker-section right-cat alt">
-                        <img
-                            src="images/cat_right.png"
-                            alt=""
-                            class="cat active"
-                            aria-hidden="true"
-                        />
-                        <img
-                            src="images/cat_right_mouth_open.png"
-                            alt=""
-                            class="cat"
-                            aria-hidden="true"
-                        />
-                        <h3 class="section-title">Representation first</h3>
-                        <p>
-                            Attention encodes very little inductive bias. Its weights are entirely
-                            data-driven. Flexible when data is abundant, but wrong (
-                            <span class="accent">all models are</span>
-                            , George Box) and fragile when samples are limited or relationships lie
-                            on a complex manifold.
-                        </p>
-                        <p>Bespoke models with stronger inductive biases tend to be better on:</p>
-                        <ul>
-                            <li>training efficiency</li>
-                            <li>generalisation</li>
-                            <li>explainability</li>
-                            <li>accuracy</li>
-                            <li>sample and data efficiency</li>
-                        </ul>
-                        <p>
-                            Natural language almost certainly has a better representation too,
-                            probably a PDE system. That's a question worth asking.
+                <a href="representation.html" class="card right-cat alt">
+                    <img src="images/cat_right.png" alt="" class="cat active" aria-hidden="true" />
+                    <img
+                        src="images/cat_right_mouth_open.png"
+                        alt=""
+                        class="cat"
+                        aria-hidden="true"
+                    />
+                    <div class="row-body">
+                        <h3 class="row-title">Representation first</h3>
+                        <p class="row-teaser">
+                            Attention encodes very little inductive bias. Bespoke models win when
+                            data is limited.
                         </p>
                     </div>
+                    <span class="row-cta">Read &rarr;</span>
+                </a>
 
-                    <div class="project-header">
-                        <h3>Darcy Flow</h3>
-                        <a
-                            href="https://github.com/thezettascale/darcy-cnn"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Darcy Flow on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                    </div>
-                    <div class="gif-row">
-                        <div class="gif-item">
-                            <img
-                                src="images/MLP CNN_prediction.gif"
-                                alt="MLP + CNN prediction on Darcy flow"
-                            />
-                            <div class="gif-label">MLP + CNN. 5,982,121 params</div>
-                        </div>
-                        <div class="gif-item">
-                            <img
-                                src="images/KAN CNN_prediction.gif"
-                                alt="KAN + CNN prediction on Darcy flow"
-                            />
-                            <div class="gif-label">KAN + CNN. 35,919 params + wavelet bias</div>
-                        </div>
-                        <div class="gif-item">
-                            <img
-                                src="images/MLP FNO_prediction.gif"
-                                alt="MLP + FNO prediction on Darcy flow"
-                            />
-                            <div class="gif-label">MLP + FNO. 4,667,665 params + PDE bias</div>
-                        </div>
-                    </div>
-
-                    <div class="project-header">
-                        <h3>Viscoplastic Materials</h3>
-                        <a
-                            href="https://github.com/PritRaj1/visocplastic-sequence"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Viscoplastic Materials on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                    </div>
-                    <div class="gif-row gif-row-pair">
-                        <div class="gif-item">
-                            <img
-                                src="images/Transformer_visco_prediction.gif"
-                                alt="Transformer prediction on viscoplastic stress field"
-                            />
-                            <div class="gif-label">Transformer. 4,209,205 parameters</div>
-                        </div>
-                        <div class="gif-item">
-                            <img
-                                src="images/RNO_visco_prediction.gif"
-                                alt="RNO prediction on viscoplastic stress field"
-                            />
-                            <div class="gif-label">RNO. 52 parameters + PDE/time-series bias</div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="divider" />
-
-                <div class="section">
-                    <div class="speaker-section">
-                        <img
-                            src="images/cat_left.png"
-                            alt=""
-                            class="cat active"
-                            aria-hidden="true"
-                        />
-                        <img
-                            src="images/cat_left_mouth_open.png"
-                            alt=""
-                            class="cat"
-                            aria-hidden="true"
-                        />
-                        <h3 class="section-title">Intelligence is Hierarchical</h3>
-                        <p>
-                            Real intelligence is hierarchical. Low-level control is handled by
-                            simple circuits in the central nervous system, central pattern
-                            generators (CPGs). These use physical structure to produce unconscious,
-                            rhythmic signals for walking, flying, and swimming, freeing the brain
-                            for higher-level control and decision making.
-                        </p>
-                        <p>CPGs recover their gaits quickly with little feedback. They are:</p>
-                        <ul>
-                            <li>analytically simple to design, tune, and implement</li>
-                            <li>equipped with robust transfer characteristics</li>
-                            <li>
-                                inexpensive compared to optimisation-based or data-driven control
-                            </li>
-                        </ul>
-                        <p>
-                            The default is to reach for fancy algorithms. The best engineers look
-                            first for mechanical, analogue, or physically-informed solutions because
-                            they are simpler, more reliable, and cheaper.
-                            <span class="accent">
-                                Good mechanics can compensate for bad software. Good software will
-                                never compensate for bad mechanics.
-                            </span>
+                <a href="hierarchy.html" class="card">
+                    <img src="images/cat_left.png" alt="" class="cat active" aria-hidden="true" />
+                    <img
+                        src="images/cat_left_mouth_open.png"
+                        alt=""
+                        class="cat"
+                        aria-hidden="true"
+                    />
+                    <div class="row-body">
+                        <h3 class="row-title">Intelligence is hierarchical</h3>
+                        <p class="row-teaser">
+                            Good mechanics compensate for bad software. Bad software cannot
+                            compensate for bad mechanics.
                         </p>
                     </div>
+                    <span class="row-cta">Read &rarr;</span>
+                </a>
 
-                    <div class="project-header">
-                        <h3>Neuromorphic Robots</h3>
-                        <a
-                            href="docs/conference_poster.pdf"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Neuromorphic Robots conference poster PDF"
-                        >
-                            poster &#8599;
-                        </a>
-                        <a
-                            href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Neuromorphic Robots on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                    </div>
-                    <div class="gif-row gif-row-pair">
-                        <div class="gif-item">
-                            <img
-                                src="images/robots.gif"
-                                alt="Quadrupedal robots using CPG locomotion"
-                            />
-                        </div>
-                        <div class="gif-item">
-                            <img src="images/neuron.gif" alt="Spiking neuron" />
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="divider" />
-
-                <div class="section">
-                    <div class="speaker-section right-cat alt">
-                        <img
-                            src="images/cat_right.png"
-                            alt=""
-                            class="cat active"
-                            aria-hidden="true"
-                        />
-                        <img
-                            src="images/cat_right_mouth_open.png"
-                            alt=""
-                            class="cat"
-                            aria-hidden="true"
-                        />
-                        <h3 class="section-title">Reasoning under uncertainty</h3>
-                        <p>
-                            All models are wrong. While there are cults arising in service of
-                            algorithms, the engineers know that data is where magic manifests!
-                            Uncertainty quantification is how engineers compensate where our
-                            data-driven methods fail, since we can't afford to be wrong.
-                        </p>
-                        <p>
-                            Epistemic uncertainty is used to guide where we prioritise drug
-                            synthesis, experimentation, and risk assessments. Mistakes are expensive
-                            and unnecessary. Another example is a self-driving car that's 99%
-                            accurate. It still gets 1 in 100 decisions wrong. This could happen at a
-                            school crossing, and
-                            <span class="accent">
-                                that last 1% is where uncertainty quantification saves lives.
-                            </span>
+                <a href="uncertainty.html" class="card right-cat alt">
+                    <img src="images/cat_right.png" alt="" class="cat active" aria-hidden="true" />
+                    <img
+                        src="images/cat_right_mouth_open.png"
+                        alt=""
+                        class="cat"
+                        aria-hidden="true"
+                    />
+                    <div class="row-body">
+                        <h3 class="row-title">Reasoning under uncertainty</h3>
+                        <p class="row-teaser">
+                            All models are wrong. The last 1% is where uncertainty quantification
+                            saves lives.
                         </p>
                     </div>
+                    <span class="row-cta">Read &rarr;</span>
+                </a>
 
-                    <div class="project-header">
-                        <h3>Drug Solubility Fitting on AqSolDB</h3>
-                        <a
-                            href="https://github.com/PritRaj1/GP-AqSolDB"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Drug Solubility Fitting on AqSolDB on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                    </div>
-                    <div class="gif-row">
-                        <div class="gif-item gif-single gif-small">
-                            <img
-                                src="images/active_learning.gif"
-                                alt="Active learning with Gaussian Processes"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="divider" />
-
-                <div class="section">
-                    <div class="speaker-section">
-                        <img
-                            src="images/cat_left.png"
-                            alt=""
-                            class="cat active"
-                            aria-hidden="true"
-                        />
-                        <img
-                            src="images/cat_left_mouth_open.png"
-                            alt=""
-                            class="cat"
-                            aria-hidden="true"
-                        />
-                        <h3 class="section-title">Question the default</h3>
-                        <p>
-                            Diffusion adds noise until the distribution is flat, then learns to
-                            denoise. The forward process is an isotropic SDE. It does not preserve
-                            the structure of your target. Prior information about modes and geometry
-                            is gone by construction.
-                        </p>
-                        <p>
-                            Annealing is an underexplored alternative for EBMs. High-temperature
-                            MCMC chains explore the global landscape, colder ones resolve local
-                            structure, and exchanges pass information between them. The prior stays
-                            intact. You are smoothing the posterior energy landscape, not destroying
-                            its geometry.
-                        </p>
-                        <p>In KAEM, this only runs during training, and it gives you:</p>
-                        <ul>
-                            <li>no amortisation gap</li>
-                            <li>no variational bound</li>
-                            <li>
-                                MCMC on a low-dimensional latent space, where it is actually
-                                affordable
-                            </li>
-                            <li>
-                                parallel scaling across temperatures, rather than sequential cost
-                            </li>
-                        </ul>
-                        <p>
-                            Diffusion pays its sequential cost at every generation. This pays it
-                            only during training.
-                            <span class="accent">
-                                You want to be greedy with your hardware usage, not with your time
-                                spent.
-                            </span>
+                <a href="defaults.html" class="card">
+                    <img src="images/cat_left.png" alt="" class="cat active" aria-hidden="true" />
+                    <img
+                        src="images/cat_left_mouth_open.png"
+                        alt=""
+                        class="cat"
+                        aria-hidden="true"
+                    />
+                    <div class="row-body">
+                        <h3 class="row-title">Question the default</h3>
+                        <p class="row-teaser">
+                            Diffusion destroys the structure of your target. Annealing keeps it
+                            intact.
                         </p>
                     </div>
+                    <span class="row-cta">Read &rarr;</span>
+                </a>
 
-                    <div class="project-header">
-                        <h3>Parallel Tempering</h3>
-                        <a
-                            href="https://github.com/PritRaj1/NonConvex-RUST"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Non-Convex Optimisation on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                    </div>
-                    <div class="gif-row">
-                        <div class="gif-item">
-                            <img
-                                src="images/pt_kbf.gif"
-                                alt="Parallel tempering exploring a non-convex energy landscape"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="divider" />
-
-                <div class="section">
-                    <div class="speaker-section right-cat alt">
-                        <img
-                            src="images/cat_right.png"
-                            alt=""
-                            class="cat active"
-                            aria-hidden="true"
-                        />
-                        <img
-                            src="images/cat_right_mouth_open.png"
-                            alt=""
-                            class="cat"
-                            aria-hidden="true"
-                        />
-                        <h3 class="section-title">Numeric extremism</h3>
-                        <p>
-                            There is a clear split in what next-gen infrastructure should optimise
-                            for:
+                <a href="precision.html" class="card right-cat alt">
+                    <img src="images/cat_right.png" alt="" class="cat active" aria-hidden="true" />
+                    <img
+                        src="images/cat_right_mouth_open.png"
+                        alt=""
+                        class="cat"
+                        aria-hidden="true"
+                    />
+                    <div class="row-body">
+                        <h3 class="row-title">Numeric extremism</h3>
+                        <p class="row-teaser">
+                            FP64 accuracy from INT8 hardware. I will not bow to trade-offs.
                         </p>
-                        <ul>
-                            <li>
-                                LLM serving and inference providers want compression, quantisation,
-                                and tokens per second
-                            </li>
-                            <li>
-                                Science and engineering want precision, stability, high-order
-                                differentiability, and versatility
-                            </li>
-                        </ul>
-                        <p>
-                            It is tempting as a hardware company to platform cheap inference alone,
-                            but there is a long, rich history of real analysis in engineering that I
-                            don't think holds without floating-point representation.
-                            <span class="accent">
-                                I will not bow to trade-offs and mutual exclusivity.
-                            </span>
-                        </p>
-                        <p>
-                            Ozaki scheme II recovers FP64 accuracy from INT8 and FP16 by decomposing
-                            floats, running the matmuls at lower precisions, and reconstructing with
-                            the Chinese Remainder Theorem. INT8 MACs are 16x smaller than FP64, so
-                            the same die area gives 16x the compute. The scheme pipelines, fuses,
-                            and avoids kernel launch overhead on Zetta hardware.
-                        </p>
-                        <ul>
-                            <li>
-                                <a
-                                    href="https://github.com/thezettascale/fp-emulation"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    fp-emulation
-                                </a>
-                                - Recovering high-precision gradient quality from low-precision
-                                hardware, for stable high-order differentiation in PINN training.
-                            </li>
-                            <li>
-                                <a
-                                    href="https://github.com/PritRaj1/tensor_inv"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    tensor_inv
-                                </a>
-                                - Matrix decompositions (LU, Cholesky, RSVD) on cheap fixed-point
-                                systolic arrays with scalar units and VPUs.
-                            </li>
-                            <li>
-                                <a
-                                    href="https://github.com/PritRaj1/smelt"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    smelt
-                                </a>
-                                - Pure integer ops for LLMs (ternary quantisation plus bit-shift
-                                activations) on commodity CPUs or cheap integer hardware.
-                            </li>
-                        </ul>
                     </div>
-                </div>
+                    <span class="row-cta">Read &rarr;</span>
+                </a>
 
                 <hr class="divider" />
 
                 <p class="reach-out-lead">
-                    Please reach out if you need ML/high-perf hardware! Especially if your workloads
+                    Please reach out if you need ML/high-perf hardware. Especially if your workloads
                     involve:
                 </p>
                 <ul class="reach-out">
@@ -1171,40 +242,25 @@
                     <li><span>stencils and linear algebra</span></li>
                     <li><span>non-convex optimisation or linear programming</span></li>
                 </ul>
-                <p class="reach-out-lead">Would love to hear about what you're doing :)</p>
+                <p class="reach-out-lead">Would love to hear about what you're doing.</p>
             </main>
         </div>
 
+        <script src="cats.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-                const speakerSections = document.querySelectorAll('.speaker-section');
-                speakerSections.forEach((section) => {
-                    const speakers = section.querySelectorAll('.cat');
-                    if (speakers.length > 1) {
-                        let index = 0;
-                        const delay = 600 + Math.random() * 400;
-                        setInterval(() => {
-                            speakers.forEach((s) => s.classList.remove('active'));
-                            index = (index + 1) % speakers.length;
-                            speakers[index].classList.add('active');
-                        }, delay);
-                    }
-                });
-
-                var _n = 0;
-                document.querySelectorAll('.pillars li').forEach(function (el, i) {
-                    el.addEventListener('click', function () {
-                        if (i === _n) {
-                            _n++;
-                            if (_n === 5)
+            document.addEventListener('DOMContentLoaded', () => {
+                let n = 0;
+                document.querySelectorAll('.pillars li').forEach((el, i) => {
+                    el.addEventListener('click', () => {
+                        if (i === n) {
+                            n++;
+                            if (n === 5)
                                 window.open(
                                     '\x68\x74\x74\x70\x73\x3a\x2f\x2f\x79\x6f\x75\x74\x75\x2e\x62\x65\x2f\x71\x68\x4f\x55\x45\x78\x59\x6e\x50\x78\x77',
                                     '_blank',
                                 );
                         }
-                        _n = _n === 5 || i !== _n - 1 ? 0 : _n;
+                        n = n === 5 || i !== n - 1 ? 0 : n;
                     });
                 });
             });

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Question the default - Prithvi Raj</title>
+        <meta
+            name="description"
+            content="Diffusion destroys the structure of your target. Annealing keeps it intact."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Source+Sans+3:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <a href="index.html" class="back-link">&larr; Prithvi Raj</a>
+
+            <div class="speaker-section">
+                <img src="images/cat_left.png" alt="" class="cat active" aria-hidden="true" />
+                <img src="images/cat_left_mouth_open.png" alt="" class="cat" aria-hidden="true" />
+                <h2>Question the default</h2>
+                <p>
+                    Diffusion adds noise until the distribution is flat, then learns to denoise. The
+                    forward process is an isotropic SDE. It does not preserve the structure of your
+                    target. Prior information about modes and geometry is gone by construction.
+                </p>
+                <p>
+                    Annealing is an underexplored alternative for EBMs. High-temperature MCMC chains
+                    explore the global landscape, colder ones resolve local structure, and exchanges
+                    pass information between them. The prior stays intact. You are smoothing the
+                    posterior energy landscape, not destroying its geometry.
+                </p>
+                <p>In KAEM, this only runs during training, and it gives you:</p>
+                <ul>
+                    <li>no amortisation gap</li>
+                    <li>no variational bound</li>
+                    <li>MCMC on a low-dimensional latent space, where it is actually affordable</li>
+                    <li>parallel scaling across temperatures, rather than sequential cost</li>
+                </ul>
+                <p>
+                    Diffusion pays its sequential cost at every generation. This pays it only during
+                    training.
+                </p>
+                <p>
+                    <span class="accent">
+                        You want to be greedy with your hardware usage, not with your time spent.
+                    </span>
+                </p>
+            </div>
+
+            <div class="project-header">
+                <h3>Parallel Tempering</h3>
+                <a
+                    href="https://github.com/PritRaj1/NonConvex-RUST"
+                    target="_blank"
+                    rel="noopener"
+                    class="repo-link"
+                    aria-label="Non-Convex Optimisation on GitHub"
+                >
+                    github &#8599;
+                </a>
+            </div>
+            <div class="gif-single wide">
+                <img
+                    src="images/pt_kbf.gif"
+                    alt="Parallel tempering exploring a non-convex energy landscape"
+                />
+            </div>
+        </div>
+        <script src="cats.js"></script>
+    </body>
+</html>
