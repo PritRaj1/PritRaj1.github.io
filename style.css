@@ -565,6 +565,114 @@ h1 {
     margin-left: 20px;
 }
 
+/* Benchmarks section (distinct from the 5 requirements above) */
+.benchmarks-section {
+    margin: 56px 0 36px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.benchmarks-section h3 {
+    font-family: var(--font-serif);
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: var(--text-strong);
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+}
+
+.benchmarks-section p {
+    margin-bottom: 12px;
+    max-width: var(--max-text-width);
+}
+
+/* Benchmark bar charts */
+.bench {
+    margin: 28px 0;
+}
+
+.bench-title {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.4px;
+    margin-bottom: 10px;
+}
+
+.bench-row {
+    display: grid;
+    grid-template-columns: 9.5em 1fr 3.5em;
+    align-items: center;
+    column-gap: 14px;
+    padding: 5px 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+}
+
+.bench-label {
+    color: var(--text-soft);
+    text-align: right;
+}
+
+.bench-bar-track {
+    height: 10px;
+}
+
+.bench-bar {
+    height: 100%;
+    width: var(--w);
+    background: var(--text-muted);
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+
+.bench-value {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+.bench-row.best .bench-bar {
+    background: var(--accent);
+}
+
+.bench-row.best .bench-value {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.bench-row.ref .bench-label,
+.bench-row.ref .bench-value {
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.bench-row.ref .bench-bar {
+    background: repeating-linear-gradient(
+        45deg,
+        var(--text-muted) 0,
+        var(--text-muted) 3px,
+        transparent 3px,
+        transparent 6px
+    );
+    opacity: 0.6;
+}
+
+.bench-note {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    max-width: var(--max-text-width);
+}
+
+@media (max-width: 640px) {
+    .bench-row {
+        grid-template-columns: 7em 1fr 3em;
+        column-gap: 10px;
+        font-size: 0.78rem;
+    }
+}
+
 /* KAEM requirements + how-it-works */
 .kaem-question {
     font-family: var(--font-serif);
