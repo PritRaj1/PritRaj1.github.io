@@ -167,12 +167,13 @@
                     FID&#8345; is finite-sample biased:
                     <code class="math">E[FID&#8345;] &ne; FID&infin;</code>
                     , and the bias depends on the generator, so fixed-N comparisons are unreliable.
-                    Linear regression across sample sizes 2000 to 20,000 in steps of 2000
-                    extrapolates to N=&infin; (
+                    We use effectively unbiased estimators by applying linear regression across
+                    sample sizes 2000 to 20,000 in steps of 2000 extrapolates to N=&infin; (
                     <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
                         arXiv 1911.07023
                     </a>
-                    ). FID&infin; and KID&infin; are what you'd find with infinite samples.
+                    ). This gives FID&infin; and KID&infin, which are what you'd find with infinite
+                    samples.
                 </p>
 
                 <div class="bench">
