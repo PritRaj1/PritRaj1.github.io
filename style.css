@@ -305,7 +305,9 @@ h1 {
     border-left: 1px solid var(--bubble-border);
     border-bottom: 1px solid var(--bubble-border);
     transform: rotate(45deg);
-    transition: background 0.2s;
+    transition:
+        background 0.2s,
+        border-color 0.2s;
 }
 
 .card.right-cat::after {
@@ -314,10 +316,14 @@ h1 {
     border: none;
     border-right: 1px solid var(--bubble-border);
     border-top: 1px solid var(--bubble-border);
+    transition:
+        background 0.2s,
+        border-color 0.2s;
 }
 
 .card:hover::after {
     background: var(--bg-hover);
+    border-color: var(--accent-dim);
 }
 
 .row-body {
