@@ -78,26 +78,25 @@
                 <h3>Standardised</h3>
                 <p>
                     The Kolmogorov-Arnold Representation Theorem decomposes any continuous
-                    multivariate function into a finite sum of univariate ones. Finite.
-                    Deterministic. Capable of representing anything.
+                    multivariate function into two finite sums of univariate ones. Finite.
+                    Deterministic. Definitive. Capable of representing anything!
                 </p>
                 <p>
                     That isn't readily applied to probabilistic modelling. KAEM gets there by
-                    reinterpreting the inner functions
+                    recasting the inner functions
                     <code class="math">&psi;_{q,p} : [0,1] &rarr; &#8477;</code>
                     as Markov kernels: inverse CDFs acting on uniform noise on [0,1].
                 </p>
                 <p>
                     Inverse transform sampling becomes a measurable map from uniform noise into the
                     target, so KART's deterministic structure is preserved and a probabilistic
-                    interpretation falls out without injecting stochasticity into the
+                    interpretation falls out without introducing stochasticity into the
                     representation.
                 </p>
                 <p>
-                    The result is one skeleton across modalities.
-                    <span class="accent">First application of deterministic representation</span>
-                    to generative modelling. You don't refit the architecture every time the domain
-                    changes.
+                    The result is one skeleton across modalities. This is the
+                    <span class="accent">first application of deterministic representation</span>
+                    to generative modelling.
                 </p>
             </div>
 
@@ -114,13 +113,13 @@
                     ).
                 </p>
                 <p>
-                    Inference is the largest slice, KAEM keeps it single-pass. Annealing only runs
-                    during training, and parallelises across temperatures instead of paying a
+                    Inference is the largest slice, KAEM keeps it fast (single forward pass). Annealing
+                    only runs during training, and parallelises across temperatures instead of paying a
                     sequential cost every generation.
                 </p>
                 <p>
-                    Experimentation is also large. A standardised representation with strong
-                    inductive bias reduces the architecture search/tuning.
+                    Experimentation is also large. A standardised representation with stronger
+                    inductive bias reduces the architecture search/tuning and reliance on guessing.
                 </p>
                 <div class="gif-single">
                     <img
@@ -137,10 +136,10 @@
                 <h3>Interpretable</h3>
                 <p>
                     The prior is a product of 1D densities since the Kolmogorov-Arnold
-                    Representation Theorem provides the basis. You can plot and see them, modes and
+                    Representation Theorem provides the basis. You can plot and interpret them, modes and
                     tails are easily visible. Contrastive divergence shapes them to the data,
                     following the empirical Bayes philosophy. SLERP traversals on the latent have a
-                    meaning you can read off the plot.
+                    meaning you can read straight off the plot.
                 </p>
                 <div class="gif-single">
                     <img
@@ -169,7 +168,7 @@
                     With the correct priors and biases, posterior expectations can be estimated with
                     importance sampling. No large, amortised encoder. Just a sample-based estimator
                     with no parameters of its own. Plus, generation/inference is a fast,
-                    single-pass, exact inverse transform on uniform noise. No MCMC at inference.
+                    single-pass, exact inverse transform on uniform noise. No iteration at inference.
                 </p>
                 <p>
                     The univariate 1D priors are easy to plot and understand. A domain expert
@@ -210,7 +209,7 @@
                 </ol>
                 <p>
                     We use effectively unbiased estimators by applying linear regression across
-                    sample sizes 2000 to 20,000 in steps of 2000 extrapolates to N=&infin; (
+                    sample sizes {2000, 4000, ..., 20,000} to extrapolate to N=&infin; (
                     <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
                         arXiv 1911.07023
                     </a>
@@ -218,7 +217,7 @@
                     <sub>&infin;</sub>
                     and KID
                     <sub>&infin;</sub>
-                    , which are what you'd find with infinite samples.
+                    , which are unbiased estimators of FID/KID at infinite samples.
                 </p>
 
                 <div class="bench">
