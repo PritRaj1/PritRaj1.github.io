@@ -122,7 +122,7 @@
                     Experimentation is also large. A standardised representation with strong
                     inductive bias reduces the architecture search/tuning.
                 </p>
-                <div class="gif-single wide">
+                <div class="gif-single">
                     <img
                         src="images/02b_sampling_time_only.png"
                         alt="Sampling time: KAEM vs VAE, neural latent EBM, and DDPM across latent dimensions"
@@ -175,7 +175,7 @@
                     The univariate 1D priors are easy to plot and understand. A domain expert
                     without a computational-statistics background can read them.
                 </p>
-                <div class="gif-single wide">
+                <div class="gif-single">
                     <img
                         src="images/01b_training_time_only_importance.png"
                         alt="Training time per step (KAEM with importance sampling) versus VAE, Neural Latent EBM, and DDPM across latent dimensions 21 to 101"
@@ -196,8 +196,15 @@
                         distributions.
                     </li>
                     <li>
-                        FID&#8345; is finite-sample biased:
-                        <code class="math">E[FID&#8345;] &ne; FID&infin;</code>
+                        FID
+                        <sub>N</sub>
+                        is finite-sample biased:
+                        <code class="math">
+                            E[FID
+                            <sub>N</sub>
+                            ] &ne; FID
+                            <sub>&infin;</sub>
+                        </code>
                         , so fixed N is unreliable.
                     </li>
                 </ol>
@@ -207,12 +214,19 @@
                     <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
                         arXiv 1911.07023
                     </a>
-                    ). This gives FID&infin; and KID&infin, which are what you'd find with infinite
-                    samples.
+                    ). This gives FID
+                    <sub>&infin;</sub>
+                    and KID
+                    <sub>&infin;</sub>
+                    , which are what you'd find with infinite samples.
                 </p>
 
                 <div class="bench">
-                    <div class="bench-title">SVHN &mdash; FID&infin; (lower is better)</div>
+                    <div class="bench-title">
+                        SVHN &mdash; FID
+                        <sub>&infin;</sub>
+                        (lower is better)
+                    </div>
                     <div class="bench-row best">
                         <span class="bench-label">KAEM (MLE)</span>
                         <div class="bench-bar-track">
@@ -251,7 +265,11 @@
                 </div>
 
                 <div class="bench">
-                    <div class="bench-title">CIFAR10 &mdash; FID&infin; (lower is better)</div>
+                    <div class="bench-title">
+                        CIFAR10 &mdash; FID
+                        <sub>&infin;</sub>
+                        (lower is better)
+                    </div>
                     <div class="bench-row best">
                         <span class="bench-label">KAEM (MLE)</span>
                         <div class="bench-bar-track">
@@ -290,7 +308,11 @@
                 </div>
 
                 <div class="bench">
-                    <div class="bench-title">CelebA &mdash; FID&infin; (lower is better)</div>
+                    <div class="bench-title">
+                        CelebA &mdash; FID
+                        <sub>&infin;</sub>
+                        (lower is better)
+                    </div>
                     <div class="bench-row">
                         <span class="bench-label">KAEM (MLE)</span>
                         <div class="bench-bar-track">
@@ -330,7 +352,11 @@
 
                 <p class="bench-note">
                     Best marked among latent-prior models. DDPM shown as a pixel-space reference at
-                    ~700x slower inference. KID&infin; tracks FID&infin;; full table in the paper.
+                    ~700x slower inference. KID
+                    <sub>&infin;</sub>
+                    tracks FID
+                    <sub>&infin;</sub>
+                    ; full table in the paper.
                 </p>
 
                 <p>
