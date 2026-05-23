@@ -41,11 +41,37 @@
                 representations across images, language, and scientific data?
             </p>
             <ol class="requirements">
-                <li><span>standardised</span></li>
-                <li><span>sustainable</span></li>
-                <li><span>interpretable</span></li>
-                <li><span>informed</span></li>
-                <li><span>accessible</span></li>
+                <li>
+                    <span class="name">standardised</span>
+                    <span class="why">methodologies must corroborate, no guessing</span>
+                </li>
+                <li>
+                    <span class="name">sustainable</span>
+                    <span class="why">
+                        the scientific method is iterative - repeated across RNGs, datasets,
+                        settings, optimisation dynamics, scales, architectures
+                    </span>
+                </li>
+                <li>
+                    <span class="name">interpretable</span>
+                    <span class="why">
+                        predictions at the edge of human knowledge must be verifiable and understood
+                    </span>
+                </li>
+                <li>
+                    <span class="name">informed</span>
+                    <span class="why">
+                        centuries worth of human knowledge shouldn't be discarded, plus STEM data is
+                        from sensors, lab setups, and physical surrogates
+                    </span>
+                </li>
+                <li>
+                    <span class="name">accessible</span>
+                    <span class="why">
+                        knowledgeable and passionate people from many different backgrounds will use
+                        AI
+                    </span>
+                </li>
             </ol>
 
             <div class="requirement-section">
@@ -110,9 +136,11 @@
             <div class="requirement-section">
                 <h3>Interpretable</h3>
                 <p>
-                    The prior is a product of 1D densities. You can plot them. Modes and tails are
-                    easily visible. SLERP traversals on the latent have a meaning you can read off
-                    the plot.
+                    The prior is a product of 1D densities since the Kolmogorov-Arnold
+                    Representation Theorem provides the basis. You can plot and see them, modes and
+                    tails are easily visible. Contrastive divergence shapes them to the data,
+                    following the empirical Bayes philosophy. SLERP traversals on the latent have a
+                    meaning you can read off the plot.
                 </p>
                 <div class="gif-single">
                     <img
@@ -131,7 +159,7 @@
                     <li>the generator architecture</li>
                     <li>the choice of univariate basis functions</li>
                 </ul>
-                <p>Pick the ones that match the domain, KAEM's architecture enables you.</p>
+                <p>Pick the ones that match the domain, KAEM's architecture enables this.</p>
             </div>
 
             <div class="requirement-section">
@@ -160,13 +188,20 @@
             </div>
 
             <div class="benchmarks-section">
-                <h3>Benchmarks</h3>
+                <h3>Metrics</h3>
+                <p>FID and KID are biased in two ways:</p>
+                <ol>
+                    <li>
+                        InceptionV3 is trained on ImageNet, so scores favour ImageNet-like
+                        distributions.
+                    </li>
+                    <li>
+                        FID&#8345; is finite-sample biased:
+                        <code class="math">E[FID&#8345;] &ne; FID&infin;</code>
+                        , so fixed N is unreliable.
+                    </li>
+                </ol>
                 <p>
-                    FID and KID are biased in two ways. 1. InceptionV3 is trained on ImageNet, so
-                    the score favours ImageNet-like distributions. Extrapolation can't fix this. 2.
-                    FID&#8345; is finite-sample biased:
-                    <code class="math">E[FID&#8345;] &ne; FID&infin;</code>
-                    , and the bias depends on the generator, so fixed-N comparisons are unreliable.
                     We use effectively unbiased estimators by applying linear regression across
                     sample sizes 2000 to 20,000 in steps of 2000 extrapolates to N=&infin; (
                     <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
@@ -301,8 +336,8 @@
                 <p>
                     KAEM (MLE) wins SVHN and CIFAR10. On CelebA the annealed variant takes over:
                     <span class="accent">KAEM (Thermo) beats MLE</span>
-                    at 108.0 vs 126.9, consistent with the premise that parallel tempering
-                    pays off on multimodal posterior manifolds.
+                    at 108.0 vs 126.9, consistent with the premise that parallel tempering pays off
+                    on multimodal posterior manifolds.
                 </p>
             </div>
         </div>
