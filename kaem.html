@@ -167,8 +167,8 @@
                 <p>
                     With the correct priors and biases, posterior expectations can be estimated with
                     importance sampling. No large, amortised encoder. Just a sample-based estimator
-                    with no parameters of its own. Plus, generation/inference is a fast,
-                    single-pass, exact inverse transform on uniform noise. No iteration at
+                    with no parameters of its own. Plus, generation/inference is a fast
+                     inverse transform on uniform noise. No iteration at
                     inference.
                 </p>
                 <p>
@@ -468,11 +468,11 @@
                             )
                         </span>
                         <p class="def-body">
-                            Open, layered compiler IR. Keeps IR high-level (immutable SSA tensors)
+                            Open and modular compiler IR. Keeps IR high-level (immutable SSA tensors)
                             for as long as possible so linear-algebra and fusion optimisations work
                             on the maths itself. Only bufferises to mutable memrefs when needed for
                             memory planning and affine-dialect's (pseudo-polyhedral) loop transforms
-                            before lowering to hardware. Retargettable across hardware as vendors
+                            before lowering to hardware. MLIR is retargettable across hardware as vendors
                             can simply plug in at the lowest level and reuse the other levels that
                             they need.
                         </p>
@@ -533,11 +533,11 @@
                     <li>
                         the score
                         <code class="math">&nabla;log&thinsp;&pi;</code>
-                        is computed by Enzyme autodiff at each Langevin step, inside the same kernel
+                        computed by Enzyme autodiff at each Langevin step, inside the same kernel
                     </li>
                     <li>
                         <code class="math">&part;loss/&part;&theta;</code>
-                        found by Enzyme on the outer step, with MCMC samples detached as constants
+                        by Enzyme on the outer step, with MCMC samples detached as constants
                     </li>
                     <li>the same compiled program retargets to any MLIR-backed accelerator</li>
                 </ol>
