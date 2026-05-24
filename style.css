@@ -465,13 +465,14 @@ h1 {
     font-weight: 400;
 }
 
-.project-header .repo-link {
+.repo-link {
     font-family: var(--font-mono);
     font-size: 0.78rem;
     color: var(--text-muted);
+    transition: color 0.2s;
 }
 
-.project-header .repo-link:hover {
+.repo-link:hover {
     color: var(--accent-bright);
 }
 
@@ -581,20 +582,118 @@ h1 {
     margin-bottom: 16px;
 }
 
+.benchmarks-section .project-header {
+    margin: 0 0 16px;
+}
+
+.benchmarks-section .project-header h3 {
+    margin-bottom: 0;
+}
+
 .benchmarks-section p {
     margin-bottom: 12px;
     max-width: var(--max-text-width);
 }
 
+.benchmarks-section ul,
 .benchmarks-section ol {
     margin: 4px 0 16px 28px;
     max-width: var(--max-text-width);
     color: var(--text);
 }
 
+.benchmarks-section ul li,
 .benchmarks-section ol li {
     margin-bottom: 8px;
     padding-left: 6px;
+}
+
+/* Definition cards (FID/KID, MLIR/XLA) - stacked vertically, each full-width */
+.def-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 18px 0 24px;
+    max-width: var(--max-text-width);
+}
+
+.def-card {
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-dim);
+    border-radius: 6px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 14px;
+    row-gap: 10px;
+    align-items: baseline;
+    transition:
+        border-color 0.2s,
+        background 0.2s;
+}
+
+.def-card:hover {
+    background: #181816;
+    border-color: var(--accent-dim);
+    border-left-color: var(--accent-bright);
+}
+
+.def-name {
+    grid-column: 1;
+    grid-row: 1;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.3px;
+}
+
+.def-expand {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+}
+
+.def-body {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 0.93rem;
+    color: var(--text);
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* Implementation stack callout */
+.stack-block {
+    margin: 18px 0 28px;
+    padding: 14px 18px;
+    background: var(--bg-bubble-alt);
+    border-left: 3px solid var(--accent-dim);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    max-width: var(--max-text-width);
+}
+
+.stack-row {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 18px;
+    padding: 5px 0;
+    align-items: baseline;
+}
+
+.stack-name {
+    color: var(--accent);
+}
+
+.stack-why {
+    color: var(--text-soft);
 }
 
 /* Benchmark bar charts */

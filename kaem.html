@@ -78,8 +78,8 @@
                 <h3>Standardised</h3>
                 <p>
                     The Kolmogorov-Arnold Representation Theorem decomposes any continuous
-                    multivariate function into two finite sums of univariate ones. Finite.
-                    Deterministic. Definitive. Capable of representing anything!
+                    multivariate function into two finite sums of univariate ones. Deterministic.
+                    Definitive. Capable of representing anything!
                 </p>
                 <p>
                     That isn't readily applied to probabilistic modelling. KAEM gets there by
@@ -113,9 +113,9 @@
                     ).
                 </p>
                 <p>
-                    Inference is the largest slice, KAEM keeps it fast (single forward pass). Annealing
-                    only runs during training, and parallelises across temperatures instead of paying a
-                    sequential cost every generation.
+                    Inference is the largest slice, KAEM keeps it fast (single forward pass).
+                    Annealing only runs during training, and parallelises across temperatures
+                    instead of paying a sequential cost every generation.
                 </p>
                 <p>
                     Experimentation is also large. A standardised representation with stronger
@@ -136,10 +136,10 @@
                 <h3>Interpretable</h3>
                 <p>
                     The prior is a product of 1D densities since the Kolmogorov-Arnold
-                    Representation Theorem provides the basis. You can plot and interpret them, modes and
-                    tails are easily visible. Contrastive divergence shapes them to the data,
-                    following the empirical Bayes philosophy. SLERP traversals on the latent have a
-                    meaning you can read straight off the plot.
+                    Representation Theorem provides the basis. You can plot and interpret them,
+                    modes and tails are easily visible. Contrastive divergence shapes them to the
+                    data, following the empirical Bayes philosophy. SLERP traversals on the latent
+                    have a meaning you can read straight off the plot.
                 </p>
                 <div class="gif-single">
                     <img
@@ -168,7 +168,8 @@
                     With the correct priors and biases, posterior expectations can be estimated with
                     importance sampling. No large, amortised encoder. Just a sample-based estimator
                     with no parameters of its own. Plus, generation/inference is a fast,
-                    single-pass, exact inverse transform on uniform noise. No iteration at inference.
+                    single-pass, exact inverse transform on uniform noise. No iteration at
+                    inference.
                 </p>
                 <p>
                     The univariate 1D priors are easy to plot and understand. A domain expert
@@ -188,7 +189,51 @@
 
             <div class="benchmarks-section">
                 <h3>Metrics</h3>
-                <p>FID and KID are biased in two ways:</p>
+                <p>How do we quantify the perceptual quality of generated images?</p>
+                <p>
+                    It's not exact (and I don't trust it!), but the academic community has adopted
+                    the following approach: pass real and generated images through InceptionV3, then
+                    measure distance between the two datasets in InceptionV3's feature space. Two
+                    standard ways to compute that distance:
+                </p>
+
+                <div class="def-grid">
+                    <div class="def-card">
+                        <span class="def-name">FID</span>
+                        <span class="def-expand">
+                            Fréchet Inception Distance (
+                            <a
+                                href="https://arxiv.org/abs/1706.08500"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                arXiv 1706.08500
+                            </a>
+                            )
+                        </span>
+                        <p class="def-body">
+                            Models the two feature distributions as Gaussians, then finds the
+                            Fréchet distance.
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">KID</span>
+                        <span class="def-expand">
+                            Kernel Inception Distance (
+                            <a
+                                href="https://arxiv.org/abs/1801.01401"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                arXiv 1801.01401
+                            </a>
+                            )
+                        </span>
+                        <p class="def-body">Kernel-based, drops the Gaussian assumption.</p>
+                    </div>
+                </div>
+
+                <p>However, FID and KID are biased in two ways:</p>
                 <ol>
                     <li>
                         InceptionV3 is trained on ImageNet, so scores favour ImageNet-like
@@ -363,6 +408,157 @@
                     <span class="accent">KAEM (Thermo) beats MLE</span>
                     at 108.0 vs 126.9, consistent with the premise that parallel tempering pays off
                     on multimodal posterior manifolds.
+                </p>
+            </div>
+
+            <div class="benchmarks-section">
+                <div class="project-header">
+                    <h3>Implementation</h3>
+                    <a
+                        href="https://github.com/thezettascale/KAEM"
+                        target="_blank"
+                        rel="noopener"
+                        class="repo-link"
+                        aria-label="Source on GitHub"
+                    >
+                        github &#8599;
+                    </a>
+                </div>
+
+                <div class="stack-block">
+                    <div class="stack-row">
+                        <span class="stack-name">Julia</span>
+                        <span class="stack-why">native performance, no Python/C++ split</span>
+                    </div>
+                    <div class="stack-row">
+                        <span class="stack-name">Lux.jl</span>
+                        <span class="stack-why">
+                            pure functions -> full visibility to compiler optimisations
+                        </span>
+                    </div>
+
+                    <div class="stack-row">
+                        <span class="stack-name">Reactant.jl</span>
+                        <span class="stack-why">
+                            compiles Julia to MLIR, an open standard any hardware can target
+                        </span>
+                    </div>
+                    <div class="stack-row">
+                        <span class="stack-name">Enzyme.jl</span>
+                        <span class="stack-why">
+                            autodiff at MLIR level, after multiple levels of optimisations
+                        </span>
+                    </div>
+                </div>
+
+                <p>The compiler stack underneath:</p>
+
+                <div class="def-grid">
+                    <div class="def-card">
+                        <span class="def-name">MLIR</span>
+                        <span class="def-expand">
+                            Multi-Level Intermediate Representation (
+                            <a
+                                href="https://arxiv.org/abs/2002.11054"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                arXiv 2002.11054
+                            </a>
+                            )
+                        </span>
+                        <p class="def-body">
+                            Open, layered compiler IR. Keeps IR high-level (immutable SSA tensors)
+                            for as long as possible so linear-algebra and fusion optimisations work
+                            on the maths itself. Only bufferises to mutable memrefs when needed for
+                            memory planning and affine-dialect's (pseudo-polyhedral) loop transforms
+                            before lowering to hardware. Retargettable across hardware as vendors
+                            can simply plug in at the lowest level and reuse the other levels that
+                            they need.
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">XLA</span>
+                        <span class="def-expand">
+                            Accelerated Linear Algebra (
+                            <a href="https://openxla.org/xla" target="_blank" rel="noopener">
+                                openxla.org
+                            </a>
+                            )
+                        </span>
+                        <p class="def-body">
+                            Google's linear-algebra compiler, providing op fusion, memory-layout
+                            optimisation, multi-device scheduling. Targets CPU, GPU, TPU via MLIR.
+                        </p>
+                    </div>
+                </div>
+
+                <p>
+                    Reactant traces the entire training step (model, loss, sampler, optimiser) into
+                    one StableHLO program. XLA then runs whole-program optimisation:
+                </p>
+                <ul>
+                    <li>
+                        <span class="accent">kernel fusion</span>
+                        - small ops collapse into fewer and larger kernels, eliminating memory
+                        round-trips
+                    </li>
+                    <li>
+                        <span class="accent">
+                            dead-code and common-subexpression elimination (CSE)
+                        </span>
+                        across the whole program
+                    </li>
+                    <li>
+                        <span class="accent">memory-layout optimisation</span>
+                        matched to the compiled access pattern
+                    </li>
+                </ul>
+                <p>
+                    Enzyme generates the gradient program after these passes, so
+                    <span class="accent">
+                        the backward pass inherits every optimisation the forward pass earned.
+                    </span>
+                    PyTorch and JAX separate AD from arbitrary compilation. Reactant and Enzyme
+                    don't.
+                </p>
+
+                <p>How KAEM benefits:</p>
+                <ol>
+                    <li>
+                        the Langevin sampling chain is compiled as one kernel; the iterated 'state'
+                        (data and latent samples, noise, annealed temperatures, etc.) stays in fast
+                        memory across every step
+                    </li>
+                    <li>
+                        the score
+                        <code class="math">&nabla;log&thinsp;&pi;</code>
+                        is computed by Enzyme autodiff at each Langevin step, inside the same kernel
+                    </li>
+                    <li>
+                        <code class="math">&part;loss/&part;&theta;</code>
+                        found by Enzyme on the outer step, with MCMC samples detached as constants
+                    </li>
+                    <li>the same compiled program retargets to any MLIR-backed accelerator</li>
+                </ol>
+
+                <p>
+                    In PyTorch, each Langevin step would be interpreter overhead. In JAX, the
+                    sampler would be written as a
+                    <code class="math">lax.scan</code>
+                    with pure-functional state, (mutation not allowed), and the nested
+                    <code class="math">jax.grad</code>
+                    for finding the score composes with constraints.
+                </p>
+                <p>
+                    Reactant traces and optimises ordinary imperative Julia directly into MLIR. No
+                    special rewriting.
+                </p>
+
+                <p>
+                    <span class="accent">
+                        KAEM is as fast as the maths allows, on any hardware MLIR targets.
+                    </span>
                 </p>
             </div>
         </div>
