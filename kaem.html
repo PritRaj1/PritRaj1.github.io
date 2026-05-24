@@ -49,7 +49,7 @@
                     <span class="name">sustainable</span>
                     <span class="why">
                         the scientific method is iterative - repeated across RNGs, datasets,
-                        settings, optimisation dynamics, scales, architectures
+                        optimisation dynamics, scales, architectures
                     </span>
                 </li>
                 <li>
@@ -167,9 +167,8 @@
                 <p>
                     With the correct priors and biases, posterior expectations can be estimated with
                     importance sampling. No large, amortised encoder. Just a sample-based estimator
-                    with no parameters of its own. Plus, generation/inference is a fast
-                     inverse transform on uniform noise. No iteration at
-                    inference.
+                    with no parameters of its own. Plus, generation/inference is fast inverse
+                    transform on uniform noise. No iteration at inference.
                 </p>
                 <p>
                     The univariate 1D priors are easy to plot and understand. A domain expert
@@ -468,13 +467,13 @@
                             )
                         </span>
                         <p class="def-body">
-                            Open and modular compiler IR. Keeps IR high-level (immutable SSA tensors)
-                            for as long as possible so linear-algebra and fusion optimisations work
-                            on the maths itself. Only bufferises to mutable memrefs when needed for
-                            memory planning and affine-dialect's (pseudo-polyhedral) loop transforms
-                            before lowering to hardware. MLIR is retargettable across hardware as vendors
-                            can simply plug in at the lowest level and reuse the other levels that
-                            they need.
+                            Open and modular compiler IR. Keeps IR high-level (immutable SSA
+                            tensors) for as long as possible so linear-algebra + fusion
+                            optimisations work on the maths itself. Only bufferises to mutable
+                            memrefs when needed for memory planning and affine-dialect's
+                            (pseudo-polyhedral) transformations before lowering to hardware. MLIR is
+                            retargettable across hardware as vendors can plug in at the lowest level
+                            and reuse the other levels that they need.
                         </p>
                     </div>
                     <div class="def-card">
@@ -533,7 +532,7 @@
                     <li>
                         the score
                         <code class="math">&nabla;log&thinsp;&pi;</code>
-                        computed by Enzyme autodiff at each Langevin step, inside the same kernel
+                        is found by Enzyme autodiff at each Langevin step, inside the same kernel
                     </li>
                     <li>
                         <code class="math">&part;loss/&part;&theta;</code>
@@ -544,11 +543,13 @@
 
                 <p>
                     In PyTorch, each Langevin step would be interpreter overhead. In JAX, the
-                    sampler would be written as a
+                    sampler becomes a
                     <code class="math">lax.scan</code>
-                    with pure-functional state, (mutation not allowed), and the nested
-                    <code class="math">jax.grad</code>
-                    for finding the score composes with constraints.
+                    with pure-functional state. No mutation and manual
+                    <code class="math">stop_gradient</code>
+                    to detach MCMC samples from
+                    <code class="math">&part;loss/&part;&theta;</code>
+                    .
                 </p>
                 <p>
                     Reactant traces and optimises ordinary imperative Julia directly into MLIR. No
@@ -557,7 +558,7 @@
 
                 <p>
                     <span class="accent">
-                        KAEM is as fast as the maths allows, on any hardware MLIR targets.
+                        KAEM is as fast as the maths allows, on any hardware that MLIR targets.
                     </span>
                 </p>
             </div>
