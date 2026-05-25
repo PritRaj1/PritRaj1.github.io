@@ -910,6 +910,81 @@ h1 {
     margin: 16px 0 24px;
 }
 
+.basin-figure {
+    max-width: 480px;
+    margin: 16px auto;
+    display: block;
+}
+
+.basin-figure svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.ml-plot .ax,
+.basin-figure .ax {
+    stroke: var(--text-muted);
+    stroke-width: 1;
+    fill: none;
+}
+
+.ml-plot .ax-arr {
+    fill: var(--text-muted);
+}
+
+.ml-plot .ax-label,
+.basin-figure .ax-lbl {
+    fill: var(--text-soft);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.4px;
+}
+
+.ml-plot .pt {
+    fill: var(--accent);
+}
+
+.ml-plot .pt-name {
+    fill: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.ml-plot .pt-ex {
+    fill: var(--text-soft);
+    font-family: var(--font-mono);
+    font-size: 7px;
+}
+
+.basin-figure .dens-fill {
+    fill: var(--accent);
+    opacity: 0.12;
+}
+
+.basin-figure .dens-stroke {
+    fill: none;
+    stroke: var(--accent-dim);
+    stroke-width: 1.5;
+}
+
+.basin-figure .chain-path {
+    fill: none;
+    stroke: var(--accent-bright);
+    stroke-width: 1.3;
+    stroke-dasharray: 3 1.5;
+    stroke-linejoin: round;
+}
+
+.basin-figure .chain-dot {
+    fill: var(--accent-bright);
+}
+
+.basin-figure .chain-end {
+    fill: var(--accent);
+}
+
 .gif-row-2-1 {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
