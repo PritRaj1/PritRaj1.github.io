@@ -15,6 +15,22 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body)"
+        ></script>
     </head>
     <body>
         <div class="container">
@@ -83,9 +99,8 @@
                 </p>
                 <p>
                     That isn't readily applied to probabilistic modelling. KAEM gets there by
-                    recasting the inner functions
-                    <code class="math">&psi;_{q,p} : [0,1] &rarr; &#8477;</code>
-                    as Markov kernels: inverse CDFs acting on uniform noise on [0,1].
+                    recasting the inner functions \(\psi_{q,p} : [0,1] \to \mathbb{R}\) as Markov
+                    kernels: inverse CDFs acting on uniform noise on [0,1].
                 </p>
                 <p>
                     Inverse transform sampling becomes a measurable map from uniform noise into the
@@ -190,10 +205,10 @@
                 <h3>Metrics</h3>
                 <p>How do we quantify the perceptual quality of generated images?</p>
                 <p>
-                    It's not exact, but the academic community has adopted
-                    the following approach: pass real and generated images through InceptionV3, then
-                    measure distance between the two datasets in InceptionV3's feature space. Two
-                    standard ways to compute that distance:
+                    It's not exact, but the academic community has adopted the following approach:
+                    pass real and generated images through InceptionV3, then measure distance
+                    between the two datasets in InceptionV3's feature space. Two standard ways to
+                    compute that distance:
                 </p>
 
                 <div class="def-grid">
@@ -241,13 +256,7 @@
                     <li>
                         FID
                         <sub>N</sub>
-                        is finite-sample biased:
-                        <code class="math">
-                            E[FID
-                            <sub>N</sub>
-                            ] &ne; FID
-                            <sub>&infin;</sub>
-                        </code>
+                        is finite-sample biased: \(\mathbb{E}[\text{FID}_N] \neq \text{FID}_\infty\)
                         , so fixed N is unreliable.
                     </li>
                 </ol>
@@ -530,13 +539,12 @@
                         memory across every step
                     </li>
                     <li>
-                        the score
-                        <code class="math">&nabla;log&thinsp;&pi;</code>
-                        is found by Enzyme autodiff at each Langevin step, inside the same kernel
+                        the score \(\nabla \log \pi\) is found by Enzyme autodiff at each Langevin
+                        step, inside the same kernel
                     </li>
                     <li>
-                        <code class="math">&part;loss/&part;&theta;</code>
-                        by Enzyme on the outer step, with MCMC samples detached as constants
+                        \(\partial \mathcal{L} / \partial \theta\) by Enzyme on the outer step, with
+                        MCMC samples detached as constants
                     </li>
                     <li>the same compiled program retargets to any MLIR-backed accelerator</li>
                 </ol>
@@ -547,9 +555,7 @@
                     <code class="math">lax.scan</code>
                     with pure-functional state. No mutation and manual
                     <code class="math">stop_gradient</code>
-                    needed to detach MCMC samples from
-                    <code class="math">&part;loss/&part;&theta;</code>
-                    .
+                    needed to detach MCMC samples from \(\partial \mathcal{L} / \partial \theta\) .
                 </p>
                 <p>
                     Reactant traces and optimises ordinary imperative Julia directly into MLIR. No

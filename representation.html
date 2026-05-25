@@ -6,7 +6,7 @@
         <title>Representation first - Prithvi Raj</title>
         <meta
             name="description"
-            content="Attention encodes very little inductive bias. Bespoke models with stronger biases win when data is limited."
+            content="Self-attention is an integral kernel operator with no inductive bias. When data is limited or the problem is structured, an operator matched to that structure wins on parameters, generalisation, and explainability."
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +15,22 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body)"
+        ></script>
     </head>
     <body>
         <div class="container">
@@ -24,89 +40,474 @@
                 <img src="images/cat_right.png" alt="" class="cat active" aria-hidden="true" />
                 <img src="images/cat_right_mouth_open.png" alt="" class="cat" aria-hidden="true" />
                 <h2>Representation first</h2>
+                <p>Attention is all you need? HA!</p>
+            </div>
+
+            <div class="requirement-section">
+                <h3>An intro to scientific machine learning</h3>
                 <p>
-                    Attention encodes very little inductive bias. Its weights are entirely
-                    data-driven. Flexible when data is abundant, but
-                    fragile when samples are limited or relationships lie on a
-                    complex manifold.
+                    On an axes of big worldly problems, we have two resources at our disposal to
+                    model said problems: acquired human knowledge, and acquired data!
                 </p>
-                <p>Bespoke models with stronger inductive biases tend to be better on:</p>
+                <svg
+                    class="ml-plot"
+                    viewBox="0 0 280 200"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                    aria-label="2D map of knowledge versus data: F=ma top-left, scientific ML in the middle, LLMs low-right"
+                >
+                    <style>
+                        .ax {
+                            stroke: #7a7a7a;
+                            stroke-width: 1;
+                            fill: none;
+                        }
+                        .ax-arr {
+                            fill: #7a7a7a;
+                        }
+                        .ax-label {
+                            fill: #9a9a9a;
+                            font-family:
+                                ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                            font-size: 10px;
+                            letter-spacing: 0.4px;
+                        }
+                        .pt {
+                            fill: #d4a080;
+                        }
+                        .pt-name {
+                            fill: #d4a080;
+                            font-family:
+                                ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                            font-size: 9px;
+                            font-weight: 600;
+                        }
+                        .pt-ex {
+                            fill: #9a9a9a;
+                            font-family:
+                                ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                            font-size: 7px;
+                        }
+                    </style>
+                    <defs>
+                        <marker
+                            id="ml-arrow"
+                            viewBox="0 0 10 10"
+                            refX="9"
+                            refY="5"
+                            markerWidth="5"
+                            markerHeight="5"
+                            orient="auto"
+                        >
+                            <path d="M0,0 L10,5 L0,10 z" class="ax-arr" />
+                        </marker>
+                    </defs>
+
+                    <line
+                        x1="28"
+                        y1="175"
+                        x2="265"
+                        y2="175"
+                        class="ax"
+                        marker-end="url(#ml-arrow)"
+                    />
+                    <line x1="28" y1="175" x2="28" y2="12" class="ax" marker-end="url(#ml-arrow)" />
+
+                    <text x="146" y="193" text-anchor="middle" class="ax-label">data</text>
+                    <text
+                        x="12"
+                        y="95"
+                        text-anchor="middle"
+                        class="ax-label"
+                        transform="rotate(-90 12 95)"
+                    >
+                        knowledge
+                    </text>
+
+                    <circle cx="55" cy="32" r="3" class="pt" />
+                    <text x="62" y="35" class="pt-name">F = ma, Maxwell's eqs</text>
+                    <text x="62" y="48" class="pt-ex">closed-form, no data needed</text>
+
+                    <circle cx="138" cy="98" r="3" class="pt" />
+                    <text x="145" y="101" class="pt-name">scientific ML</text>
+                    <text x="145" y="114" class="pt-ex">fluids, materials,</text>
+                    <text x="145" y="126" class="pt-ex">drug discovery</text>
+
+                    <circle cx="232" cy="160" r="3" class="pt" />
+                    <text x="226" y="147" text-anchor="end" class="pt-name">
+                        LLMs, image models
+                    </text>
+                    <text x="226" y="159" text-anchor="end" class="pt-ex">
+                        internet-scale data, no priors
+                    </text>
+                </svg>
+
+                <div class="def-grid">
+                    <div class="def-card">
+                        <span class="def-name">top-left</span>
+                        <p class="def-body">
+                            \(F = ma\) predicts trajectories from initial conditions. Maxwell's
+                            equations are closed-form. Newtonian mechanics gets you to the Moon and
+                            back!
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">low-right</span>
+                        <p class="def-body">
+                            Pretrain on the internet, LLMs pick up natural language without anyone
+                            writing down the dynamics of grammar. In recent history, this has been
+                            the point of deep learning as an endeavour.
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">middle</span>
+                        <p class="def-body">
+                            The vast majority of scientific phenomena lives somewhere in the middle.
+                            Partial knowledge, partial data, (obtained via lab setups, physical
+                            surrogates, sensors, expensive sims, etc.). Embedding that partial
+                            knowledge into a neural network is scientific machine learning (
+                            <a
+                                href="https://arxiv.org/abs/1711.10561"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                arXiv 1711.10561
+                            </a>
+                            ).
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    And even when you have an abundance of data, (e.g. in something like the climate
+                    sciences), the complexity of the underlying manifold governing scientific
+                    phenomena is such that relationships aren't always discoverable from data-driven
+                    methods alone (
+                    <a href="https://arxiv.org/abs/2511.08860" target="_blank" rel="noopener">
+                        arXiv 2511.08860
+                    </a>
+                    ).
+                </p>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Neural Operators</h3>
+                <p>
+                    Neural networks map between fixed discretisations, \(\mathbb{R}^n \to
+                    \mathbb{R}^m\). Neural operators (
+                    <a href="https://arxiv.org/abs/2108.08481" target="_blank" rel="noopener">
+                        arXiv 2108.08481
+                    </a>
+                    ) map between
+                    <span class="accent">infinite-dimensional function spaces</span>
+                    : \[\mathcal{A}(D; \mathbb{R}^{d_a}) \to \mathcal{U}(D; \mathbb{R}^{d_u})\]
+                    Discretisation, \(D\), is a lossy sampling detail of the input function, (or
+                    equivalence class of functions). And trained at one resolution, neural operators
+                    can still generalise to others, (this is called zero-shot super-resolution, and
+                    it's not something attention can do).
+                </p>
+                <p>
+                    This is awesome given that the natural world is field-valued with multiple
+                    degrees of freedom at each point in space-time, (the domain of partial
+                    differential equations, PDEs). If you apply a time-varying strain \(\epsilon(x,
+                    t)\) to a viscoelastic composite, it won't respond with a pointwise stress value
+                    or vector. It responds with a stress field \(\sigma(x, t)\).
+                </p>
+                <p>
+                    Caveat: neural operators don't yet match the fidelity of numerical solvers (FEM,
+                    FVM, spectral methods, etc.) on most benchmarks. They trade accuracy for speed
+                    and discretisation invariance.
+                </p>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Integral Kernel Operator</h3>
+                <p>A neural-operator layer has the form</p>
+                \[ v_{t+1}(x) = \sigma\!\left(W v_t(x) + (\mathcal{K} v_t)(x) + b\right) \]
+                <p>where the integral kernel operator (IKO) is</p>
+                \[ (\mathcal{K} v_t)(x) = \int_D \kappa_\theta(x, y)\, v_t(y)\, dy. \]
+                <p>
+                    The IKO is the only nonlocal piece of the layer, capturing how different points
+                    in space-time relate to one another. Every architecture in the family is a
+                    choice of how to parametrise \(\kappa_\theta\) . For example:
+                </p>
+
+                <div class="def-grid">
+                    <div class="def-card">
+                        <span class="def-name">CNN</span>
+                        <span class="def-expand">
+                            translation-equivariant, compactly supported, weights shared across
+                            \(x\)
+                        </span>
+                        <p class="def-body">
+                            Kernel \(\kappa_\theta(x, y) = \kappa_\theta(x - y)\) with support on a
+                            small neighbourhood. Strong bias: locality and shift equivariance.
+                            \(O(k^d)\) parameters for a stencil of size \(k\) in \(d\) dimensions.
+                            But fails when the true kernel is global or anisotropic.
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">FNO</span>
+                        <span class="def-expand">
+                            Fourier Neural Operator (
+                            <a
+                                href="https://arxiv.org/abs/2010.08895"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                arXiv 2010.08895
+                            </a>
+                            )
+                        </span>
+                        <p class="def-body">
+                            Same translation-invariant kernel \(\kappa(x - y)\) , global support.
+                            The convolution theorem turns the integral into a pointwise
+                            multiplication in the spectral domain, (spectral convolution),
+                            \((\mathcal{K} v)(x) = \mathcal{F}^{-1}\!\left(R_\theta \cdot
+                            \mathcal{F}(v)\right)(x)\) , with learnable weights \(R_\theta\) on a
+                            finite set of modes. Bias: dynamics live in a low-frequency band, (holds
+                            for many smooth PDEs).
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">Attn</span>
+                        <span class="def-expand">
+                            entirely data-dependent, learned per pair, no sharing (
+                            <a
+                                href="https://arxiv.org/abs/2105.14995"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                arXiv 2105.14995
+                            </a>
+                            )
+                        </span>
+                        <p class="def-body">
+                            Kernel \(\kappa(x, y; v) = \mathrm{softmax}\!\left(q(v(x)) \cdot k(v(y))
+                            / \sqrt{d_k}\right)\) is itself a function of the input through learned
+                            projections \(q, k, V\) . All weights are learned from data at a
+                            specific discretisation, and they're not shared. It's uninformed about
+                            the problem and relies heavily on observational biases.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="requirement-section">
+                <h3>A bit of personal speculation</h3>
+                <p>
+                    Transformers and attention have sequence length dimension (temporal) and an
+                    embedding dimension (spatial). Almost like a discretised 2D field.
+                </p>
+                <p>
+                    And self-attention can be viewed as a specific application of the IKO at a
+                    specific discretisation, \((\mathcal{K} v)(x) = \int \kappa(x, y)\, v(y)\, dy\)
+                    , applied along the sequence axis. So the same operator learning maths applies
+                    to natural language and Transformers as it does below with viscoelastic
+                    materials, Darcy flows, and other PDE systems.
+                </p>
+                <p>
+                    Which raises a question that needs asking:
+                    <span class="accent">
+                        if the same framework fits viscoplastic mechanics, fluid flow, and natural
+                        language, is language itself a (very complicated) system of PDEs?
+                    </span>
+                </p>
+                <p>
+                    I strongly suspect yes, and there is likely a better representation for natural
+                    language somewhere out there in the void. Until we have it, attention is the
+                    best general-purpose substitute.
+                </p>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Where Attention fails</h3>
+                <p>
+                    If you know the family of PDEs your data comes from, a model with the correct
+                    inductive biases outperforms on:
+                </p>
                 <ul>
-                    <li>training efficiency</li>
-                    <li>generalisation</li>
-                    <li>explainability and discoverability</li>
-                    <li>accuracy and fit</li>
-                    <li>sample and data efficiency</li>
+                    <li>
+                        <span class="accent">parameter and data efficiency</span>
+                        - less storage and training required
+                    </li>
+                    <li>
+                        <span class="accent">generalisation</span>
+                        - encoded info (translation, time-reversal, conservation) holds beyond the
+                        training distribution
+                    </li>
+                    <li>
+                        <span class="accent">sharp gradients and boundary conditions</span>
+                        - Fourier modes for periodic flow, wavelets for shocks and edges, etc.
+                    </li>
+                    <li>
+                        <span class="accent">explainability and discoverability</span>
+                        - confident the model is able to discover the relationships you're targeting
+                    </li>
+                    <li>
+                        <span class="accent">cost</span>
+                        - FFT is \(O(N \log N)\), truncated graph kernel is \(O(N k)\), but
+                        Attention is \(O(N^2)\) in sequence length.
+                    </li>
                 </ul>
+            </div>
+
+            <div class="requirement-section">
+                <div class="project-header">
+                    <h3>1D three-phase viscoelastic composite</h3>
+                    <a
+                        href="https://github.com/PritRaj1/viscoplastic-sequence"
+                        target="_blank"
+                        rel="noopener"
+                        class="repo-link"
+                        aria-label="Viscoelastic Sequence on GitHub"
+                    >
+                        github &#8599;
+                    </a>
+                </div>
                 <p>
-                    Natural language almost certainly has a better representation too, probably a
-                    PDE system. That's a question worth asking.
+                    A 1D unit cell of a composite made from three materials, subject to a cyclic
+                    strain. Each phase has its own Young's modulus \(E(x)\) and viscosity \(v(x)\),
+                    so both are piecewise-constant across the three phases. The constitutive law
+                    below couples the stress field \(\sigma(x, t)\) to the strain field
+                    \(\epsilon(x, t)\) and the rate of displacement \(\partial u/\partial t\). Goal:
+                    models have to learn the operator \(\epsilon(\cdot, t) \to \sigma(\cdot, t)\)
+                    rolled forward in time. \[\sigma(x, t) = E(x)\, \epsilon(x, t) + v(x)\, \partial
+                    u(x, t) / \partial t\]
+                </p>
+                <div class="gif-row gif-row-pair" style="max-width: 560px">
+                    <div class="gif-item">
+                        <img
+                            src="images/Transformer_visco_prediction.gif"
+                            alt="Transformer prediction on viscoelastic stress field"
+                        />
+                        <div class="gif-label">
+                            Transformer. 4,209,205 params, purely data-driven
+                        </div>
+                    </div>
+                    <div class="gif-item">
+                        <img
+                            src="images/RNO_visco_prediction.gif"
+                            alt="RNO prediction on viscoelastic stress field"
+                        />
+                        <div class="gif-label">RNO. 52 params + PDE/time-series bias</div>
+                    </div>
+                </div>
+                <p>
+                    4,209,205 versus 52 parameters, an
+                    <span class="accent">80,946x ratio</span>
+                    . Same amount of data, same amount of tuning, both fit the data. The Recurrent
+                    Neural Operator wins by carrying two biases Attention has to learn:
+                </p>
+                <ol>
+                    <li>
+                        <span class="accent">PDE bias</span>
+                        - it's a neural operator!
+                    </li>
+                    <li>
+                        <span class="accent">time-series bias</span>
+                        - the same kernel/weights are reused every timestep, (Markov assumption).
+                        Attention has to otherwise learn this from the context/input sequence alone.
+                    </li>
+                </ol>
+            </div>
+
+            <div class="requirement-section">
+                <div class="project-header">
+                    <h3>2D Darcy flow on the unit box</h3>
+                    <a
+                        href="https://github.com/thezettascale/darcy-cnn"
+                        target="_blank"
+                        rel="noopener"
+                        class="repo-link"
+                        aria-label="Darcy Flow on GitHub"
+                    >
+                        github &#8599;
+                    </a>
+                </div>
+                <p>
+                    Fluid pressing through a porous medium, 2D on the unit box. The permeability
+                    \(a(x)\) is a heterogeneous random field, forcing \(f(x)\) is constant. The
+                    Darcy PDE below gives the pressure field \(u(x)\) for any permeability sample.
+                    Goal: models have to learn the operator \(a \to u\). No iterative PDE solver at
+                    inference time, just a single forward pass! People think AI is unsustainable,
+                    but these neural operators are a potential replacement to the slow, iterative
+                    solvers running on today's HPCs! \[-\nabla \cdot (a(x)\, \nabla u(x)) = f(x), \;
+                    x \in (0, 1)^2\]
+                </p>
+                <div class="gif-row-2-1">
+                    <div class="gif-item">
+                        <img
+                            src="images/MLP CNN_prediction.gif"
+                            alt="MLP + CNN prediction on Darcy flow"
+                        />
+                        <div class="gif-label">MLP + CNN. 5,982,121 params</div>
+                    </div>
+                    <div class="gif-item">
+                        <img
+                            src="images/KAN CNN_prediction.gif"
+                            alt="Wavelet KAN + CNN prediction on Darcy flow"
+                        />
+                        <div class="gif-label">wavKAN + CNN. 35,919 params + wavelet bias</div>
+                    </div>
+                    <div class="gif-item">
+                        <img
+                            src="images/MLP FNO_prediction.gif"
+                            alt="MLP + FNO prediction on Darcy flow"
+                        />
+                        <div class="gif-label">MLP + FNO. 4,667,665 params + spectral bias</div>
+                    </div>
+                </div>
+                <p>
+                    MLP + CNN at 6M is the bias-free baseline: locality only. MLP + FNO at 4.7M is
+                    the best fit. Its spectral prior on the IKO matches the elliptic PDE's smooth
+                    solution structure.
+                </p>
+                <p>
+                    wavKAN + CNN at 35,919 parameters,
+                    <span class="accent">166x smaller</span>
+                    than the baseline, gets close to FNO by parametrising the univariate activations
+                    as wavelets (
+                    <a href="https://arxiv.org/abs/2405.12832" target="_blank" rel="noopener">
+                        arXiv 2405.12832
+                    </a>
+                    ). Wavelets are local in both space and frequency, so they resolve features in
+                    permeability without spreading them across many modes. Slightly worse fit than
+                    FNO, much better params-per-fidelity ratio.
+                </p>
+            </div>
+            <div class="requirement-section">
+                <h3>So is attention bad?</h3>
+                <p>
+                    Not in the slightest! Attention is highly data-parallel and versatile. It's
+                    matmul-heavy and scales on existing hardware. The recurrent neural operator is
+                    sequential due to its recurrence relationship.
+                </p>
+                <p>
+                    With abundant data and unknown structure, more compute is better than more
+                    research into bespoke architectures, especially when they're difficult to
+                    parallelise.
+                </p>
+                <p>
+                    <span class="accent">
+                        You want to be greedy with your hardware usage, not your time spent.
+                    </span>
+                </p>
+                <p>
+                    However, there's a difference between scaling a system and understanding one.
+                    I'd rather embed the secrets of natural language, the dynamics of protein
+                    folding, and the geometry of intelligence into a model than start from scratch
+                    and arrive at a worse understanding.
                 </p>
             </div>
 
-            <div class="project-header">
-                <h3>Darcy Flow</h3>
-                <a
-                    href="https://github.com/thezettascale/darcy-cnn"
-                    target="_blank"
-                    rel="noopener"
-                    class="repo-link"
-                    aria-label="Darcy Flow on GitHub"
-                >
-                    github &#8599;
-                </a>
-            </div>
-            <div class="gif-row">
-                <div class="gif-item">
-                    <img
-                        src="images/MLP CNN_prediction.gif"
-                        alt="MLP + CNN prediction on Darcy flow"
-                    />
-                    <div class="gif-label">MLP + CNN. 5,982,121 params</div>
-                </div>
-                <div class="gif-item">
-                    <img
-                        src="images/KAN CNN_prediction.gif"
-                        alt="KAN + CNN prediction on Darcy flow"
-                    />
-                    <div class="gif-label">KAN + CNN. 35,919 params + wavelet bias</div>
-                </div>
-                <div class="gif-item">
-                    <img
-                        src="images/MLP FNO_prediction.gif"
-                        alt="MLP + FNO prediction on Darcy flow"
-                    />
-                    <div class="gif-label">MLP + FNO. 4,667,665 params + PDE bias</div>
-                </div>
-            </div>
-
-            <div class="project-header">
-                <h3>Viscoplastic Materials</h3>
-                <a
-                    href="https://github.com/PritRaj1/visocplastic-sequence"
-                    target="_blank"
-                    rel="noopener"
-                    class="repo-link"
-                    aria-label="Viscoplastic Materials on GitHub"
-                >
-                    github &#8599;
-                </a>
-            </div>
-            <div class="gif-row gif-row-pair">
-                <div class="gif-item">
-                    <img
-                        src="images/Transformer_visco_prediction.gif"
-                        alt="Transformer prediction on viscoplastic stress field"
-                    />
-                    <div class="gif-label">Transformer. 4,209,205 parameters</div>
-                </div>
-                <div class="gif-item">
-                    <img
-                        src="images/RNO_visco_prediction.gif"
-                        alt="RNO prediction on viscoplastic stress field"
-                    />
-                    <div class="gif-label">RNO. 52 parameters + PDE/time-series bias</div>
-                </div>
+            <div class="requirement-section">
+                <p>
+                    We can't always increase the amount of data we have, but we can almost always
+                    increase the amount of knowledge we have using data-driven means. This is moving
+                    up the y-axis in that first figure, commonly referred to as
+                    <span class="accent">scientific discovery</span>
+                </p>
+                <p class="sanskrit-close">असतो मा सद्गमय</p>
             </div>
         </div>
         <script src="cats.js"></script>
