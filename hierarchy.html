@@ -302,7 +302,7 @@
                     <line x1="143" y1="100" x2="143" y2="150" class="edge" stroke-dasharray="2 2" />
                     <text x="170" y="128" text-anchor="start" class="note">shared weights</text>
                 </svg>
-                <p class="gif-label" style="text-align: center; margin: 4px auto 14px">
+                <p class="gif-label svg-caption">
                     JEPA: both encoders share \(\phi\). The predictor lives entirely in latent
                     space, no decoder.
                 </p>
@@ -416,7 +416,7 @@
                     <circle cx="124" cy="150" r="3.5" class="past-dot" />
                     <circle cx="204" cy="150" r="3.5" class="past-dot" />
                 </svg>
-                <p class="gif-label" style="text-align: center; margin: 4px auto 14px">
+                <p class="gif-label svg-caption">
                     Receding horizon with \(H = 3\). At each step the controller plans \(H\) steps
                     ahead (dashed), executes only the first, then shifts the window and replans from
                     the new state.
@@ -575,16 +575,7 @@
                     <text x="540" y="200" text-anchor="end" class="box-sub">time</text>
                     <text x="40" y="20" text-anchor="middle" class="box-sub">V_us</text>
 
-                    <line
-                        x1="40"
-                        y1="110"
-                        x2="540"
-                        y2="110"
-                        stroke="#d4a080"
-                        stroke-width="1.1"
-                        stroke-dasharray="4 3"
-                        fill="none"
-                    />
+                    <line x1="40" y1="110" x2="540" y2="110" class="threshold" />
                     <text x="510" y="102" text-anchor="start" class="latent-label">V_us*</text>
 
                     <polyline
@@ -605,7 +596,7 @@
 
                     <text x="488" y="40" text-anchor="middle" class="latent-label">burst</text>
                 </svg>
-                <p class="gif-label" style="text-align: center; margin: 4px auto 14px">
+                <p class="gif-label svg-caption">
                     Each spike kicks \(V_{us}\) up by \(\Delta_{us}\). After a few spikes \(V_{us}\)
                     crosses \(V_{us}^{\star}\) and the fast subsystem silences. With \(V\) at rest,
                     \(V_{us}\) decays back, crosses \(V_{us}^{\star}\) the other way, and the next
@@ -719,10 +710,7 @@
                     <line x1="535" y1="155" x2="705" y2="155" class="time-axis" />
                     <text x="620" y="172" text-anchor="middle" class="axis-label">time</text>
                 </svg>
-                <p
-                    class="gif-label"
-                    style="text-align: center; max-width: 680px; margin: 0 auto 18px"
-                >
+                <p class="gif-label svg-caption">
                     Stance windows per leg, time along x. Front-left (FL) and front-right (FR) are
                     warm, back-left (BL) and back-right (BR) cool. Same four units, different
                     inhibition adjacency.

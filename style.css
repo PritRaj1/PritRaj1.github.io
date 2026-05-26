@@ -514,6 +514,10 @@ h1 {
     margin-top: 8px;
 }
 
+.gif-label.svg-caption {
+    margin: 4px auto 18px;
+}
+
 .gif-row-pair {
     max-width: 700px;
     margin: 16px auto 8px;
@@ -1077,27 +1081,23 @@ h1 {
 
 .gait-figure .burst {
     fill: var(--accent);
-    opacity: 0.85;
+    opacity: 0.92;
 }
 
 .gait-figure .burst-fl {
     fill: #f0a070;
-    opacity: 0.92;
 }
 
 .gait-figure .burst-fr {
     fill: #f0d070;
-    opacity: 0.92;
 }
 
 .gait-figure .burst-bl {
     fill: #6fb0c8;
-    opacity: 0.92;
 }
 
 .gait-figure .burst-br {
     fill: #d090b0;
-    opacity: 0.92;
 }
 
 .gait-figure .time-axis {
@@ -1202,6 +1202,13 @@ h1 {
 
 .flow-figure .plan-dot {
     fill: var(--accent-dim);
+}
+
+.flow-figure .threshold {
+    stroke: var(--accent);
+    stroke-width: 1.1;
+    stroke-dasharray: 4 3;
+    fill: none;
 }
 
 .limit-cycle-figure img {
