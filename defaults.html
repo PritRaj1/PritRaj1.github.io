@@ -33,414 +33,430 @@
         ></script>
     </head>
     <body>
+        <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
-            <a href="index.html" class="back-link">&larr; Prithvi Raj</a>
-
-            <div class="speaker-section">
-                <img src="images/cat_left.png" alt="" class="cat active" aria-hidden="true" />
-                <img src="images/cat_left_mouth_open.png" alt="" class="cat" aria-hidden="true" />
-                <h2>Question the default</h2>
-                <p>
-                    Energy-based models mix poorly on multimodal posteriors. The literature defaults
-                    to diffusion to address it.
-                    <span class="accent">I propose annealing instead!</span>
-                </p>
-            </div>
-
-            <div class="requirement-section">
-                <h3>Score matching</h3>
-                <p>
-                    Yang Song's
-                    <a href="https://yang-song.net/blog/2021/score/" target="_blank" rel="noopener">
-                        blog
-                    </a>
-                    is the best resource for this, and is one of the inspirations for my own
-                    website! I'll summarise briefly here, in the context of EBMs (
-                    <a href="https://arxiv.org/abs/2006.08205" target="_blank" rel="noopener">
-                        arXiv 2006.08205
-                    </a>
-                    ):
-                </p>
-                <p>
-                    For an EBM \(p_f(z) \propto \exp(f(z)) \), the score \(\nabla_z \log p_f(z) =
-                    \nabla_z f(z) \) is independent of the partition function, \(Z_f\), which is
-                    typically intractable and motivates much of genAI research. Score matching
-                    sidesteps having to compute it:
-                </p>
-                <p>
-                    \[ J_{\mathrm{SM}}(f) = \tfrac{1}{2}\, \mathbb{E}_{p_{\mathrm{data}}(z)}
-                    \!\left[\, \| \nabla_z \log p_f(z) - \nabla_z \log p_{\mathrm{data}}(z) \|^2
-                    \,\right] \]
-                </p>
-                <p>
-                    Integration by parts removes the data score (right-hand term), leaving an
-                    objective in \(f\) alone:
-                </p>
-                <p>
-                    \[ J_{\mathrm{SM}}(f) = \mathbb{E}_{p_{\mathrm{data}}(z)} \!\left[\,
-                    \tfrac{1}{2} \| \nabla_z \log p_f(z) \|^2 + \mathrm{tr}\!\left(\nabla_z^2 \log
-                    p_f(z)\right) \,\right] \]
-                </p>
-                <p>
-                    The Hessian trace \(\mathrm{tr}(\nabla_z^2 \log p_f(z))\) is the new pain:
-                    \(O(d^2)\) directly, \(O(d)\) with the Hutchinson estimator at the cost of
-                    variance. Denoising score matching skips it entirely by perturbing data with a
-                    Gaussian kernel \(q(\tilde z \mid z) = \mathcal{N}(\tilde z;\, z,\, \sigma^2
-                    I)\).
-                </p>
-                <p>
-                    Stack a discrete sequence of noise scales \(\sigma_1 &lt; \cdots &lt; \sigma_L\)
-                    and train a score net conditioned on \(\sigma\) (
-                    <a href="https://arxiv.org/abs/1907.05600" target="_blank" rel="noopener">
-                        arXiv 1907.05600
-                    </a>
-                    ), or parametrise as a discrete Markov chain \(z_0 \to z_1 \to \cdots \to z_T\),
-                    and you get DDPM (
-                    <a href="https://arxiv.org/abs/2006.11239" target="_blank" rel="noopener">
-                        arXiv 2006.11239
-                    </a>
-                    ). Both are discretisations of stochastic differential equations (
-                    <a href="https://arxiv.org/abs/2011.13456" target="_blank" rel="noopener">
-                        arXiv 2011.13456
-                    </a>
-                    ), i.e., in the continuum limit, \(T \to \infty \), we get the
-                    variance-preserving (VP) SDE for score-based models:
-                </p>
-                <p>\[ dz_t = -\tfrac{1}{2}\beta(t)\, z_t\, dt + \sqrt{\beta(t)}\, dW_t, \]</p>
-                <p>
-                    where \(W_t\) is standard Brownian motion in \(\mathbb{R}^d\). The diffusion
-                    coefficient \(\sqrt{\beta(t)}\) is a
-                    <span class="accent">scalar</span>
-                    , so the noise covariance is \(\beta(t) I\). Equal variance in every direction,
-                    no preferred axis. This is what makes the SDE isotropic, and what makes it
-                    destroy structure: rotational symmetry erases any anisotropy in \(p_f(z)\). Run
-                    it long enough and the marginal converges to \(\mathcal{N}(0, I)\). The score
-                    network learns to reverse the process, but the prior you started with is
-                    completely gone!
-                </p>
-            </div>
-
-            <div class="requirement-section">
-                <h3>Diffusion as the literature's EBM mixing fix</h3>
-                <p>
-                    In latent EBMs, \(p_{f,\Phi}(z \mid x) \propto p_\Phi(x \mid z)\, p_f(z)\) is
-                    typically sampled by Langevin Monte Carlo, which moves in the gradient direction
-                    of \(\log p_{f,\Phi}(z \mid x)\). It therefore fails on multimodal
-                    distributions, (the default case in genAI), since it gets trapped in local modes
-                    as it climbs:
-                </p>
-                <div class="basin-figure">
-                    <svg
-                        viewBox="0 0 320 165"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-label="Single Langevin chain trapped in one mode of a multimodal posterior"
-                    >
-                        <path
-                            class="dens-fill"
-                            d="M 20 130 C 35 130, 55 80, 70 70 C 85 80, 105 110, 115 110 C 130 110, 155 35, 170 30 C 185 35, 210 100, 220 100 C 235 100, 250 60, 255 55 C 265 60, 290 130, 305 130 L 20 130 Z"
-                        />
-                        <path
-                            class="dens-stroke"
-                            d="M 20 130 C 35 130, 55 80, 70 70 C 85 80, 105 110, 115 110 C 130 110, 155 35, 170 30 C 185 35, 210 100, 220 100 C 235 100, 250 60, 255 55 C 265 60, 290 130, 305 130"
-                        />
-
-                        <line x1="20" y1="130" x2="305" y2="130" class="ax" />
-
-                        <polyline
-                            class="chain-path"
-                            points="30,128 40,110 50,92 60,78 66,72 70,70 72,71 68,71 71,70"
-                        />
-                        <circle cx="30" cy="128" r="2" class="chain-dot" />
-                        <circle cx="40" cy="110" r="2" class="chain-dot" />
-                        <circle cx="50" cy="92" r="2" class="chain-dot" />
-                        <circle cx="60" cy="78" r="2" class="chain-dot" />
-                        <circle cx="66" cy="72" r="2" class="chain-dot" />
-                        <circle cx="70" cy="70" r="2" class="chain-dot" />
-                        <circle cx="72" cy="71" r="2" class="chain-dot" />
-                        <circle cx="68" cy="71" r="2" class="chain-dot" />
-                        <circle cx="71" cy="70" r="2.5" class="chain-end" />
-
-                        <text x="162" y="158" text-anchor="middle" class="ax-lbl">z</text>
-                    </svg>
-                    <div class="gif-label">
-                        A single Langevin chain on a trimodal posterior. Hill-climbing traps it at
-                        nearest local maximum.
-                    </div>
+            <nav aria-label="Breadcrumb">
+                <a href="index.html" class="back-link">&larr; Back</a>
+            </nav>
+            <main id="main">
+                <div class="featured">
+                    <h1>Question the default</h1>
+                    <p>
+                        Energy-based models mix poorly on multimodal posteriors. The literature
+                        defaults to diffusion to address it.
+                        <span class="accent">I propose annealing instead!</span>
+                    </p>
                 </div>
-                <p>
-                    Prior work (
-                    <a href="https://arxiv.org/abs/2405.13910" target="_blank" rel="noopener">
-                        arXiv 2405.13910
-                    </a>
-                    ,
-                    <a href="https://arxiv.org/abs/2304.10707" target="_blank" rel="noopener">
-                        arXiv 2304.10707
-                    </a>
-                    ) addresses this "poor mixing" by replacing the single-shot prior with a
-                    hierarchy of diffusion-assisted EBMs, denoised step by step.
-                </p>
-                <p>
-                    It works really well, but the cost is that generation is no longer single-pass
-                    and you've decomposed the prior into a chain of conditional models. At inference
-                    you walk back through them sequentially and the prior structure is now spread
-                    across denoising steps. Not something that's easy to interpret.
-                </p>
-            </div>
 
-            <div class="requirement-section">
-                <h3>Thermodynamic integration (KAEM's method)</h3>
-                <p>
-                    This is the method I proposed for
-                    <a href="kaem.html">KAEM</a>
-                    . A power posterior interpolates between prior and posterior across \(t \in [0,
-                    1]\):
-                </p>
-                <p>
-                    \[ p_{f,\Phi}(z \mid x, t) = \frac{p_\Phi(x \mid z)^t\, p_f(z)}{Z_t}, \qquad Z_t
-                    = \mathbb{E}_{p_f(z)}\!\left[ p_\Phi(x \mid z)^t \right]. \]
-                </p>
-                <p>
-                    \(t = 0\) is the prior, \(t = 1\) is the posterior. In between, the likelihood
-                    gets raised to a fractional power, flattening the posterior into something
-                    easier for Langevin to mix on. A Gaussian prior smoothly sculpts into a bimodal
-                    target as \(t\) increases:
-                </p>
-                <div class="gif-single wide" style="max-width: 640px">
-                    <img
-                        src="images/power_posterior.png"
-                        alt="Power posterior densities at t = 0, 0.33, 0.67, 1.00 showing Gaussian prior sculpting into bimodal posterior"
-                    />
-                    <div class="gif-label">
-                        Power posterior \(p_{f,\Phi}(z \mid x, t)\) at \(t = 0, 0.33, 0.67, 1.00\).
-                        Gaussian prior at \(t = 0\) sculpted into a bimodal posterior at \(t = 1\).
-                    </div>
+                <div class="section-major">
+                    <h3>Score matching</h3>
+                    <p>
+                        Yang Song's
+                        <a
+                            href="https://yang-song.net/blog/2021/score/"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            blog
+                        </a>
+                        is the best resource for this, and is one of the inspirations for my own
+                        website! I'll summarise briefly here, in the context of EBMs (
+                        <a href="https://arxiv.org/abs/2006.08205" target="_blank" rel="noopener">
+                            arXiv 2006.08205
+                        </a>
+                        ):
+                    </p>
+                    <p>
+                        For an EBM \(p_f(z) \propto \exp(f(z)) \), the score \(\nabla_z \log p_f(z)
+                        = \nabla_z f(z) \) is independent of the partition function, \(Z_f\), which
+                        is typically intractable and motivates much of genAI research. Score
+                        matching sidesteps having to compute it:
+                    </p>
+                    <p>
+                        \[ J_{\mathrm{SM}}(f) = \tfrac{1}{2}\, \mathbb{E}_{p_{\mathrm{data}}(z)}
+                        \!\left[\, \| \nabla_z \log p_f(z) - \nabla_z \log p_{\mathrm{data}}(z) \|^2
+                        \,\right] \]
+                    </p>
+                    <p>
+                        Integration by parts removes the data score (right-hand term), leaving an
+                        objective in \(f\) alone:
+                    </p>
+                    <p>
+                        \[ J_{\mathrm{SM}}(f) = \mathbb{E}_{p_{\mathrm{data}}(z)} \!\left[\,
+                        \tfrac{1}{2} \| \nabla_z \log p_f(z) \|^2 + \mathrm{tr}\!\left(\nabla_z^2
+                        \log p_f(z)\right) \,\right] \]
+                    </p>
+                    <p>
+                        The Hessian trace \(\mathrm{tr}(\nabla_z^2 \log p_f(z))\) is the new pain:
+                        \(O(d^2)\) directly, \(O(d)\) with the Hutchinson estimator at the cost of
+                        variance. Denoising score matching skips it entirely by perturbing data with
+                        a Gaussian kernel \(q(\tilde z \mid z) = \mathcal{N}(\tilde z;\, z,\,
+                        \sigma^2 I)\).
+                    </p>
+                    <p>
+                        Stack a discrete sequence of noise scales \(\sigma_1 &lt; \cdots &lt;
+                        \sigma_L\) and train a score net conditioned on \(\sigma\) (
+                        <a href="https://arxiv.org/abs/1907.05600" target="_blank" rel="noopener">
+                            arXiv 1907.05600
+                        </a>
+                        ), or parametrise as a discrete Markov chain \(z_0 \to z_1 \to \cdots \to
+                        z_T\), and you get DDPM (
+                        <a href="https://arxiv.org/abs/2006.11239" target="_blank" rel="noopener">
+                            arXiv 2006.11239
+                        </a>
+                        ). Both are discretisations of stochastic differential equations (
+                        <a href="https://arxiv.org/abs/2011.13456" target="_blank" rel="noopener">
+                            arXiv 2011.13456
+                        </a>
+                        ), i.e., in the continuum limit, \(T \to \infty \), we get the
+                        variance-preserving (VP) SDE for score-based models:
+                    </p>
+                    <p>\[ dz_t = -\tfrac{1}{2}\beta(t)\, z_t\, dt + \sqrt{\beta(t)}\, dW_t, \]</p>
+                    <p>
+                        where \(W_t\) is standard Brownian motion in \(\mathbb{R}^d\). The diffusion
+                        coefficient \(\sqrt{\beta(t)}\) is a
+                        <span class="accent">scalar</span>
+                        , so the noise covariance is \(\beta(t) I\). Equal variance in every
+                        direction, no preferred axis. This is what makes the SDE isotropic, and what
+                        makes it destroy structure: rotational symmetry erases any anisotropy in
+                        \(p_f(z)\). Run it long enough and the marginal converges to
+                        \(\mathcal{N}(0, I)\). The score network learns to reverse the process, but
+                        the prior you started with is completely gone!
+                    </p>
                 </div>
-                <p>
-                    The trick is in \(\log Z_t\). Differentiate it in \(t\), using the chain rule on
-                    \(p_\Phi(x \mid z)^t\):
-                </p>
-                <p>
-                    \[ \frac{\partial}{\partial t} \log Z_t \;=\; \frac{1}{Z_t}
-                    \frac{\partial}{\partial t} Z_t \;=\; \frac{1}{Z_t}\, \mathbb{E}_{p_f(z)}\!
-                    \left[ \log p_\Phi(x \mid z)\, p_\Phi(x \mid z)^t \right]. \]
-                </p>
-                <p>
-                    The \(p_\Phi(x \mid z)^t / Z_t\) factor is exactly the power posterior
-                    \(p_{f,\Phi}(z \mid x, t)\), so the prior-weighted expectation collapses into a
-                    power-posterior-weighted one:
-                </p>
-                <p>
-                    \[ \frac{\partial}{\partial t} \log Z_t = \mathbb{E}_{p_{f,\Phi}(z \mid x, t)}
-                    \!\left[ \log p_\Phi(x \mid z) \right]. \]
-                </p>
-                <p>Integrate both sides from 0 to 1. The fundamental theorem of calculus gives:</p>
-                <p>
-                    \[ \log Z_1 - \log Z_0 = \int_0^1 \mathbb{E}_{p_{f,\Phi}(z \mid x, t)}\!\left[
-                    \log p_\Phi(x \mid z) \right] dt. \]
-                </p>
-                <p>The boundaries collapse:</p>
-                <ul>
-                    <li>
-                        At \(t = 0\): \(Z_0 = \mathbb{E}_{p_f(z)}[p_\Phi(x \mid z)^0] = 1\), so
-                        \(\log Z_0 = 0\).
-                    </li>
-                    <li>
-                        At \(t = 1\): \(Z_1 = \mathbb{E}_{p_f(z)}[p_\Phi(x \mid z)] =
-                        p_{f,\Phi}(x)\), so \(\log Z_1 = \log p_{f,\Phi}(x)\).
-                    </li>
-                </ul>
-                <p>The log-marginal likelihood is now a 1D integral:</p>
-                <p>
-                    \[ \log p_{f,\Phi}(x) = \int_0^1 \mathbb{E}_{p_{f,\Phi}(z \mid x, t)} \!\left[
-                    \log p_\Phi(x \mid z) \right] dt. \]
-                </p>
-                <p>
-                    A continuum of expectations replaces a single hard one. In return you get
-                    tractability on multimodal posterior sampling after we discretise the integral:
-                    high-\(t\) chains explore the global landscape, low-\(t\) chains resolve detail,
-                    Replica Exchange Monte Carlo enables swaps between them!
-                </p>
-            </div>
 
-            <div class="requirement-section">
-                <h3>Discretising the integral</h3>
-                <p>
-                    How do you do integration computationally? Well, think back to
-                    <span class="accent">schoolboy integration</span>
-                    , where you summed up areas under a curve! Discretise the temperature axis as
-                    \(\{t_0, t_1, \dots, t_{N_t}\} \subset [0, 1]\). Then trapezoidal rule:
-                </p>
-                <p>
-                    \[ \log p_{f,\Phi}(x) \approx \tfrac{1}{2} \sum_{k=1}^{N_t} \Delta t_k\,
-                    (E_{k-1} + E_k), \quad E_k = \mathbb{E}_{p_{f,\Phi}(z \mid x, t_k)}\!\left[ \log
-                    p_\Phi(x \mid z) \right], \]
-                </p>
-                <p>
-                    which has bias \(O(\Delta t_k^2)\). The schedule itself can be chosen using a
-                    power law:
-                </p>
-                <p>\[ t_k = \left( \frac{k}{N_t} \right)^p, \quad k = 0, 1, \dots, N_t. \]</p>
-                <ul>
-                    <li>
-                        \(p = 1\): uniform spacing, what you guys are all used to,
-                        <span class="accent">schoolboy integration!</span>
-                    </li>
-                    <li>
-                        \(p &gt; 1\): clusters \(t_k\) near 0, more resolution at the prior end.
-                    </li>
-                    <li>\(p &lt; 1\): the reverse.</li>
-                </ul>
-                <div class="gif-row gif-row-pair">
-                    <div class="gif-item">
-                        <img
-                            src="images/all_temperature_schedule.gif"
-                            alt="Temperature schedule t_k = (k/N_t)^p across varying p"
-                        />
+                <div class="requirement-section">
+                    <h3>Diffusion as the literature's EBM mixing fix</h3>
+                    <p>
+                        In latent EBMs, \(p_{f,\Phi}(z \mid x) \propto p_\Phi(x \mid z)\, p_f(z)\)
+                        is typically sampled by Langevin Monte Carlo, which moves in the gradient
+                        direction of \(\log p_{f,\Phi}(z \mid x)\). It therefore fails on multimodal
+                        distributions, (the default case in genAI), since it gets trapped in local
+                        modes as it climbs:
+                    </p>
+                    <div class="basin-figure">
+                        <svg
+                            viewBox="0 0 320 165"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            aria-label="Single Langevin chain trapped in one mode of a multimodal posterior"
+                        >
+                            <path
+                                class="dens-fill"
+                                d="M 20 130 C 35 130, 55 80, 70 70 C 85 80, 105 110, 115 110 C 130 110, 155 35, 170 30 C 185 35, 210 100, 220 100 C 235 100, 250 60, 255 55 C 265 60, 290 130, 305 130 L 20 130 Z"
+                            />
+                            <path
+                                class="dens-stroke"
+                                d="M 20 130 C 35 130, 55 80, 70 70 C 85 80, 105 110, 115 110 C 130 110, 155 35, 170 30 C 185 35, 210 100, 220 100 C 235 100, 250 60, 255 55 C 265 60, 290 130, 305 130"
+                            />
+
+                            <line x1="20" y1="130" x2="305" y2="130" class="ax" />
+
+                            <polyline
+                                class="chain-path"
+                                points="30,128 40,110 50,92 60,78 66,72 70,70 72,71 68,71 71,70"
+                            />
+                            <circle cx="30" cy="128" r="2" class="chain-dot" />
+                            <circle cx="40" cy="110" r="2" class="chain-dot" />
+                            <circle cx="50" cy="92" r="2" class="chain-dot" />
+                            <circle cx="60" cy="78" r="2" class="chain-dot" />
+                            <circle cx="66" cy="72" r="2" class="chain-dot" />
+                            <circle cx="70" cy="70" r="2" class="chain-dot" />
+                            <circle cx="72" cy="71" r="2" class="chain-dot" />
+                            <circle cx="68" cy="71" r="2" class="chain-dot" />
+                            <circle cx="71" cy="70" r="2.5" class="chain-end" />
+
+                            <text x="162" y="158" text-anchor="middle" class="ax-lbl">z</text>
+                        </svg>
                         <div class="gif-label">
-                            Power-law schedule \(t_k = (k/N_t)^p\) across \(p\)
+                            A single Langevin chain on a trimodal posterior. Hill-climbing traps it
+                            at nearest local maximum.
                         </div>
                     </div>
-                    <div class="gif-item">
+                    <p>
+                        Prior work (
+                        <a href="https://arxiv.org/abs/2405.13910" target="_blank" rel="noopener">
+                            arXiv 2405.13910
+                        </a>
+                        ,
+                        <a href="https://arxiv.org/abs/2304.10707" target="_blank" rel="noopener">
+                            arXiv 2304.10707
+                        </a>
+                        ) addresses this "poor mixing" by replacing the single-shot prior with a
+                        hierarchy of diffusion-assisted EBMs, denoised step by step.
+                    </p>
+                    <p>
+                        It works really well, but the cost is that generation is no longer
+                        single-pass and you've decomposed the prior into a chain of conditional
+                        models. At inference you walk back through them sequentially and the prior
+                        structure is now spread across denoising steps. Not something that's easy to
+                        interpret.
+                    </p>
+                </div>
+
+                <div class="section-major">
+                    <h3>Thermodynamic integration (KAEM's method)</h3>
+                    <p>
+                        This is the method I proposed for
+                        <a href="kaem.html">KAEM</a>
+                        . A power posterior interpolates between prior and posterior across \(t \in
+                        [0, 1]\):
+                    </p>
+                    <p>
+                        \[ p_{f,\Phi}(z \mid x, t) = \frac{p_\Phi(x \mid z)^t\, p_f(z)}{Z_t}, \qquad
+                        Z_t = \mathbb{E}_{p_f(z)}\!\left[ p_\Phi(x \mid z)^t \right]. \]
+                    </p>
+                    <p>
+                        \(t = 0\) is the prior, \(t = 1\) is the posterior. In between, the
+                        likelihood gets raised to a fractional power, flattening the posterior into
+                        something easier for Langevin to mix on. A Gaussian prior smoothly sculpts
+                        into a bimodal target as \(t\) increases:
+                    </p>
+                    <div class="gif-single wide" style="max-width: 640px">
                         <img
-                            src="images/all_integral.gif"
-                            alt="Discretised thermodynamic integral across varying p"
+                            src="images/power_posterior.png"
+                            alt="Power posterior densities at t = 0, 0.33, 0.67, 1.00 showing Gaussian prior sculpting into bimodal posterior"
                         />
                         <div class="gif-label">
-                            Trapezoidal bins to integrate some function, \(L(t)\).
+                            Power posterior \(p_{f,\Phi}(z \mid x, t)\) at \(t = 0, 0.33, 0.67,
+                            1.00\). Gaussian prior at \(t = 0\) sculpted into a bimodal posterior at
+                            \(t = 1\).
+                        </div>
+                    </div>
+                    <p>
+                        The trick is in \(\log Z_t\). Differentiate it in \(t\), using the chain
+                        rule on \(p_\Phi(x \mid z)^t\):
+                    </p>
+                    <p>
+                        \[ \frac{\partial}{\partial t} \log Z_t \;=\; \frac{1}{Z_t}
+                        \frac{\partial}{\partial t} Z_t \;=\; \frac{1}{Z_t}\, \mathbb{E}_{p_f(z)}\!
+                        \left[ \log p_\Phi(x \mid z)\, p_\Phi(x \mid z)^t \right]. \]
+                    </p>
+                    <p>
+                        The \(p_\Phi(x \mid z)^t / Z_t\) factor is exactly the power posterior
+                        \(p_{f,\Phi}(z \mid x, t)\), so the prior-weighted expectation collapses
+                        into a power-posterior-weighted one:
+                    </p>
+                    <p>
+                        \[ \frac{\partial}{\partial t} \log Z_t = \mathbb{E}_{p_{f,\Phi}(z \mid x,
+                        t)} \!\left[ \log p_\Phi(x \mid z) \right]. \]
+                    </p>
+                    <p>
+                        Integrate both sides from 0 to 1. The fundamental theorem of calculus gives:
+                    </p>
+                    <p>
+                        \[ \log Z_1 - \log Z_0 = \int_0^1 \mathbb{E}_{p_{f,\Phi}(z \mid x,
+                        t)}\!\left[ \log p_\Phi(x \mid z) \right] dt. \]
+                    </p>
+                    <p>The boundaries collapse:</p>
+                    <ul>
+                        <li>
+                            At \(t = 0\): \(Z_0 = \mathbb{E}_{p_f(z)}[p_\Phi(x \mid z)^0] = 1\), so
+                            \(\log Z_0 = 0\).
+                        </li>
+                        <li>
+                            At \(t = 1\): \(Z_1 = \mathbb{E}_{p_f(z)}[p_\Phi(x \mid z)] =
+                            p_{f,\Phi}(x)\), so \(\log Z_1 = \log p_{f,\Phi}(x)\).
+                        </li>
+                    </ul>
+                    <p>The log-marginal likelihood is now a 1D integral:</p>
+                    <p>
+                        \[ \log p_{f,\Phi}(x) = \int_0^1 \mathbb{E}_{p_{f,\Phi}(z \mid x, t)}
+                        \!\left[ \log p_\Phi(x \mid z) \right] dt. \]
+                    </p>
+                    <p>
+                        A continuum of expectations replaces a single hard one. In return you get
+                        tractability on multimodal posterior sampling after we discretise the
+                        integral: high-\(t\) chains explore the global landscape, low-\(t\) chains
+                        resolve detail, Replica Exchange Monte Carlo enables swaps between them!
+                    </p>
+                </div>
+
+                <div class="requirement-section">
+                    <h3>Discretising the integral</h3>
+                    <p>
+                        How do you do integration computationally? Well, think back to
+                        <span class="accent">schoolboy integration</span>
+                        , where you summed up areas under a curve! Discretise the temperature axis
+                        as \(\{t_0, t_1, \dots, t_{N_t}\} \subset [0, 1]\). Then trapezoidal rule:
+                    </p>
+                    <p>
+                        \[ \log p_{f,\Phi}(x) \approx \tfrac{1}{2} \sum_{k=1}^{N_t} \Delta t_k\,
+                        (E_{k-1} + E_k), \quad E_k = \mathbb{E}_{p_{f,\Phi}(z \mid x, t_k)}\!\left[
+                        \log p_\Phi(x \mid z) \right], \]
+                    </p>
+                    <p>
+                        which has bias \(O(\Delta t_k^2)\). The schedule itself can be chosen using
+                        a power law:
+                    </p>
+                    <p>\[ t_k = \left( \frac{k}{N_t} \right)^p, \quad k = 0, 1, \dots, N_t. \]</p>
+                    <ul>
+                        <li>
+                            \(p = 1\): uniform spacing, what you guys are all used to,
+                            <span class="accent">schoolboy integration!</span>
+                        </li>
+                        <li>
+                            \(p &gt; 1\): clusters \(t_k\) near 0, more resolution at the prior end.
+                        </li>
+                        <li>\(p &lt; 1\): the reverse.</li>
+                    </ul>
+                    <div class="gif-row gif-row-pair">
+                        <div class="gif-item">
+                            <img
+                                src="images/all_temperature_schedule.gif"
+                                alt="Temperature schedule t_k = (k/N_t)^p across varying p"
+                            />
+                            <div class="gif-label">
+                                Power-law schedule \(t_k = (k/N_t)^p\) across \(p\)
+                            </div>
+                        </div>
+                        <div class="gif-item">
+                            <img
+                                src="images/all_integral.gif"
+                                alt="Discretised thermodynamic integral across varying p"
+                            />
+                            <div class="gif-label">
+                                Trapezoidal bins to integrate some function, \(L(t)\).
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="requirement-section">
-                <h3>Choosing \(p\) for KAEM</h3>
-                <p>
+                <div class="requirement-section">
+                    <h3>Choosing \(p\) for KAEM</h3>
+                    <p>
+                        <a
+                            href="https://doi.org/10.1016/j.csda.2009.07.025"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Calderhead &amp; Girolami
+                        </a>
+                        derived an analytic optimal schedule for linear regression. KAEM is not
+                        linear regression, so the analytic result doesn't carry over. I anneal \(p\)
+                        during training instead, with a cosine schedule borrowed from cyclical KL
+                        annealing for VAEs (
+                        <a href="https://arxiv.org/abs/1903.10145" target="_blank" rel="noopener">
+                            arXiv 1903.10145
+                        </a>
+                        ):
+                    </p>
+                    <p>
+                        \[ p(i) = p_{\text{start}} + (p_{\text{end}} - p_{\text{start}}) \cdot
+                        \tfrac{1}{2}\!\left(1 - \cos\!\left(2\pi \left(N_{\text{cycles}} +
+                        \tfrac{1}{2}\right) \cdot \frac{i - 1}{N_{\text{updates}}}\right)\right), \]
+                    </p>
+                    <p>
+                        where \(i\) is the current parameter update. I set \(p_{\text{start}} = 2\),
+                        \(p_{\text{end}} = 0.5\), \(N_{\text{cycles}} = 0\) for a single monotonic
+                        transition from 2 to 0.5 over training:
+                    </p>
+                    <div class="gif-single" style="max-width: 520px">
+                        <img
+                            src="images/cyclic_annealing.png"
+                            alt="Cosine annealing schedule for p, from 2 to 0.5 over training"
+                        />
+                        <div class="gif-label">
+                            \(p\) annealed from \(p_{\text{start}} = 2\) to \(p_{\text{end}} = 0.5\)
+                            over training updates.
+                        </div>
+                    </div>
+                    <p>The logic is two-phase:</p>
+                    <ul>
+                        <li>
+                            <span class="accent">early training, \(p &gt; 1\).</span>
+                            Bins cluster near \(t = 0\). Chains spend more time on smoother power
+                            posteriors (closer to the prior), where global features emerge with
+                            small KL between adjacent temperatures.
+                        </li>
+                        <li>
+                            <span class="accent">late training, \(p &lt; 1\).</span>
+                            Bins shift toward \(t = 1\). Chains now spend more time near the true
+                            posterior, sharpening high-variance, data-informed detail.
+                        </li>
+                    </ul>
+                    <p>
+                        Coarse global features first, fine local detail last. Annealing the
+                        annealing itself XD
+                    </p>
+                </div>
+
+                <div class="section-major">
+                    <h3>Why thermo over diffusion for KAEM</h3>
+                    <ul>
+                        <li>
+                            <span class="accent">prior preserved</span>
+                            - KAEM's per-dimension 1D densities stay plottable and interpretable.
+                            Diffusion-assisted EBMs scatter the prior across denoising
+                        </li>
+                        <li>
+                            <span class="accent">training-only cost</span>
+                            - \(N_t\) chains run solely during training, generation is unchanged and
+                            remains a single forward pass. Diffusion pays its cost every generation
+                            and scales sequentially with \( N \) denoising steps
+                        </li>
+                        <li>
+                            <span class="accent">parallel in temperature</span>
+                            - power posteriors decouple and \(N_t\) chains run concurrently with
+                            deterministic even-odd swaps (
+                            <a
+                                href="https://arxiv.org/abs/1905.02939"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                arXiv 1905.02939
+                            </a>
+                            ). Compute scales with VRAM, not wall time. Remember from the
+                            <a href="representation.html">SciML page</a>
+                            :
+                            <span class="accent">
+                                You want to be greedy with your hardware usage, not with your time
+                                spent.
+                            </span>
+                        </li>
+                        <li>
+                            <span class="accent">no surrogate objective</span>
+                            - thermo targets \(\log p_{f,\Phi}(x)\) directly. Fisher divergence and
+                            DSM are different objects.
+                        </li>
+                    </ul>
+                    <p>
+                        All derivations, the steppingstone-estimator equivalence, and bias
+                        correction via KL between adjacent power posteriors can be found in greater
+                        detail in the paper (
+                        <a href="https://arxiv.org/abs/2506.14167" target="_blank" rel="noopener">
+                            arXiv 2506.14167
+                        </a>
+                        ).
+                    </p>
+                </div>
+
+                <div class="project-header">
+                    <h3>Parallel Tempering</h3>
                     <a
-                        href="https://doi.org/10.1016/j.csda.2009.07.025"
+                        href="https://github.com/PritRaj1/NonConvex-RUST"
                         target="_blank"
                         rel="noopener"
+                        class="repo-link"
+                        aria-label="Non-Convex Optimisation on GitHub"
                     >
-                        Calderhead &amp; Girolami
+                        github &#8599;
                     </a>
-                    derived an analytic optimal schedule for linear regression. KAEM is not linear
-                    regression, so the analytic result doesn't carry over. I anneal \(p\) during
-                    training instead, with a cosine schedule borrowed from cyclical KL annealing for
-                    VAEs (
-                    <a href="https://arxiv.org/abs/1903.10145" target="_blank" rel="noopener">
-                        arXiv 1903.10145
-                    </a>
-                    ):
-                </p>
-                <p>
-                    \[ p(i) = p_{\text{start}} + (p_{\text{end}} - p_{\text{start}}) \cdot
-                    \tfrac{1}{2}\!\left(1 - \cos\!\left(2\pi \left(N_{\text{cycles}} +
-                    \tfrac{1}{2}\right) \cdot \frac{i - 1}{N_{\text{updates}}}\right)\right), \]
-                </p>
-                <p>
-                    where \(i\) is the current parameter update. I set \(p_{\text{start}} = 2\),
-                    \(p_{\text{end}} = 0.5\), \(N_{\text{cycles}} = 0\) for a single monotonic
-                    transition from 2 to 0.5 over training:
-                </p>
-                <div class="gif-single" style="max-width: 520px">
+                </div>
+                <div class="gif-single wide">
                     <img
-                        src="images/cyclic_annealing.png"
-                        alt="Cosine annealing schedule for p, from 2 to 0.5 over training"
+                        src="images/pt_kbf.gif"
+                        alt="Parallel tempering exploring a non-convex energy landscape"
                     />
                     <div class="gif-label">
-                        \(p\) annealed from \(p_{\text{start}} = 2\) to \(p_{\text{end}} = 0.5\)
-                        over training updates.
+                        Annealing on a multimodal landscape. High-temperature chains hop basins,
+                        cold chains settle, swaps exchange samples.
                     </div>
                 </div>
-                <p>The logic is two-phase:</p>
-                <ul>
-                    <li>
-                        <span class="accent">early training, \(p &gt; 1\).</span>
-                        Bins cluster near \(t = 0\). Chains spend more time on smoother power
-                        posteriors (closer to the prior), where global features emerge with small KL
-                        between adjacent temperatures.
-                    </li>
-                    <li>
-                        <span class="accent">late training, \(p &lt; 1\).</span>
-                        Bins shift toward \(t = 1\). Chains now spend more time near the true
-                        posterior, sharpening high-variance, data-informed detail.
-                    </li>
-                </ul>
-                <p>
-                    Coarse global features first, fine local detail last. Annealing the annealing
-                    itself XD
-                </p>
-            </div>
-
-            <div class="requirement-section">
-                <h3>Why thermo over diffusion for KAEM</h3>
-                <ul>
-                    <li>
-                        <span class="accent">prior preserved</span>
-                        - KAEM's per-dimension 1D densities stay plottable and interpretable.
-                        Diffusion-assisted EBMs scatter the prior across denoising
-                    </li>
-                    <li>
-                        <span class="accent">training-only cost</span>
-                        - \(N_t\) chains run solely during training, generation is unchanged and
-                        remains a single forward pass. Diffusion pays its cost every generation and
-                        scales sequentially with \( N \) denoising steps
-                    </li>
-                    <li>
-                        <span class="accent">parallel in temperature</span>
-                        - power posteriors decouple and \(N_t\) chains run concurrently with
-                        deterministic even-odd swaps (
-                        <a href="https://arxiv.org/abs/1905.02939" target="_blank" rel="noopener">
-                            arXiv 1905.02939
-                        </a>
-                        ). Compute scales with VRAM, not wall time. Remember from the
-                        <a href="representation.html">SciML page</a>
-                        :
-                        <span class="accent">
-                            You want to be greedy with your hardware usage, not with your time
-                            spent.
-                        </span>
-                    </li>
-                    <li>
-                        <span class="accent">no surrogate objective</span>
-                        - thermo targets \(\log p_{f,\Phi}(x)\) directly. Fisher divergence and DSM
-                        are different objects.
-                    </li>
-                </ul>
-                <p>
-                    All derivations, the steppingstone-estimator equivalence, and bias correction
-                    via KL between adjacent power posteriors can be found in greater detail in the
-                    paper (
-                    <a href="https://arxiv.org/abs/2506.14167" target="_blank" rel="noopener">
-                        arXiv 2506.14167
-                    </a>
-                    ).
-                </p>
-            </div>
-
-            <div class="project-header">
-                <h3>Parallel Tempering</h3>
-                <a
-                    href="https://github.com/PritRaj1/NonConvex-RUST"
-                    target="_blank"
-                    rel="noopener"
-                    class="repo-link"
-                    aria-label="Non-Convex Optimisation on GitHub"
-                >
-                    github &#8599;
-                </a>
-            </div>
-            <div class="gif-single wide">
-                <img
-                    src="images/pt_kbf.gif"
-                    alt="Parallel tempering exploring a non-convex energy landscape"
-                />
-                <div class="gif-label">
-                    Annealing on a multimodal landscape. High-temperature chains hop basins, cold
-                    chains settle, swaps exchange samples.
-                </div>
-            </div>
+            </main>
+            <nav aria-label="Back to home">
+                <a href="index.html" class="back-link bottom">&larr; Back</a>
+            </nav>
         </div>
-        <script src="cats.js"></script>
     </body>
 </html>

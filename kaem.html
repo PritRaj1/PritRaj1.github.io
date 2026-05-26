@@ -33,542 +33,613 @@
         ></script>
     </head>
     <body>
+        <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
-            <a href="index.html" class="back-link">&larr; Prithvi Raj</a>
-
-            <div class="featured">
-                <h2>KAEM: Kolmogorov-Arnold Energy Model</h2>
-                <p>
-                    Generative models succumb to trade-offs. GANs sacrifice training stability, VAEs
-                    sample quality, diffusion inference speed. KAEM addresses all three.
-                </p>
-                <a
-                    href="https://arxiv.org/abs/2506.14167"
-                    target="_blank"
-                    rel="noopener"
-                    class="paper-link"
-                >
-                    Read the paper &rarr;
-                </a>
-            </div>
-
-            <p class="kaem-question">
-                What are the requirements for discovering the true, agreed-upon, standard
-                representations across images, language, and scientific data?
-            </p>
-            <ol class="requirements">
-                <li>
-                    <span class="name">standardised</span>
-                    <span class="why">methodologies must corroborate, no guessing</span>
-                </li>
-                <li>
-                    <span class="name">sustainable</span>
-                    <span class="why">
-                        the scientific method is iterative - repeated across RNGs, datasets,
-                        optimisation dynamics, scales, architectures
-                    </span>
-                </li>
-                <li>
-                    <span class="name">interpretable</span>
-                    <span class="why">
-                        predictions at the edge of human knowledge must be verifiable and understood
-                    </span>
-                </li>
-                <li>
-                    <span class="name">informed</span>
-                    <span class="why">
-                        centuries worth of human knowledge shouldn't be discarded, plus STEM data is
-                        from sensors, lab setups, and physical surrogates
-                    </span>
-                </li>
-                <li>
-                    <span class="name">accessible</span>
-                    <span class="why">
-                        knowledgeable and passionate people from many different backgrounds will use
-                        AI
-                    </span>
-                </li>
-            </ol>
-
-            <div class="requirement-section">
-                <h4 class="method-title">Standardised</h4>
-                <p>
-                    The Kolmogorov-Arnold Representation Theorem decomposes any continuous
-                    multivariate function into two finite sums of univariate ones. Deterministic.
-                    Definitive. Capable of representing anything!
-                </p>
-                <p>
-                    That isn't readily applied to probabilistic modelling. KAEM gets there by
-                    recasting the inner functions \(\psi_{q,p} : [0,1] \to \mathbb{R}\) as Markov
-                    kernels: inverse CDFs acting on uniform noise on [0,1].
-                </p>
-                <p>
-                    Inverse transform sampling becomes a measurable map from uniform noise into the
-                    target, so KART's deterministic structure is preserved and a probabilistic
-                    interpretation falls out without introducing stochasticity into the
-                    representation.
-                </p>
-                <p>
-                    The result is one skeleton across modalities. This is the
-                    <span class="accent">first application of deterministic representation</span>
-                    to generative modelling.
-                </p>
-            </div>
-
-            <div class="requirement-section">
-                <h4 class="method-title">Sustainable</h4>
-                <p>
-                    Wu et al. (2022) report a
-                    <span class="accent">30 : 29 : 41</span>
-                    lifecycle split for an industrial-scale language model, across data processing,
-                    experimentation/training, and inference (
-                    <a href="https://arxiv.org/abs/2111.00364" target="_blank" rel="noopener">
-                        arXiv 2111.00364
-                    </a>
-                    ).
-                </p>
-                <p>
-                    Inference is the largest slice, KAEM keeps it fast (single forward pass).
-                    <a href="defaults.html">Annealing</a>
-                    only runs during training, and parallelises across temperatures instead of
-                    paying a sequential cost every generation like diffusion.
-                </p>
-                <p>
-                    Experimentation is also large. A standardised representation with stronger
-                    inductive bias reduces the architecture search/tuning and reliance on guessing.
-                </p>
-                <div class="gif-single">
-                    <img
-                        src="images/02b_sampling_time_only.png"
-                        alt="Sampling time: KAEM vs VAE, neural latent EBM, and DDPM across latent dimensions"
-                    />
-                    <div class="gif-label">
-                        Sampling speed comparable to VAE, ~700x faster than DDPM
-                    </div>
-                </div>
-            </div>
-
-            <div class="requirement-section">
-                <h4 class="method-title">Interpretable</h4>
-                <p>
-                    The prior is a product of 1D densities since the Kolmogorov-Arnold
-                    Representation Theorem provides the basis. You can plot and interpret them,
-                    modes and tails are easily visible. Contrastive divergence shapes them to the
-                    data, following the empirical Bayes philosophy. SLERP traversals on the latent
-                    have a meaning you can read straight off the plot.
-                </p>
-                <div class="gif-single">
-                    <img
-                        src="images/slerp_1.png"
-                        alt="SLERP interpolation on CelebA with inspectable prior densities"
-                    />
-                    <div class="gif-label">SLERP interpolation with inspectable priors</div>
-                </div>
-            </div>
-
-            <div class="requirement-section">
-                <h4 class="method-title">Informed</h4>
-                <p>Three places to inject what you know about the problem:</p>
-                <ul>
-                    <li>the reference prior</li>
-                    <li>the generator architecture</li>
-                    <li>the choice of univariate basis functions</li>
-                </ul>
-                <p>Pick the ones that match the domain, KAEM's architecture enables this.</p>
-            </div>
-
-            <div class="requirement-section">
-                <h4 class="method-title">Accessible</h4>
-                <p>KAEM is a robust probabilistic model. It can run on laptops.</p>
-                <p>
-                    With the correct priors and biases, posterior expectations can be estimated with
-                    importance sampling. No large, amortised encoder. Just a sample-based estimator
-                    with no parameters of its own. Plus, generation/inference is fast inverse
-                    transform on uniform noise. No iteration at inference.
-                </p>
-                <p>
-                    The univariate 1D priors are easy to plot and understand. A domain expert
-                    without a computational-statistics background can read them.
-                </p>
-                <div class="gif-single">
-                    <img
-                        src="images/01b_training_time_only_importance.png"
-                        alt="Training time per step (KAEM with importance sampling) versus VAE, Neural Latent EBM, and DDPM across latent dimensions 21 to 101"
-                    />
-                    <div class="gif-label">
-                        Training time per step. KAEM at 4.6 ms beats VAE at 5.8 ms across latent
-                        dims.
-                    </div>
-                </div>
-            </div>
-
-            <div class="benchmarks-section">
-                <h3>Metrics</h3>
-                <p>How do we quantify the perceptual quality of generated images?</p>
-                <p>
-                    It's not exact, but the academic community has adopted the following approach:
-                    pass real and generated images through InceptionV3, then measure distance
-                    between the two datasets in InceptionV3's feature space. Two standard ways to
-                    compute that distance:
-                </p>
-
-                <div class="def-grid">
-                    <div class="def-card">
-                        <span class="def-name">FID</span>
-                        <span class="def-expand">
-                            Fréchet Inception Distance (
-                            <a
-                                href="https://arxiv.org/abs/1706.08500"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                arXiv 1706.08500
-                            </a>
-                            )
-                        </span>
-                        <p class="def-body">
-                            Models the two feature distributions as Gaussians, then finds the
-                            Fréchet distance.
-                        </p>
-                    </div>
-                    <div class="def-card">
-                        <span class="def-name">KID</span>
-                        <span class="def-expand">
-                            Kernel Inception Distance (
-                            <a
-                                href="https://arxiv.org/abs/1801.01401"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                arXiv 1801.01401
-                            </a>
-                            )
-                        </span>
-                        <p class="def-body">Kernel-based, drops the Gaussian assumption.</p>
-                    </div>
-                </div>
-
-                <p>However, FID and KID are biased in two ways:</p>
-                <ol>
-                    <li>
-                        InceptionV3 is trained on ImageNet, so scores favour ImageNet-like
-                        distributions.
-                    </li>
-                    <li>
-                        FID
-                        <sub>N</sub>
-                        is finite-sample biased: \(\mathbb{E}[\text{FID}_N] \neq \text{FID}_\infty\)
-                        , so fixed N is unreliable.
-                    </li>
-                </ol>
-                <p>
-                    We use effectively unbiased estimators by applying linear regression across
-                    sample sizes {2000, 4000, ..., 20,000} to extrapolate to N=&infin; (
-                    <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
-                        arXiv 1911.07023
-                    </a>
-                    ). This gives FID
-                    <sub>&infin;</sub>
-                    and KID
-                    <sub>&infin;</sub>
-                    , which are unbiased estimators of FID/KID at infinite samples.
-                </p>
-
-                <div class="bench">
-                    <div class="bench-title">
-                        SVHN &mdash; FID
-                        <sub>&infin;</sub>
-                        (lower is better)
-                    </div>
-                    <div class="bench-row best">
-                        <span class="bench-label">KAEM (MLE)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 23.4%"></div>
-                        </div>
-                        <span class="bench-value">63.9</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">KAEM (Thermo)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 39.8%"></div>
-                        </div>
-                        <span class="bench-value">108.7</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">VAE</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 33.6%"></div>
-                        </div>
-                        <span class="bench-value">91.7</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">Neural Latent EBM</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 100%"></div>
-                        </div>
-                        <span class="bench-value">272.9</span>
-                    </div>
-                    <div class="bench-row ref">
-                        <span class="bench-label">DDPM (ref.)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 24.2%"></div>
-                        </div>
-                        <span class="bench-value">66.0</span>
-                    </div>
-                </div>
-
-                <div class="bench">
-                    <div class="bench-title">
-                        CIFAR10 &mdash; FID
-                        <sub>&infin;</sub>
-                        (lower is better)
-                    </div>
-                    <div class="bench-row best">
-                        <span class="bench-label">KAEM (MLE)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 38.5%"></div>
-                        </div>
-                        <span class="bench-value">137.4</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">KAEM (Thermo)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 63.2%"></div>
-                        </div>
-                        <span class="bench-value">225.3</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">VAE</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 49.6%"></div>
-                        </div>
-                        <span class="bench-value">176.7</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">Neural Latent EBM</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 100%"></div>
-                        </div>
-                        <span class="bench-value">356.5</span>
-                    </div>
-                    <div class="bench-row ref">
-                        <span class="bench-label">DDPM (ref.)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 15%"></div>
-                        </div>
-                        <span class="bench-value">53.4</span>
-                    </div>
-                </div>
-
-                <div class="bench">
-                    <div class="bench-title">
-                        CelebA &mdash; FID
-                        <sub>&infin;</sub>
-                        (lower is better)
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">KAEM (MLE)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 47.6%"></div>
-                        </div>
-                        <span class="bench-value">126.9</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">KAEM (Thermo)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 40.5%"></div>
-                        </div>
-                        <span class="bench-value">108.0</span>
-                    </div>
-                    <div class="bench-row">
-                        <span class="bench-label">VAE</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 51.7%"></div>
-                        </div>
-                        <span class="bench-value">137.7</span>
-                    </div>
-                    <div class="bench-row best">
-                        <span class="bench-label">Neural Latent EBM</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 33.8%"></div>
-                        </div>
-                        <span class="bench-value">90.0</span>
-                    </div>
-                    <div class="bench-row ref">
-                        <span class="bench-label">DDPM (ref.)</span>
-                        <div class="bench-bar-track">
-                            <div class="bench-bar" style="--w: 100%"></div>
-                        </div>
-                        <span class="bench-value">266.5</span>
-                    </div>
-                </div>
-
-                <p class="bench-note">
-                    Best marked among latent-prior models. DDPM shown as a pixel-space reference at
-                    ~700x slower inference. KID
-                    <sub>&infin;</sub>
-                    tracks FID
-                    <sub>&infin;</sub>
-                    ; full table in the paper.
-                </p>
-
-                <p>
-                    KAEM (MLE) wins SVHN and CIFAR10. On CelebA the annealed variant takes over:
-                    <span class="accent">KAEM (Thermo) beats MLE</span>
-                    at 108.0 vs 126.9, consistent with the premise that parallel tempering pays off
-                    on multimodal posterior manifolds.
-                </p>
-            </div>
-
-            <div class="benchmarks-section">
-                <div class="project-header">
-                    <h3>Implementation</h3>
+            <nav aria-label="Breadcrumb">
+                <a href="index.html" class="back-link">&larr; Back</a>
+            </nav>
+            <main id="main">
+                <div class="featured">
+                    <h1>KAEM: Kolmogorov-Arnold Energy Model</h1>
+                    <p>
+                        Generative models succumb to trade-offs. GANs sacrifice training stability,
+                        VAEs sample quality, diffusion inference speed. KAEM addresses all three.
+                    </p>
                     <a
-                        href="https://github.com/thezettascale/KAEM"
+                        href="https://arxiv.org/abs/2506.14167"
                         target="_blank"
                         rel="noopener"
-                        class="repo-link"
-                        aria-label="Source on GitHub"
+                        class="paper-link"
                     >
-                        github &#8599;
+                        Read the paper &rarr;
                     </a>
                 </div>
 
-                <div class="stack-block">
-                    <div class="stack-row">
-                        <span class="stack-name">Julia</span>
-                        <span class="stack-why">native performance, no Python/C++ split</span>
-                    </div>
-                    <div class="stack-row">
-                        <span class="stack-name">Lux.jl</span>
-                        <span class="stack-why">
-                            pure functions -> full visibility to compiler optimisations
-                        </span>
-                    </div>
-
-                    <div class="stack-row">
-                        <span class="stack-name">Reactant.jl</span>
-                        <span class="stack-why">
-                            compiles Julia to MLIR, an open standard any hardware can target
-                        </span>
-                    </div>
-                    <div class="stack-row">
-                        <span class="stack-name">Enzyme.jl</span>
-                        <span class="stack-why">
-                            autodiff at MLIR level, after multiple levels of optimisations
-                        </span>
-                    </div>
-                </div>
-
-                <p>The compiler stack underneath:</p>
-
-                <div class="def-grid">
-                    <div class="def-card">
-                        <span class="def-name">MLIR</span>
-                        <span class="def-expand">
-                            Multi-Level Intermediate Representation (
-                            <a
-                                href="https://arxiv.org/abs/2002.11054"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                arXiv 2002.11054
-                            </a>
-                            )
-                        </span>
-                        <p class="def-body">
-                            Open and modular compiler IR. Keeps IR high-level (immutable SSA
-                            tensors) for as long as possible so linear-algebra + fusion
-                            optimisations work on the maths itself. Only bufferises to mutable
-                            memrefs when needed for memory planning and affine-dialect's
-                            (pseudo-polyhedral) transformations before lowering to hardware. MLIR is
-                            retargettable across hardware as vendors can plug in at the lowest level
-                            and reuse the other levels that they need.
-                        </p>
-                    </div>
-                    <div class="def-card">
-                        <span class="def-name">XLA</span>
-                        <span class="def-expand">
-                            Accelerated Linear Algebra (
-                            <a href="https://openxla.org/xla" target="_blank" rel="noopener">
-                                openxla.org
-                            </a>
-                            )
-                        </span>
-                        <p class="def-body">
-                            Google's linear-algebra compiler, providing op fusion, memory-layout
-                            optimisation, multi-device scheduling. Targets CPU, GPU, TPU via MLIR.
-                        </p>
-                    </div>
-                </div>
-
-                <p>
-                    Reactant traces the entire training step (model, loss, sampler, optimiser) into
-                    one StableHLO program. XLA then runs whole-program optimisation:
+                <p class="kaem-question">
+                    What are the requirements for discovering the true, agreed-upon, standard
+                    representations across images, language, and scientific data?
                 </p>
-                <ul>
+                <ol class="requirements">
                     <li>
-                        <span class="accent">kernel fusion</span>
-                        - small ops collapse into fewer and larger kernels, eliminating memory
-                        round-trips
+                        <span class="name">standardised</span>
+                        <span class="why">methodologies must corroborate, no guessing</span>
                     </li>
                     <li>
-                        <span class="accent">
-                            dead-code and common-subexpression elimination (CSE)
+                        <span class="name">sustainable</span>
+                        <span class="why">
+                            the scientific method is iterative - repeated across RNGs, datasets,
+                            optimisation dynamics, scales, architectures
                         </span>
-                        across the whole program
                     </li>
                     <li>
-                        <span class="accent">memory-layout optimisation</span>
-                        matched to the compiled access pattern
-                    </li>
-                </ul>
-                <p>
-                    Enzyme generates the gradient program after these passes, so
-                    <span class="accent">
-                        the backward pass inherits every optimisation the forward pass earned.
-                    </span>
-                    PyTorch and JAX separate AD from arbitrary compilation. Reactant and Enzyme
-                    don't.
-                </p>
-
-                <p>How KAEM benefits:</p>
-                <ol>
-                    <li>
-                        the Langevin sampling chain is compiled as one kernel; the iterated 'state'
-                        (data and latent samples, noise, annealed temperatures, etc.) stays in fast
-                        memory across every step
+                        <span class="name">interpretable</span>
+                        <span class="why">
+                            predictions at the edge of human knowledge must be verifiable and
+                            understood
+                        </span>
                     </li>
                     <li>
-                        the score \(\nabla \log \pi\) is found by Enzyme autodiff at each Langevin
-                        step, inside the same kernel
+                        <span class="name">informed</span>
+                        <span class="why">
+                            centuries worth of human knowledge shouldn't be discarded, plus STEM
+                            data is from sensors, lab setups, and physical surrogates
+                        </span>
                     </li>
                     <li>
-                        \(\partial \mathcal{L} / \partial \theta\) by Enzyme on the outer step, with
-                        MCMC samples detached as constants
+                        <span class="name">accessible</span>
+                        <span class="why">
+                            knowledgeable and passionate people from many different backgrounds will
+                            use AI
+                        </span>
                     </li>
-                    <li>the same compiled program retargets to any MLIR-backed accelerator</li>
                 </ol>
 
-                <p>
-                    In PyTorch, each Langevin step would be interpreter overhead. In JAX, the
-                    sampler becomes a
-                    <code class="math">lax.scan</code>
-                    with pure-functional state. No mutation and manual
-                    <code class="math">stop_gradient</code>
-                    needed to detach MCMC samples from \(\partial \mathcal{L} / \partial \theta\) .
-                </p>
-                <p>
-                    Reactant traces and optimises ordinary imperative Julia directly into MLIR. No
-                    special rewriting.
-                </p>
+                <div class="requirement-section">
+                    <h4 class="method-title">Standardised</h4>
+                    <p>
+                        The Kolmogorov-Arnold Representation Theorem decomposes any continuous
+                        multivariate function into two finite sums of univariate ones.
+                        Deterministic. Definitive. Capable of representing anything!
+                    </p>
+                    <p>
+                        That isn't readily applied to probabilistic modelling. KAEM gets there by
+                        recasting the inner functions \(\psi_{q,p} : [0,1] \to \mathbb{R}\) as
+                        Markov kernels: inverse CDFs acting on uniform noise on [0,1].
+                    </p>
+                    <p>
+                        Inverse transform sampling becomes a measurable map from uniform noise into
+                        the target, so KART's deterministic structure is preserved and a
+                        probabilistic interpretation falls out without introducing stochasticity
+                        into the representation.
+                    </p>
+                    <p>
+                        The result is one skeleton across modalities. This is the
+                        <span class="accent">
+                            first application of deterministic representation
+                        </span>
+                        to generative modelling.
+                    </p>
+                    <p>
+                        Disclosure: KART was strictly adhered to on simple datasets (MNIST, FMNIST),
+                        where a KAN generator with independent univariate priors worked well. On
+                        SVHN, CIFAR10, CelebA, I cheated :P
+                    </p>
+                    <p>
+                        Used a CNN decoder for spatial inductive bias and a mixture-of-univariate
+                        prior instead of the strict factorised form. The deterministic skeleton
+                        works, but the image numbers lean on CNN bias too, not KART alone (
+                        <a href="https://arxiv.org/abs/2506.14167" target="_blank" rel="noopener">
+                            see the paper
+                        </a>
+                        ).
+                    </p>
+                </div>
 
-                <p>
-                    <span class="accent">
-                        KAEM is as fast as the maths allows, on any hardware that MLIR targets.
-                    </span>
-                </p>
-            </div>
+                <div class="requirement-section">
+                    <h4 class="method-title">Sustainable</h4>
+                    <p>
+                        Wu et al. (2022) report a
+                        <span class="accent">30 : 29 : 41</span>
+                        lifecycle split for an industrial-scale language model, across data
+                        processing, experimentation/training, and inference (
+                        <a href="https://arxiv.org/abs/2111.00364" target="_blank" rel="noopener">
+                            arXiv 2111.00364
+                        </a>
+                        ).
+                    </p>
+                    <p>
+                        Inference is the largest slice, KAEM keeps it fast (single forward pass).
+                        <a href="defaults.html">Annealing</a>
+                        only runs during training, and parallelises across temperatures instead of
+                        paying a sequential cost every generation like diffusion.
+                    </p>
+                    <p>
+                        Experimentation is also large. A standardised representation with stronger
+                        inductive bias reduces the architecture search/tuning and reliance on
+                        guessing.
+                    </p>
+                    <div class="gif-single">
+                        <img
+                            src="images/02b_sampling_time_only.png"
+                            alt="Sampling time: KAEM vs VAE, neural latent EBM, and DDPM across latent dimensions"
+                        />
+                        <div class="gif-label">
+                            Sampling speed comparable to VAE, ~700x faster than DDPM
+                        </div>
+                    </div>
+                </div>
+
+                <div class="requirement-section">
+                    <h4 class="method-title">Interpretable</h4>
+                    <p>
+                        The prior is a product of 1D densities since the Kolmogorov-Arnold
+                        Representation Theorem provides the basis. You can plot and interpret them,
+                        modes and tails are easily visible. Contrastive divergence shapes them to
+                        the data, following the empirical Bayes philosophy. SLERP traversals on the
+                        latent have a meaning you can read straight off the plot.
+                    </p>
+                    <div class="gif-single">
+                        <img
+                            src="images/slerp_1.png"
+                            alt="SLERP interpolation on CelebA with inspectable prior densities"
+                        />
+                        <div class="gif-label">SLERP interpolation with inspectable priors</div>
+                    </div>
+                </div>
+
+                <div class="requirement-section">
+                    <h4 class="method-title">Informed</h4>
+                    <p>Three places to inject what you know about the problem:</p>
+                    <ul>
+                        <li>the reference prior</li>
+                        <li>the generator architecture</li>
+                        <li>the choice of univariate basis functions</li>
+                    </ul>
+                    <p>Pick the ones that match the domain, KAEM's architecture enables this.</p>
+                </div>
+
+                <div class="requirement-section">
+                    <h4 class="method-title">Accessible</h4>
+                    <p>KAEM is a robust probabilistic model. It can run on laptops.</p>
+                    <p>
+                        With the correct priors and biases, posterior expectations can be estimated
+                        with importance sampling. No large, amortised encoder. Just a sample-based
+                        estimator with no parameters of its own. Plus, generation/inference is fast
+                        inverse transform on uniform noise. No iteration at inference.
+                    </p>
+                    <p>
+                        The univariate 1D priors are easy to plot and understand. A domain expert
+                        without a computational-statistics background can read them.
+                    </p>
+                    <div class="gif-single">
+                        <img
+                            src="images/01b_training_time_only_importance.png"
+                            alt="Training time per step (KAEM with importance sampling) versus VAE, Neural Latent EBM, and DDPM across latent dimensions 21 to 101"
+                        />
+                        <div class="gif-label">
+                            Training time per step. KAEM at 4.6 ms beats VAE at 5.8 ms across latent
+                            dims.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-major">
+                    <h3>Metrics</h3>
+                    <p>How do we quantify the perceptual quality of generated images?</p>
+                    <p>
+                        It's not exact, but the academic community has adopted the following
+                        approach: pass real and generated images through InceptionV3, then measure
+                        distance between the two datasets in InceptionV3's feature space. Two
+                        standard ways to compute that distance:
+                    </p>
+
+                    <div class="def-grid">
+                        <div class="def-card">
+                            <span class="def-name">FID</span>
+                            <span class="def-expand">
+                                Fréchet Inception Distance (
+                                <a
+                                    href="https://arxiv.org/abs/1706.08500"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    arXiv 1706.08500
+                                </a>
+                                )
+                            </span>
+                            <p class="def-body">
+                                Models the two feature distributions as Gaussians, then finds the
+                                Fréchet distance.
+                            </p>
+                        </div>
+                        <div class="def-card">
+                            <span class="def-name">KID</span>
+                            <span class="def-expand">
+                                Kernel Inception Distance (
+                                <a
+                                    href="https://arxiv.org/abs/1801.01401"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    arXiv 1801.01401
+                                </a>
+                                )
+                            </span>
+                            <p class="def-body">Kernel-based, drops the Gaussian assumption.</p>
+                        </div>
+                    </div>
+
+                    <p>However, FID and KID are biased in two ways:</p>
+                    <ol>
+                        <li>
+                            InceptionV3 is trained on ImageNet, so scores favour ImageNet-like
+                            distributions.
+                        </li>
+                        <li>
+                            FID
+                            <sub>N</sub>
+                            is finite-sample biased: \(\mathbb{E}[\text{FID}_N] \neq
+                            \text{FID}_\infty\) , so fixed N is unreliable.
+                        </li>
+                    </ol>
+                    <p>
+                        We use effectively unbiased estimators by applying linear regression across
+                        sample sizes {2000, 4000, ..., 20,000} to extrapolate to N=&infin; (
+                        <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
+                            arXiv 1911.07023
+                        </a>
+                        ). This gives FID
+                        <sub>&infin;</sub>
+                        and KID
+                        <sub>&infin;</sub>
+                        , which are unbiased estimators of FID/KID at infinite samples.
+                    </p>
+
+                    <div class="bench">
+                        <div class="bench-title">
+                            SVHN &mdash; FID
+                            <sub>&infin;</sub>
+                            (lower is better)
+                        </div>
+                        <div class="bench-row best">
+                            <span class="bench-label">KAEM (MLE)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 23.4%"></div>
+                            </div>
+                            <span class="bench-value">63.9</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">KAEM (Thermo)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 39.8%"></div>
+                            </div>
+                            <span class="bench-value">108.7</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">VAE</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 33.6%"></div>
+                            </div>
+                            <span class="bench-value">91.7</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">Neural Latent EBM</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 100%"></div>
+                            </div>
+                            <span class="bench-value">272.9</span>
+                        </div>
+                        <div class="bench-row ref">
+                            <span class="bench-label">DDPM (ref.)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 24.2%"></div>
+                            </div>
+                            <span class="bench-value">66.0</span>
+                        </div>
+                    </div>
+
+                    <div class="bench">
+                        <div class="bench-title">
+                            CIFAR10 &mdash; FID
+                            <sub>&infin;</sub>
+                            (lower is better)
+                        </div>
+                        <div class="bench-row best">
+                            <span class="bench-label">KAEM (MLE)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 38.5%"></div>
+                            </div>
+                            <span class="bench-value">137.4</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">KAEM (Thermo)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 63.2%"></div>
+                            </div>
+                            <span class="bench-value">225.3</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">VAE</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 49.6%"></div>
+                            </div>
+                            <span class="bench-value">176.7</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">Neural Latent EBM</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 100%"></div>
+                            </div>
+                            <span class="bench-value">356.5</span>
+                        </div>
+                        <div class="bench-row ref">
+                            <span class="bench-label">DDPM (ref.)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 15%"></div>
+                            </div>
+                            <span class="bench-value">53.4</span>
+                        </div>
+                    </div>
+
+                    <div class="bench">
+                        <div class="bench-title">
+                            CelebA &mdash; FID
+                            <sub>&infin;</sub>
+                            (lower is better)
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">KAEM (MLE)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 47.6%"></div>
+                            </div>
+                            <span class="bench-value">126.9</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">KAEM (Thermo)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 40.5%"></div>
+                            </div>
+                            <span class="bench-value">108.0</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">VAE</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 51.7%"></div>
+                            </div>
+                            <span class="bench-value">137.7</span>
+                        </div>
+                        <div class="bench-row best">
+                            <span class="bench-label">Neural Latent EBM</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 33.8%"></div>
+                            </div>
+                            <span class="bench-value">90.0</span>
+                        </div>
+                        <div class="bench-row ref">
+                            <span class="bench-label">DDPM (ref.)</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 100%"></div>
+                            </div>
+                            <span class="bench-value">266.5</span>
+                        </div>
+                    </div>
+
+                    <p class="bench-note">
+                        All trained at matched param + compute budget, so these are like-for-like
+                        comparisons at small scale, not SOTA. Best marked among latent-prior models.
+                        DDPM is a pixel-space reference (also matched budget) at ~700x slower
+                        inference. KID
+                        <sub>&infin;</sub>
+                        tracks FID
+                        <sub>&infin;</sub>
+                        ; full table in the paper.
+                    </p>
+
+                    <p>
+                        KAEM (MLE) wins SVHN and CIFAR10. On CelebA the annealed variant takes over:
+                        <span class="accent">KAEM (Thermo) beats MLE</span>
+                        at 108.0 vs 126.9, consistent with the premise that parallel tempering pays
+                        off on multimodal posterior manifolds.
+                    </p>
+                </div>
+
+                <div class="section-major">
+                    <div class="project-header">
+                        <h3>Implementation</h3>
+                        <a
+                            href="https://github.com/thezettascale/KAEM"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="Source on GitHub"
+                        >
+                            github &#8599;
+                        </a>
+                    </div>
+
+                    <div class="stack-block">
+                        <div class="stack-row">
+                            <span class="stack-name">Julia</span>
+                            <span class="stack-why">native performance, no Python/C++ split</span>
+                        </div>
+                        <div class="stack-row">
+                            <span class="stack-name">Lux.jl</span>
+                            <span class="stack-why">
+                                pure functions -> full visibility to compiler optimisations
+                            </span>
+                        </div>
+
+                        <div class="stack-row">
+                            <span class="stack-name">Reactant.jl</span>
+                            <span class="stack-why">
+                                compiles Julia to MLIR, an open standard any hardware can target
+                            </span>
+                        </div>
+                        <div class="stack-row">
+                            <span class="stack-name">Enzyme.jl</span>
+                            <span class="stack-why">
+                                autodiff at MLIR level, after multiple levels of optimisations
+                            </span>
+                        </div>
+                    </div>
+
+                    <p>The compiler stack underneath:</p>
+
+                    <div class="def-grid">
+                        <div class="def-card">
+                            <span class="def-name">MLIR</span>
+                            <span class="def-expand">
+                                Multi-Level Intermediate Representation (
+                                <a
+                                    href="https://arxiv.org/abs/2002.11054"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    arXiv 2002.11054
+                                </a>
+                                )
+                            </span>
+                            <p class="def-body">
+                                Open and modular compiler IR. Keeps IR high-level (immutable SSA
+                                tensors) for as long as possible so linear-algebra + fusion
+                                optimisations work on the maths itself. Only bufferises to mutable
+                                memrefs when needed for memory planning and affine-dialect's
+                                (pseudo-polyhedral) transformations before lowering to hardware.
+                                MLIR is retargettable across hardware as vendors can plug in at the
+                                lowest level and reuse the other levels that they need.
+                            </p>
+                        </div>
+                        <div class="def-card">
+                            <span class="def-name">XLA</span>
+                            <span class="def-expand">
+                                Accelerated Linear Algebra (
+                                <a href="https://openxla.org/xla" target="_blank" rel="noopener">
+                                    openxla.org
+                                </a>
+                                )
+                            </span>
+                            <p class="def-body">
+                                Google's linear-algebra compiler, providing op fusion, memory-layout
+                                optimisation, multi-device scheduling. Targets CPU, GPU, TPU via
+                                MLIR.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p>
+                        Reactant traces the entire training step (model, loss, sampler, optimiser)
+                        into one StableHLO program. XLA then runs whole-program optimisation:
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="accent">kernel fusion</span>
+                            - small ops collapse into fewer and larger kernels, eliminating memory
+                            round-trips
+                        </li>
+                        <li>
+                            <span class="accent">
+                                dead-code and common-subexpression elimination (CSE)
+                            </span>
+                            across the whole program
+                        </li>
+                        <li>
+                            <span class="accent">memory-layout optimisation</span>
+                            matched to the compiled access pattern
+                        </li>
+                    </ul>
+                    <p>
+                        Enzyme generates the gradient program after these passes, so
+                        <span class="accent">
+                            the backward pass inherits every optimisation the forward pass earned.
+                        </span>
+                        PyTorch and JAX separate AD from arbitrary compilation. Reactant and Enzyme
+                        don't.
+                    </p>
+
+                    <p>How KAEM benefits:</p>
+                    <ol>
+                        <li>
+                            the Langevin sampling chain is compiled as one kernel; the iterated
+                            'state' (data and latent samples, noise, annealed temperatures, etc.)
+                            stays in fast memory across every step
+                        </li>
+                        <li>
+                            the score \(\nabla \log \pi\) is found by Enzyme autodiff at each
+                            Langevin step, inside the same kernel
+                        </li>
+                        <li>
+                            \(\partial \mathcal{L} / \partial \theta\) by Enzyme on the outer step,
+                            with MCMC samples detached as constants
+                        </li>
+                        <li>the same compiled program retargets to any MLIR-backed accelerator</li>
+                    </ol>
+
+                    <p>
+                        In PyTorch, each Langevin step would be interpreter overhead. In JAX, the
+                        sampler becomes a
+                        <code class="math">lax.scan</code>
+                        with pure-functional state. No mutation and manual
+                        <code class="math">stop_gradient</code>
+                        needed to detach MCMC samples from \(\partial \mathcal{L} / \partial
+                        \theta\) .
+                    </p>
+                    <p>
+                        Reactant traces and optimises ordinary imperative Julia directly into MLIR.
+                        No special rewriting.
+                    </p>
+
+                    <p>
+                        <span class="accent">
+                            KAEM is as fast as the maths allows, on any hardware that MLIR targets.
+                        </span>
+                    </p>
+                </div>
+
+                <div class="section-major">
+                    <h3>Closing</h3>
+                    <p>
+                        Generative models are often built bottom-up. Create and scale an
+                        architecture, tune until the metrics move. The design principles get
+                        interpreted afterwards from whatever happened to work.
+                    </p>
+                    <p>
+                        KAEM was built differently. There is still no established, agreed-upon,
+                        standard representation for language, images, and intelligence. So KAEM
+                        started from the five specs defined at the top, (drawn from my rudimentary
+                        understanding of how the scientific method works), and was engineered to
+                        meet them. And I really think KAEM is the closest model to being a true
+                        scientific generative intelligence by my specs, with:
+                    </p>
+                    <ul>
+                        <li>a deterministic KART skeleton</li>
+                        <li>a prior you can plot</li>
+                        <li>single-pass inference</li>
+                        <li>room for domain knowledge</li>
+                    </ul>
+                    <p>The specs defined the model, not the other way round.</p>
+                    <p>
+                        In reality, it doesn't meet all 5 yet. It's only been tested on small
+                        (standard) image datasets at my limited compute + time budget, not the
+                        language or scientific data my marketing promises! Additionally, embedding
+                        domain knowledge and inductive bias into KAEM is still yet to be empirically
+                        demonstrated. Plus optimiser dynamics are such that different
+                        representations will be produced on different initialisations, so KAEM isn't
+                        yet the reproducible
+                        <em>standard</em>
+                        the first spec demands. Those are the gaps, and there's major work to do
+                        beyond this introductory paper.
+                    </p>
+
+                    <p>
+                        But I still believe it's a big step towards my 5 requirements, and a
+                        broader, grander conceptualisation:
+                    </p>
+                    <p class="closing-line">"The Kolmogorov-Arnold theorem is all you need."</p>
+                </div>
+            </main>
+            <nav aria-label="Back to home">
+                <a href="index.html" class="back-link bottom">&larr; Back</a>
+            </nav>
         </div>
     </body>
 </html>

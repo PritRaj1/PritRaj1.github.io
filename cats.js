@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    document.querySelectorAll('.card, .speaker-section').forEach((section) => {
+    document.querySelectorAll('.card').forEach((section) => {
         const cats = section.querySelectorAll('.cat');
         if (cats.length <= 1) return;
         let i = 0;
