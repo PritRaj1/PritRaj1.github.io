@@ -6,7 +6,7 @@
         <title>Reasoning under uncertainty - Prithvi Raj</title>
         <meta
             name="description"
-            content="All models are wrong. The last 1% is where uncertainty quantification saves lives."
+            content="All models are wrong. The last 1% is where uncertainty quantification saves lives. Gaussian processes, kernels, and active learning on the AqSolDB drug-solubility dataset."
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +15,22 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body)"
+        ></script>
     </head>
     <body>
         <div class="container">
@@ -25,39 +41,452 @@
                 <img src="images/cat_right_mouth_open.png" alt="" class="cat" aria-hidden="true" />
                 <h2>Reasoning under uncertainty</h2>
                 <p>
-                    All models are wrong. While there are cults arising in service of algorithms,
-                    the engineers know that data is where magic manifests. Uncertainty
-                    quantification is how engineers compensate where our data-driven methods fail,
-                    since we can't afford to be wrong.
-                </p>
-                <p>
-                    Epistemic uncertainty is used to guide where we prioritise drug synthesis,
-                    experimentation, and risk assessments. Mistakes are expensive and unnecessary.
-                    Another example is a self-driving car that's 99% accurate. It still gets 1 in
-                    100 decisions wrong. This could happen at a school crossing, and
+                    A self-driving car that's 99% accurate gets 1 in 100 decisions wrong. That
+                    decision could happen at a school crossing.
                     <span class="accent">
-                        that last 1% is where uncertainty quantification saves lives.
+                        Uncertainty quantification is how engineers catch that last 1%.
                     </span>
                 </p>
             </div>
 
-            <div class="project-header">
-                <h3>Drug Solubility Fitting on AqSolDB</h3>
-                <a
-                    href="https://github.com/PritRaj1/GP-AqSolDB"
-                    target="_blank"
-                    rel="noopener"
-                    class="repo-link"
-                    aria-label="Drug Solubility Fitting on AqSolDB on GitHub"
-                >
-                    github &#8599;
-                </a>
+            <div class="requirement-section">
+                <h3>Drug solubility on AqSolDB</h3>
+                <p>
+                    <a
+                        href="https://doi.org/10.1038/s41597-019-0151-1"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        AqSolDB
+                    </a>
+                    is a dataset of experimental solubility values. Solubility is a great predictor
+                    of whether a drug candidate makes it through trials, since it controls:
+                </p>
+                <ul>
+                    <li>
+                        <span class="accent">bioavailability</span>
+                        - poor solubility reduces oral absorption into the bloodstream
+                    </li>
+                    <li>
+                        <span class="accent">formulation</span>
+                        - which excipients and delivery methods are viable
+                    </li>
+                    <li>
+                        <span class="accent">ADMET profile</span>
+                        - absorption, distribution, metabolism, excretion, and toxicity
+                    </li>
+                    <li>
+                        <span class="accent">clinical attrition</span>
+                        - solubility problems can be a leading cause of late-stage failure
+                    </li>
+                </ul>
+                <p>Solubility predictions are full of uncertainty!</p>
             </div>
-            <div class="gif-single">
-                <img
-                    src="images/active_learning.gif"
-                    alt="Active learning with Gaussian Processes"
-                />
+
+            <div class="requirement-section">
+                <h3>Two kinds of uncertainty</h3>
+                <div class="def-grid">
+                    <div class="def-card">
+                        <span class="def-name">Aleatoric</span>
+                        <span class="def-expand">irreducible noise in measurements</span>
+                        <p class="def-body">
+                            Two identical experiments might give different solubilities! More data
+                            shrinks the standard error of the mean, but can't remove the noise
+                            itself.
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">Epistemic</span>
+                        <span class="def-expand">reducible lack of knowledge</span>
+                        <p class="def-body">
+                            What the dataset doesn't reflect because nothing nearby has been
+                            measured. Can be reduced by taking measurements around or expanding the
+                            training set to unseen regions of the problem domain.
+                        </p>
+                    </div>
+                </div>
+
+                <h4 class="method-title">How aleatoric uncertainty arises</h4>
+                <ul>
+                    <li>
+                        <span class="accent">conformational flexibility</span>
+                        - molecules rotate around their single bonds and sample many 3D shapes. Each
+                        measurement samples a random conformer from a thermodynamic ensemble - many
+                        possibilities. The relative weights come from a Boltzmann distribution over
+                        force-field energies. ETKDG (
+                        <a
+                            href="https://www.rdkit.org/docs/Cookbook.html#conformer-generation-with-etkdg"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            RDKit cookbook
+                        </a>
+                        ) can be used to generates plausible samples, Merck Molecular Force Field (
+                        <a
+                            href="https://en.wikipedia.org/wiki/Merck_molecular_force_field"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            MMFF wiki
+                        </a>
+                        ) can be used to rank by minimised energy.
+                    </li>
+                </ul>
+                <div class="gif-single" style="max-width: 380px">
+                    <img
+                        src="images/conformers.png"
+                        alt="Lowest-energy and higher-energy conformers of a flexible drug molecule"
+                    />
+                    <div class="gif-label">
+                        Conformers of a flexible molecule. Lowest-energy state under MMFF
+                        minimisation vs a higher-energy state
+                    </div>
+                </div>
+                <ul>
+                    <li>
+                        <span class="accent">aggregation states</span>
+                        - above the
+                        <span class="accent">critical micelle concentration (CMC)</span>
+                        , amphiphilic drug molecules (with both hydrophobic and hydrophilic regions)
+                        cluster into micelles instead of staying as monomers. The hydrophobic effect
+                        (
+                        <a
+                            href="https://en.wikipedia.org/wiki/Hydrophobic_effect"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            wiki page
+                        </a>
+                        ) drives it. Water's hydrogen bonds are too strong to overcome, so instead,
+                        each molecule's hydrophobic regions get pulled inwards to minimise the
+                        hydrophobic surface area exposed to water. Meanwhile the hydrophilic regions
+                        face outwards and surround them. The apparent solubility depends on which
+                        state dominates, clustering can lower it even when the molecular properties
+                        suggest higher solubility
+                    </li>
+                </ul>
+                <div class="gif-single" style="max-width: 380px">
+                    <img
+                        src="images/aggregation.gif"
+                        alt="Aggregation state: monomers transitioning to micelles above CMC"
+                    />
+                    <div class="gif-label">
+                        Monomers cluster into micelles above the CMC, driven by the hydrophobic
+                        effect
+                    </div>
+                </div>
+                <ul>
+                    <li>
+                        <span class="accent">solvent and pH</span>
+                        - hydrogen-bonding, ionisation state, temperature, all shift where the
+                        equilibrium lies
+                    </li>
+                    <li>
+                        <span class="accent">kinetic vs thermodynamic solubility</span>
+                        - whether the measurement caught a metastable kinetic state or the true
+                        thermodynamic minimum
+                    </li>
+                </ul>
+                <h4 class="method-title">Epistemic sources</h4>
+                <ul>
+                    <li>
+                        <span class="accent">data sparsity</span>
+                        - molecular property space is large, AqSolDB covers a thin portion. Anything
+                        outside is unseen
+                    </li>
+                    <li>
+                        <span class="accent">model choice</span>
+                        - kernel encodes assumptions (smoothness, scale). If wrong, the model is
+                        biased!
+                    </li>
+                    <li>
+                        <span class="accent">inducing-point selection</span>
+                        - sparse approximations replace the full posterior with one supported on a
+                        smaller set of representative points. Picked badly and much of the space
+                        remains unseen
+                    </li>
+                </ul>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Gaussian processes</h3>
+                <p>
+                    <a
+                        href="https://distill.pub/2019/visual-exploration-gaussian-processes/"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        This blog
+                    </a>
+                    is great for understanding Gaussian Processes (GPs). Briefly here: a GP is a
+                    distribution over functions, specified by a mean function \(m(x)\) and a
+                    covariance kernel \(k(x, x')\). For any finite set of inputs the function values
+                    are jointly Gaussian:
+                </p>
+                <p>
+                    \[ \bigl(f(x_1), \ldots, f(x_n)\bigr) \;\sim\; \mathcal{N}\!\bigl(\mathbf{m},\,
+                    K\bigr), \qquad K_{ij} = k(x_i, x_j) \]
+                </p>
+                <p>
+                    The kernel encodes what functions the GP considers plausible (smoothness,
+                    amplitude, length scale). It has to produce a valid covariance: the Gram matrix
+                    \(K\) must be
+                    <span class="accent">positive semi-definite</span>
+                    , meaning \(\mathbf{c}^\top K\, \mathbf{c} \geq 0\) for any vector
+                    \(\mathbf{c}\) (variance is non-negative in every direction).
+                </p>
+
+                <h4 class="method-title">Regression</h4>
+                <p>
+                    With \(n\) observations \(y_i = f(x_i) + \varepsilon_i\) where \(\varepsilon_i
+                    \sim \mathcal{N}(0, \lambda)\) (the aleatoric noise), predict \(f\) at new
+                    inputs \(X_*\). Gaussian prior + Gaussian noise -> the joint is also Gaussian:
+                </p>
+                <p>
+                    \[ \begin{pmatrix} \mathbf{y} \\ \mathbf{f}_* \end{pmatrix} \;\sim\;
+                    \mathcal{N}\!\left(\mathbf{0},\; \begin{pmatrix} K + \lambda I & K_{n*} \\
+                    K_{*n} & K_{**} \end{pmatrix}\right) \]
+                </p>
+                <p>
+                    The aleatoric noise lives on the diagonal and \(K + \lambda I\) is equivalently
+                    a noise-augmented kernel \[k_{\text{obs}}(x, y) = k(x, y) + \lambda\,
+                    \delta(x,y), \] where \(\delta\) is 1 when \(x = y\) and 0 otherwise. The kernel
+                    models the smooth signal, \(\lambda\) captures the aleatoric uncertainty, and
+                    off-diagonal covariances stay simple so the GP can interpolate smoothly between
+                    data points.
+                </p>
+                <p>
+                    Conditioning \(\mathbf{f}_*\) on \(\mathbf{y}\) gives the
+                    <span class="accent">posterior predictive</span>
+                    :
+                </p>
+                <p>
+                    \[ \mathbf{f}_* \mid \mathbf{y} \;\sim\; \mathcal{N}(\boldsymbol{\mu}_*,\,
+                    \Sigma_*), \quad \boldsymbol{\mu}_* = K_{*n}(K + \lambda I)^{-1}\mathbf{y},
+                    \quad \Sigma_* = K_{**} - K_{*n}(K + \lambda I)^{-1}K_{n*}. \]
+                </p>
+                <p>This form naturally supports UQ in two ways:</p>
+                <ul>
+                    <li>
+                        \(\boldsymbol{\mu}_*\) is the prediction, \(\mathrm{diag}(\Sigma_*)\) is the
+                        epistemic uncertainty at each test point. "Predictive variance" for a new
+                        observation means adding the aleatoric term back: \(\mathrm{Var}(y_*) =
+                        \Sigma_* + \lambda I\).
+                    </li>
+                    <li>
+                        \(\Sigma_*\) depends only on
+                        <em>where</em>
+                        the training inputs are. Confidence is dependent on location, not the
+                        magnitude/values of data. Cover the input space and uncertainty falls
+                        regardless of what values \(\mathbf{y}\) adopts
+                    </li>
+                </ul>
+
+                <h4 class="method-title">Marginal likelihood</h4>
+                <p>
+                    The kernel has free parameters \(\theta\) (length scales \(\sigma_i\), noise
+                    \(\lambda\)), chosen by maximising the
+                    <span class="accent">marginal likelihood</span>
+                    , the probability of \(\mathbf{y}\) with all latent functions marginalised out:
+                </p>
+                <p>
+                    \[ \log p(\mathbf{y} \mid \theta) \;=\;
+                    \underbrace{-\tfrac{1}{2}\mathbf{y}^\top(K + \lambda
+                    I)^{-1}\mathbf{y}}_{\text{data fit}} \;\underbrace{-\,\tfrac{1}{2}\log\bigl|K +
+                    \lambda I\bigr|}_{\text{complexity}} \;-\; \tfrac{n}{2}\log 2\pi. \]
+                </p>
+                <p>
+                    A flexible model (short length scale) makes the data-fit term small but inflates
+                    the eigenvalues of \(K\) and incurs a complexity penalty. The max solution
+                    balances them and Occam's razor falls out as a side effect, the data picks the
+                    simplest adequate model. GPs are implicitly regularised.
+                </p>
+                <p>
+                    Fit the hyperparameters this way and you get the posterior uncertainty surface
+                    on real data:
+                </p>
+                <div class="gif-single" style="max-width: 600px">
+                    <img
+                        src="images/kernel_uncertainty_heatmap.png"
+                        alt="2D posterior-std heatmap on AqSolDB feature space and histogram of predicted uncertainties"
+                    />
+                    <div class="gif-label">
+                        Posterior standard deviation on AqSolDB. The histogram is bimodal with a
+                        small in-distribution mode at ~0.4 and a much larger extrapolative mode at
+                        ~0.85, so most of feature space is somewhere the model knows it doesn't
+                        know.
+                    </div>
+                </div>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Kernels</h3>
+                <p>
+                    The
+                    <a
+                        href="https://www.cs.toronto.edu/~duvenaud/cookbook/"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Kernel Cookbook
+                    </a>
+                    provides a list for picking and composing Kernels, which determine what
+                    features/variances to target.
+                </p>
+                <p>
+                    Every kernel comes with its own
+                    <span class="accent">reproducing-kernel Hilbert space (RKHS)</span>
+                    \(\mathcal{H}_k\): the space of functions it can represent. Smoother kernels
+                    assign a bigger norm to functions that vary wildly, so during
+                    marginal-likelihood fitting the GP pays a complexity penalty for fitting
+                    something its kernel can't naturally express. Meaning kernels provide natural
+                    inductive bias to guide learning:
+                </p>
+                <div class="def-grid">
+                    <div class="def-card">
+                        <span class="def-name">RBF</span>
+                        <span class="def-expand">squared exponential</span>
+                        <p class="def-body">
+                            \(k(x, y) = \exp(-\|x - y\|_\Sigma^2 / 2)\). Sample paths are infinitely
+                            differentiable, the RKHS contains only entire functions. Spectral
+                            density is itself a Gaussian, so high frequencies decay exponentially.
+                            Great when fitting smooth, unsuitable when nonsmooth.
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">Matérn</span>
+                        <span class="def-expand">tunable smoothness</span>
+                        <p class="def-body">
+                            \(k\) is a function of \(\|x-y\|\) and a smoothness parameter \(\nu\).
+                            Sample paths are \(\lceil\nu\rceil - 1\) times differentiable. \(\nu =
+                            1/2\) gives continuous but nowhere differentiable paths (the exponential
+                            kernel), \(\nu \to \infty\) recovers RBF. Lower \(\nu\) handles sharper
+                            features.
+                        </p>
+                    </div>
+                    <div class="def-card">
+                        <span class="def-name">RQ</span>
+                        <span class="def-expand">rational quadratic, scale mixture</span>
+                        <p class="def-body">
+                            \(k(x, y) = (1 + \|x-y\|_\Sigma^2 / (2\alpha))^{-\alpha}\). The marginal
+                            of a Gamma-mixture over RBF length scales. Handles functions with both
+                            local and global structure. \(\alpha \to \infty\) recovers RBF, \(\alpha
+                            \to 0\) gives heavier tails.
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    Per-dimension length scales \(\sigma_i\) give
+                    <span class="accent">automatic relevance determination</span>
+                    : dimensions that don't affect \(f\) drift to large \(\sigma_i\) at the
+                    marginal-likelihood optimum, effectively dropping out.
+                </p>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Sparse GPs: \(\mathcal{O}(n^3)\) is the problem</h3>
+                <p>
+                    The dense posterior needs \((K + \lambda I)^{-1}\), which involves
+                    \(\mathcal{O}(n^3)\) time complexity and \(\mathcal{O}(n^2)\) storage for the
+                    matrix inversion. AqSolDB has ~10,000 molecules! Sparse GPs instead subsample
+                    \(m \ll n\) inducing points \(Z\) and approximate \(K\) by a low-rank structure
+                    using those points.
+                </p>
+                <p>
+                    Fully Independent Training Conditional (FITC,
+                    <a href="https://arxiv.org/abs/1606.04820" target="_blank" rel="noopener">
+                        arXiv 1606.04820
+                    </a>
+                    ) replaces \(K + \lambda I\) with
+                </p>
+                <p>
+                    \[ K_{\mathrm{FITC}} \;=\;
+                    \underbrace{K_{nm}K_{mm}^{-1}K_{mn}}_{\text{low-rank}} \;+\;
+                    \underbrace{\Lambda}_{\text{diagonal correction}}, \qquad \Lambda \;=\;
+                    \mathrm{diag}\!\bigl(K - K_{nm}K_{mm}^{-1}K_{mn}\bigr) + \lambda I \]
+                </p>
+                <p>
+                    The diagonal \(\Lambda\) restores the correct marginal variance at each training
+                    point, folding the approximation error into the per-point noise term. Because
+                    \(K_{\mathrm{FITC}}\) is low-rank plus diagonal, the
+                    <a
+                        href="https://en.wikipedia.org/wiki/Woodbury_matrix_identity"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Woodbury inversion identity
+                    </a>
+                    reduces the inversion to an \(m \times m\) solve, bringing cost to
+                    \(\mathcal{O}(nm^2 + m^3)\).
+                </p>
+                <ul>
+                    <li>
+                        <span class="accent">dense GP</span>
+                        - \(\mathcal{O}(n^3)\) compute, \(\mathcal{O}(n^2)\) storage, exact
+                        posterior variance
+                    </li>
+                    <li>
+                        <span class="accent">FITC</span>
+                        - \(\mathcal{O}(nm^2 + m^3)\) compute, \(\mathcal{O}(nm)\) storage, exact
+                        diagonal variance and approximate off-diagonal
+                    </li>
+                </ul>
+            </div>
+
+            <div class="requirement-section">
+                <h3>Active learning</h3>
+                <p>
+                    Wet-lab solubility measurements are expensive! Each trial burns hours to days of
+                    work, milligrams of compound, spectrometer runs, etc. The space of drug-like
+                    molecules runs into \(10^{60}\), AqSolDB has labelled around \(10^4\).
+                </p>
+                <p>
+                    The posterior variance \(\Sigma_*\) at each candidate point says how much
+                    labelling it would reduce the model's epistemic uncertainty.
+                    <span class="accent">Regions of high uncertainty</span>
+                    guide where you'll next prioritise experimentation, synthesis, or risk
+                    assessments.
+                </p>
+                <p>
+                    Below uses the simplest acquisition rule,
+                    <span class="accent">max variance</span>
+                    : each round finds the pool molecule with the highest posterior std,
+                    \(\arg\max_x \mathrm{diag}\,\Sigma_*(x)\), to target the most uncertain region.
+                    The loop is fit GP, score every candidate, label the top one, retrain.
+                </p>
+                <p>
+                    (More standard acquisition functions like upper confidence bound or expected
+                    improvement balance exploration and exploitation better. Examples can be found
+                    in this
+                    <a href="https://bayesoptbook.com/" target="_blank" rel="noopener">book</a>
+                    .)
+                </p>
+                <div class="project-header">
+                    <h3>GP-AqSolDB</h3>
+                    <a
+                        href="https://github.com/PritRaj1/GP-AqSolDB"
+                        target="_blank"
+                        rel="noopener"
+                        class="repo-link"
+                        aria-label="GP-AqSolDB on GitHub"
+                    >
+                        github &#8599;
+                    </a>
+                </div>
+                <div class="gif-single">
+                    <img
+                        src="images/active_learning.gif"
+                        alt="Active-learning loop: GP posterior tightens as new high-variance points are queried"
+                    />
+                    <div class="gif-label">
+                        Active learning on AqSolDB. Each queried molecule shrinks the
+                        epistemic-uncertainty band around its neighbourhood.
+                    </div>
+                </div>
+            </div>
+
+            <div class="requirement-section">
+                <p>It's not enough to make decisions. You have to quantify the validity of them!</p>
             </div>
         </div>
         <script src="cats.js"></script>
