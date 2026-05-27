@@ -319,7 +319,7 @@
                     </p>
                     <p>
                         Without \(\mathcal{R}_{\text{anti-collapse}}\), the encoder has a degenerate
-                        cheat: map every input to the same constant latent. Then \(s_y = \hat s_y\)
+                        cheat. Map every input to the same constant latent. Then \(s_y = \hat s_y\)
                         trivially, the loss is zero, and nothing's been learned! Standard fixes
                         either regularise the variance of the embedding so it can't shrink to a
                         point or use a momentum-averaged target encoder with a stop-gradient (what
@@ -333,18 +333,18 @@
                         intention, the lower level fills in the blanks to realise it.
                     </p>
                     <p>
-                        Caveat: what's actually ready to make robots walk is
-                        <span class="accent">DreamerV3</span>
-                        (
-                        <a href="https://arxiv.org/abs/2301.04104" target="_blank" rel="noopener">
-                            arXiv 2301.04104
-                        </a>
-                        ) with a pixel decoder, demonstrated on Boston Dynamics Spot (
+                        Caveat: what's actually ready to make robots walk is the
+                        <span class="accent">Dreamer</span>
+                        line of world models, which use a pixel decoder.
                         <a href="https://arxiv.org/abs/2206.14176" target="_blank" rel="noopener">
-                            arXiv 2206.14176
+                            DayDreamer
                         </a>
-                        ). JEPA is the current hot topic, (at least in my circles at time of
-                        writing), not yet used out in the field.
+                        trained a quadruped to walk in the real world in under an hour, and
+                        <a href="https://arxiv.org/abs/2301.04104" target="_blank" rel="noopener">
+                            DreamerV3
+                        </a>
+                        is the stronger successor. JEPA is the current hot topic, (at least in my
+                        circles at time of writing), not yet used out in the field.
                     </p>
                 </div>
 
@@ -352,11 +352,12 @@
                     <h3>Model predictive control</h3>
                     <p>
                         Model predictive control (MPC) plans a short trajectory against a known
-                        dynamics model, executes the first step, then replans. The trick is the
-                        <span class="accent">receding horizon</span>
-                        : full-trajectory optimisation is intractable, but an \(H\)-step lookahead
-                        is tractable, and re-solving every cycle catches disturbances before they
-                        accumulate.
+                        dynamics model, executes the first step, then replans. Full-trajectory
+                        optimisation is intractable, but an \(H\)-step lookahead is tractable, and
+                        re-solving every cycle catches disturbances before they accumulate. This is
+                        the
+                        <span class="accent">receding-horizon</span>
+                        principle.
                     </p>
                     <p>
                         Given the current state \(x\) and dynamics \(f\), MPC finds the control
@@ -371,7 +372,7 @@
                         Only \(u_0\) is presently applied. The new state is observed and the problem
                         gets re-solved from scratch. The horizon \(H\) is short (a fraction of a
                         second if robot locomotion) but the constant replanning lets the controller
-                        stay reactive:
+                        stay reactive.
                     </p>
                     <svg
                         class="flow-figure"
@@ -444,8 +445,8 @@
                     <h4 class="method-title">Sample-based</h4>
                     <p>
                         Model Predictive Path Integral control (
-                        <a href="https://arxiv.org/abs/1707.03363" target="_blank" rel="noopener">
-                            arXiv 1707.03363
+                        <a href="https://arxiv.org/abs/1707.02342" target="_blank" rel="noopener">
+                            arXiv 1707.02342
                         </a>
                         ) draws \(N\) candidate control sequences \(u^n\) from a Gaussian centred on
                         the previous solution, simulates each through \(f\), scores them by
@@ -499,7 +500,7 @@
                         A_k x_k + B_k u_k\), with Jacobians \(A_k = \partial f / \partial x\) and
                         \(B_k = \partial f / \partial u\), then expanding the cost to 2nd order with
                         matrices \(Q_k, R_k\), gives a Linear-Quadratic Regulator (LQR) sub-problem.
-                        LQR has a closed-form solution: the value function \(V_k(x) = \tfrac{1}{2}
+                        LQR has a closed-form solution. The value function \(V_k(x) = \tfrac{1}{2}
                         x^\top P_k x\) propagates via
                     </p>
                     <p>
@@ -541,7 +542,7 @@
                         \[ V &gt; V_{th} \;\;\Longrightarrow\;\; V \leftarrow V_{reset}, \quad V_s
                         \leftarrow V_{s,reset}, \quad V_{us} \leftarrow V_{us} + \Delta_{us}. \]
                     </p>
-                    <p>Three timescales:</p>
+                    <p>Three timescales.</p>
                     <ul>
                         <li>fast (\(\tau_V \sim C/250\) ms) - spike kinetics.</li>
                         <li>slow (\(\tau_s \sim 2\) ms) - within-burst spike rate.</li>
@@ -582,7 +583,7 @@
                     </p>
                     <p>
                         \(V_{us}\) slowly traverses \(V_{us}^{\star}\) in both directions, and
-                        that's what creates bursts:
+                        that's what creates bursts.
                     </p>
                     <svg
                         class="flow-figure"
@@ -627,7 +628,7 @@
                         <span class="accent">stable limit cycle</span>
                         - a periodic trajectory that nearby states are attracted to. Push the
                         neuron, the dynamics pull it back to the cycle. Two different initial
-                        conditions (IC\(_A\), IC\(_B\)) end up on the same orbit:
+                        conditions (IC\(_A\), IC\(_B\)) end up on the same orbit.
                     </p>
                     <div class="limit-cycle-figure">
                         <img
@@ -747,7 +748,7 @@
                         frequency climbs with it. Swap the inhibition graph and the gait swaps. A
                         handful of hyperparams/inputs replaces an entire policy network! This TED
                         talk on a CPG-driven salamander robot shows how robust the idea is. Swimming
-                        is typically a difficult control problem, CPGs handle it naturally:
+                        is typically a difficult control problem, but CPGs handle it naturally.
                     </p>
                     <div class="video-single">
                         <div class="video-embed">
@@ -842,7 +843,7 @@
                     <p>
                         Get the kinematics right before adding actuation. Spider was easy, one motor
                         per joint. Dog was harder, so I built a joints-only prototype first and
-                        moved it by hand to check:
+                        moved it by hand to check.
                     </p>
                     <div class="gif-row gif-row-pair">
                         <div class="gif-item">
@@ -864,7 +865,7 @@
                         The dog leg got two antagonistic joints (later replaced by motors) joined by
                         an elastic band acting as a tendon. Joints rotating together swings the leg,
                         rotating against extends/contracts it. The elastic stores energy the same
-                        way muscle does, the leg has passive compliance for free.
+                        way muscle does, so the leg has passive compliance for free.
                     </p>
                 </div>
 
@@ -978,7 +979,7 @@
                 <div class="requirement-section">
                     <p>Thanks for reading :)</p>
                     <p>
-                        AI is important for high level decision making, (similar to what the
+                        AI is important for high-level decision making, (similar to what the
                         biological brain does). But in my opinion, asking a neural network to learn
                         locomotion entirely from simulation works well, but is a software answer to
                         a mechanical question. In nature, it's resolved by attractor dynamics!

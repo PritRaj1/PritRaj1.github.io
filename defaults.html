@@ -48,6 +48,26 @@
                     </p>
                 </div>
 
+                <p>
+                    Latent EBMs (
+                    <a href="https://arxiv.org/abs/2006.08205" target="_blank" rel="noopener">
+                        arXiv 2006.08205
+                    </a>
+                    ) generate by drawing samples from a learned prior, then decoding through a
+                    generator neural network. Training shapes that prior to be multimodal, (meaning
+                    several peaks or basins). Sampling it requires Langevin Monte Carlo (LMC), a
+                    gradient-based MCMC method that climbs in the direction of the score (the
+                    gradient of the log-density). The chain concentrates in whichever mode it
+                    initialises near and struggles to cross the low-density valleys between modes.
+                    This "poor mixing" biases the resulting samples.
+                </p>
+                <p>
+                    Diffusion is the literature's fix. It works, but generation is no longer single
+                    forward pass and the interpretable prior gets spread across denoising. In
+                    <a href="kaem.html">KAEM</a>
+                    I propose annealing instead, a training-only cost that leaves the prior intact.
+                </p>
+
                 <div class="section-major">
                     <h3>Score matching</h3>
                     <p>
@@ -61,16 +81,16 @@
                         </a>
                         is the best resource for this, and is one of the inspirations for my own
                         website! I'll summarise briefly here, in the context of EBMs (
-                        <a href="https://arxiv.org/abs/2006.08205" target="_blank" rel="noopener">
-                            arXiv 2006.08205
+                        <a href="https://arxiv.org/abs/2101.03288" target="_blank" rel="noopener">
+                            arXiv 2101.03288
                         </a>
                         ):
                     </p>
                     <p>
                         For an EBM \(p_f(z) \propto \exp(f(z)) \), the score \(\nabla_z \log p_f(z)
-                        = \nabla_z f(z) \) is independent of the partition function, \(Z_f\), which
-                        is typically intractable and motivates much of genAI research. Score
-                        matching sidesteps having to compute it:
+                        = \nabla_z f(z) \) is independent of the partition function \(Z_f\) (the
+                        normalising constant), which is typically intractable and motivates much of
+                        genAI research. Score matching sidesteps having to compute it:
                     </p>
                     <p>
                         \[ J_{\mathrm{SM}}(f) = \tfrac{1}{2}\, \mathbb{E}_{p_{\mathrm{data}}(z)}
@@ -118,7 +138,7 @@
                         <span class="accent">scalar</span>
                         , so the noise covariance is \(\beta(t) I\). Equal variance in every
                         direction, no preferred axis. This is what makes the SDE isotropic, and what
-                        makes it destroy structure: rotational symmetry erases any anisotropy in
+                        makes it destroy structure. Rotational symmetry erases any anisotropy in
                         \(p_f(z)\). Run it long enough and the marginal converges to
                         \(\mathcal{N}(0, I)\). The score network learns to reverse the process, but
                         the prior you started with is completely gone!
@@ -198,9 +218,9 @@
                     <h3>Thermodynamic integration (KAEM's method)</h3>
                     <p>
                         This is the method I proposed for
-                        <a href="kaem.html">KAEM</a>
-                        . A power posterior interpolates between prior and posterior across \(t \in
-                        [0, 1]\):
+                        <a href="kaem.html">KAEM's</a>
+                        training. A power posterior interpolates between prior and posterior across
+                        \(t \in [0, 1]\):
                     </p>
                     <p>
                         \[ p_{f,\Phi}(z \mid x, t) = \frac{p_\Phi(x \mid z)^t\, p_f(z)}{Z_t}, \qquad
@@ -267,8 +287,8 @@
                     <p>
                         A continuum of expectations replaces a single hard one. In return you get
                         tractability on multimodal posterior sampling after we discretise the
-                        integral: high-\(t\) chains explore the global landscape, low-\(t\) chains
-                        resolve detail, Replica Exchange Monte Carlo enables swaps between them!
+                        integral. High-\(t\) chains explore the global landscape, low-\(t\) chains
+                        resolve detail, and Replica Exchange Monte Carlo enables swaps between them!
                     </p>
                 </div>
 

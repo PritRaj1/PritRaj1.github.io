@@ -123,8 +123,7 @@
                             >
                                 RDKit cookbook
                             </a>
-                            ) can be used to generate plausible samples, Merck Molecular Force Field
-                            (
+                            ) generates plausible samples, and the Merck Molecular Force Field (
                             <a
                                 href="https://en.wikipedia.org/wiki/Merck_molecular_force_field"
                                 target="_blank"
@@ -132,7 +131,7 @@
                             >
                                 MMFF wiki
                             </a>
-                            ) can be used to rank by minimised energy.
+                            ) ranks them by minimised energy.
                         </li>
                     </ul>
                     <div class="gif-single" style="max-width: 380px">
@@ -164,8 +163,8 @@
                             instead, each molecule's hydrophobic regions get pulled inwards to
                             minimise the hydrophobic surface area exposed to water. Meanwhile the
                             hydrophilic regions face outwards and surround them. The apparent
-                            solubility depends on which state dominates, clustering can lower it
-                            even when the molecular properties suggest higher solubility
+                            solubility depends on which state dominates. Clustering can lower it
+                            even when the molecular properties suggest higher solubility.
                         </li>
                     </ul>
                     <div class="gif-single" style="max-width: 380px">
@@ -221,7 +220,7 @@
                         >
                             This blog
                         </a>
-                        is great for understanding Gaussian Processes (GPs). Briefly here: a GP is a
+                        is great for understanding Gaussian Processes (GPs). Briefly, a GP is a
                         distribution over functions, specified by a mean function \(m(x)\) and a
                         covariance kernel \(k(x, x')\). For any finite set of inputs the function
                         values are jointly Gaussian:
@@ -232,7 +231,7 @@
                     </p>
                     <p>
                         The kernel encodes what functions the GP considers plausible (smoothness,
-                        amplitude, length scale). It has to produce a valid covariance: the Gram
+                        amplitude, length scale). It has to produce a valid covariance. The Gram
                         matrix \(K\) must be
                         <span class="accent">positive semi-definite</span>
                         , meaning \(\mathbf{c}^\top K\, \mathbf{c} \geq 0\) for any vector
@@ -282,7 +281,7 @@
                             <em>where</em>
                             the training inputs are. Confidence is dependent on location, not the
                             magnitude/values of data. Cover the input space and uncertainty falls
-                            regardless of what values \(\mathbf{y}\) adopts
+                            regardless of what values \(\mathbf{y}\) adopts.
                         </li>
                     </ul>
 
@@ -304,12 +303,12 @@
                     <p>
                         A flexible model (short length scale) makes the data-fit term small but
                         inflates the eigenvalues of \(K\) and incurs a complexity penalty. The max
-                        solution balances them and Occam's razor falls out as a side effect, the
+                        solution balances them and Occam's razor falls out as a side effect. The
                         data picks the simplest adequate model. GPs are implicitly regularised.
                     </p>
                     <p>
                         Fit the hyperparameters this way and you get the posterior uncertainty
-                        surface on real data:
+                        surface on real data.
                     </p>
                     <div class="gif-single" style="max-width: 600px">
                         <img
@@ -464,7 +463,7 @@
                     </p>
                     <p>
                         (More standard acquisition functions like upper confidence bound or expected
-                        improvement balance exploration and exploitation better. Examples in Roman
+                        improvement balance exploration and exploitation better. Examples in
                         Garnett's
                         <a href="https://bayesoptbook.com/" target="_blank" rel="noopener">
                             Bayesian Optimization Book

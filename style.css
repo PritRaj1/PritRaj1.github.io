@@ -50,6 +50,11 @@ body {
     margin: 0 auto;
 }
 
+main > p {
+    margin-bottom: 12px;
+    max-width: var(--max-text-width);
+}
+
 a {
     color: var(--accent-dim);
     text-decoration: none;

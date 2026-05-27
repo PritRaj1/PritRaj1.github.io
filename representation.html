@@ -175,7 +175,7 @@
                         >
                             Bitter Lesson
                         </a>
-                        . Historically, general methods that scale with compute have beaten
+                        argument. Historically, general methods that scale with compute have beaten
                         hand-crafted human knowledge, but that lesson is drawn from domains with
                         effectively unlimited data, (language, vision, games with simulators).
                     </p>
@@ -233,7 +233,7 @@
                             </span>
                             <p class="def-body">
                                 Kernel \(\kappa_\theta(x, y) = \kappa_\theta(x - y)\) with support
-                                on a small neighbourhood. Strong bias: locality and shift
+                                on a small neighbourhood. Strong bias toward locality and shift
                                 equivariance. \(O(k^d)\) parameters for a stencil of size \(k\) in
                                 \(d\) dimensions. But fails when the true kernel is global or
                                 anisotropic.
@@ -258,7 +258,7 @@
                                 multiplication in the spectral domain, (spectral convolution),
                                 \((\mathcal{K} v)(x) = \mathcal{F}^{-1}\!\left(R_\theta \cdot
                                 \mathcal{F}(v)\right)(x)\) , with learnable weights \(R_\theta\) on
-                                a finite set of modes. Bias: dynamics live in a low-frequency band,
+                                a finite set of modes. Bias toward dynamics in a low-frequency band,
                                 (holds for many smooth PDEs).
                             </p>
                         </div>
@@ -392,8 +392,8 @@
                     <p>
                         4,209,205 versus 52 parameters, an
                         <span class="accent">80,946x ratio</span>
-                        . Same amount of data, same amount of tuning, both fit the data. The
-                        Recurrent Neural Operator wins by carrying two biases Attention has to
+                        between them. Same amount of data, same amount of tuning, both fit the data.
+                        The Recurrent Neural Operator wins by carrying two biases Attention has to
                         learn:
                     </p>
                     <ol>
@@ -429,8 +429,8 @@
                         Darcy PDE below gives the pressure field \(u(x)\) for any permeability
                         sample. Goal: models have to learn the operator \(a \to u\). No iterative
                         PDE solver at inference time, just a single forward pass! People think AI is
-                        unsustainable, but these neural operators are a potential replacement to the
-                        slow, iterative solvers running on today's HPCs! \[-\nabla \cdot (a(x)\,
+                        unsustainable, but these neural operators are a potential replacement for
+                        the slow, iterative solvers running on today's HPCs! \[-\nabla \cdot (a(x)\,
                         \nabla u(x)) = f(x), \; x \in (0, 1)^2\]
                     </p>
                     <div class="gif-row-2-1">
@@ -457,7 +457,7 @@
                         </div>
                     </div>
                     <p>
-                        MLP + CNN at 6M is the bias-free baseline: locality only. MLP + FNO at 4.7M
+                        MLP + CNN at 6M is the bias-free baseline, locality only. MLP + FNO at 4.7M
                         is the best fit. Its spectral prior on the IKO matches the elliptic PDE's
                         smooth solution structure.
                     </p>
@@ -505,6 +505,7 @@
                         increase the amount of knowledge we have using data-driven means. This is
                         how we move up the y-axis in that first figure, commonly referred to as
                         <span class="accent">scientific discovery</span>
+                        .
                     </p>
                     <p class="closing-line">असतो मा सद्गमय</p>
                 </div>

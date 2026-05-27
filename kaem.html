@@ -55,6 +55,18 @@
                     </a>
                 </div>
 
+                <p>
+                    KAEM is a latent-variable generative model! Like a VAE, it draws a
+                    low-dimensional latent sample and decodes it into data. Unlike a VAE, the latent
+                    prior isn't a fixed Gaussian. It's a set of learned 1D densities based on
+                    Kolmogorov-Arnold Networks (
+                    <a href="https://arxiv.org/abs/2404.19756" target="_blank" rel="noopener">
+                        arXiv 2404.19756
+                    </a>
+                    ). They can be interpreted and sampled in a fast and exact single forward pass
+                    by inverse transform, no iterative denoising.
+                </p>
+
                 <p class="kaem-question">
                     What are the requirements for discovering the true, agreed-upon, standard
                     representations across images, language, and scientific data?
@@ -99,12 +111,12 @@
                     <p>
                         The Kolmogorov-Arnold Representation Theorem decomposes any continuous
                         multivariate function into two finite sums of univariate ones.
-                        Deterministic. Definitive. Capable of representing anything!
+                        Deterministic. Definitive. Universal for continuous functions.
                     </p>
                     <p>
                         That isn't readily applied to probabilistic modelling. KAEM gets there by
                         recasting the inner functions \(\psi_{q,p} : [0,1] \to \mathbb{R}\) as
-                        Markov kernels: inverse CDFs acting on uniform noise on [0,1].
+                        Markov kernels, inverse CDFs acting on uniform noise on [0,1].
                     </p>
                     <p>
                         Inverse transform sampling becomes a measurable map from uniform noise into
@@ -113,21 +125,17 @@
                         into the representation.
                     </p>
                     <p>
-                        The result is one skeleton across modalities. This is the
-                        <span class="accent">
-                            first application of deterministic representation
-                        </span>
+                        The result is one skeleton across modalities. This is a
+                        <span class="accent">new application of deterministic representation</span>
                         to generative modelling.
                     </p>
                     <p>
                         Disclosure: KART was strictly adhered to on simple datasets (MNIST, FMNIST),
                         where a KAN generator with independent univariate priors worked well. On
-                        SVHN, CIFAR10, CelebA, I cheated :P
-                    </p>
-                    <p>
-                        Used a CNN decoder for spatial inductive bias and a mixture-of-univariate
-                        prior instead of the strict factorised form. The deterministic skeleton
-                        works, but the image numbers lean on CNN bias too, not KART alone (
+                        SVHN, CIFAR10, and CelebA, I cheated and used a CNN decoder for spatial
+                        inductive bias and a mixture-of-univariate prior instead of the strict
+                        factorised form. The deterministic skeleton works, but the RGB images lean
+                        on CNN bias too, not KART alone (
                         <a href="https://arxiv.org/abs/2506.14167" target="_blank" rel="noopener">
                             see the paper
                         </a>
@@ -148,15 +156,12 @@
                         ).
                     </p>
                     <p>
-                        Inference is the largest slice, KAEM keeps it fast (single forward pass).
+                        Inference is the largest slice, so KAEM keeps it fast (single forward pass).
                         <a href="defaults.html">Annealing</a>
                         only runs during training, and parallelises across temperatures instead of
-                        paying a sequential cost every generation like diffusion.
-                    </p>
-                    <p>
-                        Experimentation is also large. A standardised representation with stronger
-                        inductive bias reduces the architecture search/tuning and reliance on
-                        guessing.
+                        paying a sequential cost every generation like diffusion. Experimentation is
+                        also large. A standardised representation with stronger inductive bias
+                        reduces the architecture search/tuning and reliance on guessing.
                     </p>
                     <div class="gif-single">
                         <img
@@ -172,18 +177,25 @@
                 <div class="requirement-section">
                     <h4 class="method-title">Interpretable</h4>
                     <p>
-                        The prior is a product of 1D densities since the Kolmogorov-Arnold
+                        The prior is a product of 1D densities, since the Kolmogorov-Arnold
                         Representation Theorem provides the basis. You can plot and interpret them,
-                        modes and tails are easily visible. Contrastive divergence shapes them to
-                        the data, following the empirical Bayes philosophy. SLERP traversals on the
-                        latent have a meaning you can read straight off the plot.
+                        modes and tails are easily visible. Contrastive divergence (the criterion
+                        used to train EBMs, aligning prior to posterior like empirical Bayes)
+                        sculpts them to the data. Interpolate between two latent samples with SLERP,
+                        spherical linear interpolation (see image), and the traversal has a meaning
+                        you can read straight off the plot.
                     </p>
                     <div class="gif-single">
                         <img
                             src="images/slerp_1.png"
                             alt="SLERP interpolation on CelebA with inspectable prior densities"
                         />
-                        <div class="gif-label">SLERP interpolation with inspectable priors</div>
+                        <div class="gif-label">
+                            A straight line between two latent samples would cut through the empty
+                            centre of the space and decode to something illegible. SLERP traverses
+                            the arc where the samples actually live, so every step stays a plausible
+                            sample.
+                        </div>
                     </div>
                 </div>
 
@@ -195,7 +207,7 @@
                         <li>the generator architecture</li>
                         <li>the choice of univariate basis functions</li>
                     </ul>
-                    <p>Pick the ones that match the domain, KAEM's architecture enables this.</p>
+                    <p>Pick the ones that match the domain. KAEM's architecture enables this.</p>
                 </div>
 
                 <div class="requirement-section">
@@ -203,13 +215,14 @@
                     <p>KAEM is a robust probabilistic model. It can run on laptops.</p>
                     <p>
                         With the correct priors and biases, posterior expectations can be estimated
-                        with importance sampling. No large, amortised encoder. Just a sample-based
-                        estimator with no parameters of its own. Plus, generation/inference is fast
-                        inverse transform on uniform noise. No iteration at inference.
+                        by importance sampling (a simple weighted average over samples). No large
+                        encoder network needed, (unlike a VAE). Just a sample-based estimator with
+                        no parameters of its own. And generation is a fast and exact inverse
+                        transform on uniform noise, no iteration at inference.
                     </p>
                     <p>
                         The univariate 1D priors are easy to plot and understand. A domain expert
-                        without a computational-statistics background can read them.
+                        without a computational statistics background can read them.
                     </p>
                     <div class="gif-single">
                         <img
@@ -228,9 +241,9 @@
                     <p>How do we quantify the perceptual quality of generated images?</p>
                     <p>
                         It's not exact, but the academic community has adopted the following
-                        approach: pass real and generated images through InceptionV3, then measure
+                        approach. Pass real and generated images through InceptionV3, then measure
                         distance between the two datasets in InceptionV3's feature space. Two
-                        standard ways to compute that distance:
+                        standard ways to compute that distance.
                     </p>
 
                     <div class="def-grid">
@@ -436,10 +449,12 @@
                     </p>
 
                     <p>
-                        KAEM (MLE) wins SVHN and CIFAR10. On CelebA the annealed variant takes over:
+                        Among the latent-prior models, KAEM (MLE) wins SVHN and CIFAR10, edging even
+                        the DDPM reference on SVHN (63.9 vs 66.0). On CelebA the annealed variant
+                        outperformed:
                         <span class="accent">KAEM (Thermo) beats MLE</span>
-                        at 108.0 vs 126.9, consistent with the premise that parallel tempering pays
-                        off on multimodal posterior manifolds.
+                        at 108.0 vs 126.9, consistent with the premise that annealing pays off on
+                        multimodal posterior manifolds.
                     </p>
                 </div>
 
@@ -548,12 +563,11 @@
                         </li>
                     </ul>
                     <p>
-                        Enzyme generates the gradient program after these passes, so
+                        PyTorch differentiates eagerly. JAX differentiates the trace before XLA
+                        optimises it. Enzyme differentiates after the optimisation passes, so
                         <span class="accent">
                             the backward pass inherits every optimisation the forward pass earned.
                         </span>
-                        PyTorch and JAX separate AD from arbitrary compilation. Reactant and Enzyme
-                        don't.
                     </p>
 
                     <p>How KAEM benefits:</p>
@@ -599,16 +613,16 @@
                     <h3>Closing</h3>
                     <p>
                         Generative models are often built bottom-up. Create and scale an
-                        architecture, tune until the metrics move. The design principles get
+                        architecture, tune until the metrics improve. The design principles get
                         interpreted afterwards from whatever happened to work.
                     </p>
                     <p>
                         KAEM was built differently. There is still no established, agreed-upon,
                         standard representation for language, images, and intelligence. So KAEM
-                        started from the five specs defined at the top, (drawn from my rudimentary
-                        understanding of how the scientific method works), and was engineered to
-                        meet them. And I really think KAEM is the closest model to being a true
-                        scientific generative intelligence by my specs, with:
+                        started from the 5 specs defined at the top (based on my rudimentary
+                        understanding of the scientific method) and was engineered to meet them. And
+                        I really think it's the closest I could have come to a model that meets all
+                        5 specs at once, with:
                     </p>
                     <ul>
                         <li>a deterministic KART skeleton</li>
@@ -618,21 +632,21 @@
                     </ul>
                     <p>The specs defined the model, not the other way round.</p>
                     <p>
-                        In reality, it doesn't meet all 5 yet. It's only been tested on small
-                        (standard) image datasets at my limited compute + time budget, not the
-                        language or scientific data my marketing promises! Additionally, embedding
-                        domain knowledge and inductive bias into KAEM is still yet to be empirically
-                        demonstrated. Plus optimiser dynamics are such that different
-                        representations will be produced on different initialisations, so KAEM isn't
-                        yet the reproducible
+                        In reality, it doesn't yet reach all 5. It's only been tested on fairly
+                        small (yet standard and consistent with the literature) image datasets at my
+                        limited compute + time budget, not the language or scientific data I'm
+                        ultimately aiming at. Additionally, embedding domain knowledge and inductive
+                        bias into KAEM is yet to be empirically demonstrated. Plus optimiser
+                        dynamics are such that different initialisations may produce different
+                        representations, so KAEM isn't yet the reproducible
                         <em>standard</em>
-                        the first spec demands. Those are the gaps, and there's major work to do
-                        beyond this introductory paper.
+                        the first spec demands. Overall, there's major work to do beyond this
+                        introductory paper.
                     </p>
 
                     <p>
                         But I still believe it's a big step towards my 5 requirements, and a
-                        broader, grander conceptualisation:
+                        broader, grander, harder conceptualisation:
                     </p>
                     <p class="closing-line">"The Kolmogorov-Arnold theorem is all you need."</p>
                 </div>
