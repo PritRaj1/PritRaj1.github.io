@@ -866,7 +866,8 @@ h1 {
 }
 
 .ml-plot .ax,
-.basin-figure .ax {
+.basin-figure .ax,
+.flow-figure .ax {
     stroke: var(--text-muted);
     stroke-width: 1;
     fill: none;
@@ -901,12 +902,14 @@ h1 {
     font-size: 7px;
 }
 
-.basin-figure .dens-fill {
+.basin-figure .dens-fill,
+.flow-figure .dens-fill {
     fill: var(--accent);
     opacity: 0.12;
 }
 
-.basin-figure .dens-stroke {
+.basin-figure .dens-stroke,
+.flow-figure .dens-stroke {
     fill: none;
     stroke: var(--accent-dim);
     stroke-width: 1.5;

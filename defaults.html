@@ -194,23 +194,122 @@
                         </div>
                     </div>
                     <p>
-                        Prior work (
-                        <a href="https://arxiv.org/abs/2405.13910" target="_blank" rel="noopener">
-                            arXiv 2405.13910
-                        </a>
-                        ,
+                        Prior work in EBM sampling literature removes the basins with noise rather
+                        than annealing. The diffusion-assisted EBM (DA-EBM,
                         <a href="https://arxiv.org/abs/2304.10707" target="_blank" rel="noopener">
                             arXiv 2304.10707
                         </a>
-                        ) addresses this "poor mixing" by replacing the single-shot prior with a
-                        hierarchy of diffusion-assisted EBMs, denoised step by step.
+                        ) trains a single EBM alongside diffused copies of the data. The
+                        hierarchical EBM (
+                        <a href="https://arxiv.org/abs/2405.13910" target="_blank" rel="noopener">
+                            arXiv 2405.13910
+                        </a>
+                        ) stacks the latent space top-down and runs a diffusion scheme over the
+                        multi-layer prior.
+                    </p>
+                    <svg
+                        class="flow-figure"
+                        viewBox="0 0 560 200"
+                        xmlns="http://www.w3.org/2000/svg"
+                        role="img"
+                        aria-label="A multimodal density smoothed across a few increasing noise levels until it is easy to sample, with denoising running back the other way"
+                    >
+                        <defs>
+                            <marker
+                                id="arr-mode"
+                                viewBox="0 0 10 10"
+                                refX="9"
+                                refY="5"
+                                markerWidth="7"
+                                markerHeight="7"
+                                orient="auto"
+                            >
+                                <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head" />
+                            </marker>
+                        </defs>
+
+                        <text x="280" y="20" text-anchor="middle" class="latent-label">
+                            + noise (σ grows), modes merge &rarr;
+                        </text>
+
+                        <path
+                            class="dens-fill"
+                            d="M 40 130 Q 56 52 72 130 Q 88 52 104 130 Q 120 52 136 130 Z"
+                        />
+                        <path
+                            class="dens-stroke"
+                            d="M 40 130 Q 56 52 72 130 Q 88 52 104 130 Q 120 52 136 130"
+                        />
+                        <line x1="40" y1="130" x2="136" y2="130" class="ax" />
+                        <text x="88" y="148" text-anchor="middle" class="box-sub">
+                            small σ (target)
+                        </text>
+
+                        <line
+                            x1="150"
+                            y1="95"
+                            x2="222"
+                            y2="95"
+                            class="edge"
+                            marker-end="url(#arr-mode)"
+                        />
+
+                        <path
+                            class="dens-fill"
+                            d="M 230 130 C 250 64 262 86 278 82 C 294 78 306 64 326 130 Z"
+                        />
+                        <path
+                            class="dens-stroke"
+                            d="M 230 130 C 250 64 262 86 278 82 C 294 78 306 64 326 130"
+                        />
+                        <line x1="230" y1="130" x2="326" y2="130" class="ax" />
+                        <text x="278" y="148" text-anchor="middle" class="box-sub">mid σ</text>
+
+                        <line
+                            x1="340"
+                            y1="95"
+                            x2="412"
+                            y2="95"
+                            class="edge"
+                            marker-end="url(#arr-mode)"
+                        />
+
+                        <path class="dens-fill" d="M 420 130 Q 468 50 516 130 Z" />
+                        <path class="dens-stroke" d="M 420 130 Q 468 50 516 130" />
+                        <line x1="420" y1="130" x2="516" y2="130" class="ax" />
+                        <text x="468" y="148" text-anchor="middle" class="box-sub">
+                            high σ (easy)
+                        </text>
+
+                        <line
+                            x1="470"
+                            y1="174"
+                            x2="86"
+                            y2="174"
+                            class="edge"
+                            marker-end="url(#arr-mode)"
+                        />
+                        <text x="280" y="193" text-anchor="middle" class="note">
+                            &larr; denoise: each step local and easy
+                        </text>
+                    </svg>
+                    <p class="gif-label svg-caption">
+                        Gaussian noise of growing variance \(\sigma^2\) smoothens the density. At
+                        high \(\sigma\) the modes merge and a single smooth peak becomes easy to
+                        sample, but DA-EBM only adds a few such levels, not the full diffusion to
+                        \(\mathcal{N}(0, I)\) that DDPM runs. Generation runs backwards. Each step
+                        samples a conditional \(p(z_t \mid z_{t+1})\) peaked near the previous
+                        sample, so mixing improves (recovery likelihood,
+                        <a href="https://arxiv.org/abs/2012.08125" target="_blank" rel="noopener">
+                            arXiv 2012.08125
+                        </a>
+                        ).
                     </p>
                     <p>
                         It works really well, but the cost is that generation is no longer
-                        single-pass and you've decomposed the prior into a chain of conditional
-                        models. At inference you walk back through them sequentially and the prior
-                        structure is now spread across denoising steps. Not something that's easy to
-                        interpret.
+                        single-pass. The prior is now a chain of conditional EBMs, walked back
+                        through sequentially at inference, so its structure is spread across the
+                        reverse steps. Not something that's easy to interpret.
                     </p>
                 </div>
 
