@@ -592,10 +592,9 @@
                         In PyTorch, each Langevin step would be interpreter overhead. In JAX, the
                         sampler becomes a
                         <code class="math">lax.scan</code>
-                        with pure-functional state. No mutation and manual
+                        with pure-functional state. No mutation and requires manual
                         <code class="math">stop_gradient</code>
-                        needed to detach MCMC samples from \(\partial \mathcal{L} / \partial
-                        \theta\) .
+                        to detach MCMC samples from \(\partial \mathcal{L} / \partial \theta\) .
                     </p>
                     <p>
                         Reactant traces and optimises ordinary imperative Julia directly into MLIR.
@@ -621,8 +620,8 @@
                         standard representation for language, images, and intelligence. So KAEM
                         started from the 5 specs defined at the top (based on my rudimentary
                         understanding of the scientific method) and was engineered to meet them. And
-                        I really think it's the closest I could have come to a model that meets all
-                        5 specs at once, with:
+                        it's the closest I could have come to a model that meets all 5 specs at
+                        once, with:
                     </p>
                     <ul>
                         <li>a deterministic KART skeleton</li>
@@ -634,11 +633,9 @@
                     <p>
                         In reality, it doesn't yet reach all 5. It's only been tested on fairly
                         small (yet standard and consistent with the literature) image datasets at my
-                        limited compute + time budget, not the language or scientific data I'm
-                        ultimately aiming at. Additionally, embedding domain knowledge and inductive
-                        bias into KAEM is yet to be empirically demonstrated. Plus optimiser
-                        dynamics are such that different initialisations may produce different
-                        representations, so KAEM isn't yet the reproducible
+                        limited budget, not the language or scientific data I'm ultimately aiming
+                        at. Plus optimiser dynamics are such that different initialisations could
+                        produce different representations, so KAEM isn't yet the reproducible
                         <em>standard</em>
                         the first spec demands. Overall, there's major work to do beyond this
                         introductory paper.
