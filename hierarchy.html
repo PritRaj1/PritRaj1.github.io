@@ -154,6 +154,76 @@
                     </ul>
                 </div>
 
+                <div class="requirement-section">
+                    <h2 id="above-locomotion-layer">Above the locomotion layer</h2>
+                    <p>
+                        Above the locomotion layer sits high-level intent and decision-making, the
+                        policy that chooses what to do: "walk to the door", "pick up the cup".
+                        Vision-Language-Action models (VLA) are the frontier. Take a pre-trained
+                        vision-language model (VLM), already grounded in objects, scenes, and
+                        language through web-scale pretraining, and co-fine-tune it to emit robot
+                        actions. The model inherits the VLM's world knowledge without more
+                        pretraining. Examples include:
+                    </p>
+                    <div class="def-grid">
+                        <div class="def-card">
+                            <span class="def-name">π0</span>
+                            <span class="def-expand">
+                                Physical Intelligence (
+                                <a
+                                    href="https://arxiv.org/abs/2410.24164"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    arXiv 2410.24164
+                                </a>
+                                )
+                            </span>
+                            <p class="def-body">
+                                A pre-trained VLM is paired with a flow-matching action expert, (a
+                                small transformer head trained to predict a velocity field that
+                                transports Gaussian noise to motor commands). At inference, the
+                                field is integrated over ~10 Euler steps to produce an action chunk,
+                                (a sequence of 50 future motor commands, i.e., 1 second of
+                                continuous control at 50 Hz), rather than single actions. It
+                                performs dexterous bimanual manipulation end-to-end, (e.g., folding
+                                laundry, bussing tables), with no separate low-level controller.
+                            </p>
+                        </div>
+                        <div class="def-card">
+                            <span class="def-name">Helix</span>
+                            <span class="def-expand">
+                                Figure (
+                                <a
+                                    href="https://www.figure.ai/news/helix"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    blog
+                                </a>
+                                )
+                            </span>
+                            <p class="def-body">
+                                A dual-system architecture pairing a slow VLM as
+                                <em>System-2</em>
+                                for high-level reasoning and a high-rate transformer as
+                                <em>System-1</em>
+                                for dexterous body control. This is the first VLA to control the
+                                entire humanoid upper body end-to-end, (arms, hands, torso, head,
+                                fingers). Slightly similar hierarchical pattern to brain -> central
+                                nervous system actually!
+                            </p>
+                        </div>
+                    </div>
+                    <p>
+                        Even at the frontier, locomotion and walking gaits aren't yet controlled by
+                        VLA. Stabilising leg joints and contact requires controllers running at
+                        hundreds of Hz, which is currently above the rate a VLM-scale model can
+                        produce, (for now)! Helix runs its upper body through VLA but keeps the legs
+                        on a separate low-level loop.
+                    </p>
+                </div>
+
                 <div class="section-major">
                     <h2 id="world-models">World models</h2>
                     <p>
