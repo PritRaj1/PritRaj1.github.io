@@ -350,8 +350,8 @@
                         </div>
                     </div>
                     <p>
-                        The trick is in \(\log Z_t\). Differentiate it in \(t\), using the chain
-                        rule on \(p_\Phi(x \mid z)^t\):
+                        The derivation begins from the log-partition function \(\log Z_t\).
+                        Differentiating w.r.t \(t\), using the chain rule on \(p_\Phi(x \mid z)^t\):
                     </p>
                     <p>
                         \[ \frac{\partial}{\partial t} \log Z_t \;=\; \frac{1}{Z_t}
@@ -359,16 +359,17 @@
                         \left[ \log p_\Phi(x \mid z)\, p_\Phi(x \mid z)^t \right]. \]
                     </p>
                     <p>
-                        The \(p_\Phi(x \mid z)^t / Z_t\) factor is exactly the power posterior
-                        \(p_{f,\Phi}(z \mid x, t)\), so the prior-weighted expectation collapses
-                        into a power-posterior-weighted one:
+                        The \(p_\Phi(x \mid z)^t / Z_t\) term is the exact factor needed to turn the
+                        prior expectation into an expectation w.r.t the power posterior
+                        \(p_{f,\Phi}(z \mid x, t)\):
                     </p>
                     <p>
                         \[ \frac{\partial}{\partial t} \log Z_t = \mathbb{E}_{p_{f,\Phi}(z \mid x,
                         t)} \!\left[ \log p_\Phi(x \mid z) \right]. \]
                     </p>
                     <p>
-                        Integrate both sides from 0 to 1. The fundamental theorem of calculus gives:
+                        Integrate both sides from \(t=0\) to \(t=1\). The fundamental theorem of
+                        calculus gives:
                     </p>
                     <p>
                         \[ \log Z_1 - \log Z_0 = \int_0^1 \mathbb{E}_{p_{f,\Phi}(z \mid x,
@@ -391,10 +392,11 @@
                         \!\left[ \log p_\Phi(x \mid z) \right] dt. \]
                     </p>
                     <p>
-                        A continuum of expectations replaces a single hard one. In return you get
-                        tractability on multimodal posterior sampling after we discretise the
-                        integral. High-\(t\) chains explore the global landscape, low-\(t\) chains
-                        resolve detail, and Replica Exchange Monte Carlo enables swaps between them!
+                        A continuum of expectations replaces a single difficult-to-sample one, and
+                        after discretising the integral, we get a chain of tractable posteriors with
+                        smoothened modes (see below). High-\(t\) chains explore the global
+                        landscape, low-\(t\) chains resolve detail, and Replica Exchange Monte Carlo
+                        enables swaps between them!
                     </p>
                 </div>
 
