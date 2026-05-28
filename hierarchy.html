@@ -35,8 +35,11 @@
     <body>
         <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
-            <nav aria-label="Breadcrumb">
-                <a href="index.html" class="back-link">&larr; Back</a>
+            <nav aria-label="Back">
+                <a href="index.html" class="back-link">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
             <main id="main">
                 <div class="featured">
@@ -52,7 +55,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>First the mechanics</h3>
+                    <h2 id="first-the-mechanics">First the mechanics</h2>
                     <p>
                         The default in machine learning is to reach for data, but old-school
                         engineers first look for mechanical, analogue, or physically-informed
@@ -126,7 +129,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>The locomotion problem</h3>
+                    <h2 id="locomotion-problem">The locomotion problem</h2>
                     <p>
                         Legs are nonlinear, contact dynamics are discontinuous, and the policy has
                         to handle disturbances in real time. All on power-limited hardware! We'll
@@ -152,7 +155,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>World models</h3>
+                    <h2 id="world-models">World models</h2>
                     <p>
                         <span class="accent">World Models</span>
                         (
@@ -347,7 +350,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Model predictive control</h3>
+                    <h2 id="model-predictive-control">Model predictive control</h2>
                     <p>
                         Model predictive control (MPC) plans a short trajectory against a known
                         dynamics model, executes the first step, then replans. Full-trajectory
@@ -440,7 +443,7 @@
                     </p>
                     <p>There are two main flavours of solver:</p>
 
-                    <h4 class="method-title">Sample-based</h4>
+                    <h3 class="method-title" id="mpc-sample-based">Sample-based</h3>
                     <p>
                         Model Predictive Path Integral control (
                         <a href="https://arxiv.org/abs/1707.02342" target="_blank" rel="noopener">
@@ -486,7 +489,7 @@
                         </div>
                     </div>
 
-                    <h4 class="method-title">Gradient-based</h4>
+                    <h3 class="method-title" id="mpc-gradient-based">Gradient-based</h3>
                     <p>
                         Iterative Linear-Quadratic Regulator (iLQR) and Differential Dynamic
                         Programming (DDP) linearises \(f\) (first-order Taylor expansion) around a
@@ -512,7 +515,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Central pattern generators</h3>
+                    <h2 id="central-pattern-generators">Central pattern generators</h2>
                     <p>
                         Screw the learning, skip the optimisation. Build a circuit whose dynamics
                         <em>are</em>
@@ -648,7 +651,7 @@
                             </a>
                         </div>
                     </div>
-                    <h4 class="method-title">Half-centre CPG</h4>
+                    <h3 class="method-title" id="half-centre-cpg">Half-centre CPG</h3>
                     <p>
                         A half-centre CPG is two coupled MQIF units \(A\) and \(B\) with inhibitory
                         synapses. Each synapse has a gating variable \(s\) that lags pre-synaptic
@@ -670,7 +673,7 @@
                         .
                     </p>
 
-                    <h4 class="method-title">Phase selects gait</h4>
+                    <h3 class="method-title" id="phase-selects-gait">Phase selects gait</h3>
                     <p>
                         Four units connected like above in a directed inhibition graph give a
                         quad-centre CPG, one neuron per leg. The graph's adjacency matrix encodes
@@ -740,7 +743,7 @@
                         <strong>Bound</strong>
                         : front pair (FL+FR) synced, then back pair (BL+BR).
                     </p>
-                    <h4 class="method-title">Adaptation</h4>
+                    <h3 class="method-title" id="adaptation">Adaptation</h3>
                     <p>
                         When input current \(I\) is raised and the firing rate increases, gait
                         frequency climbs with it. Swap the inhibition graph and the gait swaps. A
@@ -761,7 +764,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Three approaches, three costs</h3>
+                    <h2 id="three-approaches-three-costs">Three approaches, three costs</h2>
                     <div class="def-grid">
                         <div class="def-card">
                             <span class="def-name">JEPA</span>
@@ -795,7 +798,7 @@
 
                 <div class="section-major">
                     <div class="project-header">
-                        <h3>Neuromorphic Robots!</h3>
+                        <h2 id="neuromorphic-robots">Neuromorphic Robots!</h2>
                         <a
                             href="docs/conference_poster.pdf"
                             target="_blank"
@@ -837,7 +840,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>1. Motor degrees of freedom</h3>
+                    <h2 id="motor-degrees-of-freedom">1. Motor degrees of freedom</h2>
                     <p>
                         Get the kinematics right before adding actuation. Spider was easy, one motor
                         per joint. Dog was harder, so I built a joints-only prototype first and
@@ -868,7 +871,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>2. Mechanical strength</h3>
+                    <h2 id="mechanical-strength">2. Mechanical strength</h2>
                     <p>The motors alone could not carry the payload :(</p>
                     <div class="video-single">
                         <div class="video-embed">
@@ -934,7 +937,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>3. Finished legs</h3>
+                    <h2 id="finished-legs">3. Finished legs</h2>
                     <div class="gif-row gif-row-pair">
                         <div class="gif-item">
                             <img src="images/spider_leg.jpg" alt="Synapider leg, final design" />
@@ -948,7 +951,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>4. The gaits</h3>
+                    <h2 id="the-gaits">4. The gaits</h2>
                     <p>
                         MQIF units, half-centre and quad-centre coupling, implemented in Simulink.
                         No policy network, no MPC solver, no online optimisation! Change the gait by
@@ -985,7 +988,10 @@
                 </div>
             </main>
             <nav aria-label="Back to home">
-                <a href="index.html" class="back-link bottom">&larr; Back</a>
+                <a href="index.html" class="back-link bottom">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
         </div>
     </body>

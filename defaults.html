@@ -35,8 +35,11 @@
     <body>
         <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
-            <nav aria-label="Breadcrumb">
-                <a href="index.html" class="back-link">&larr; Back</a>
+            <nav aria-label="Back">
+                <a href="index.html" class="back-link">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
             <main id="main">
                 <div class="featured">
@@ -69,7 +72,7 @@
                 </p>
 
                 <div class="section-major">
-                    <h3>Score matching</h3>
+                    <h2 id="score-matching">Score matching</h2>
                     <p>
                         Yang Song's
                         <a
@@ -146,7 +149,9 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Diffusion as the literature's EBM mixing fix</h3>
+                    <h2 id="diffusion-ebm-mixing-fix">
+                        Diffusion as the literature's EBM mixing fix
+                    </h2>
                     <p>
                         In latent EBMs, \(p_{f,\Phi}(z \mid x) \propto p_\Phi(x \mid z)\, p_f(z)\)
                         is typically sampled by Langevin Monte Carlo, which moves in the gradient
@@ -314,7 +319,9 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Thermodynamic integration (KAEM's method)</h3>
+                    <h2 id="thermodynamic-integration">
+                        Thermodynamic integration (KAEM's method)
+                    </h2>
                     <p>
                         This is the method I proposed for
                         <a href="kaem.html">KAEM's</a>
@@ -392,7 +399,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Discretising the integral</h3>
+                    <h2 id="discretising-the-integral">Discretising the integral</h2>
                     <p>
                         How do you do integration computationally? Well, think back to
                         <span class="accent">schoolboy integration</span>
@@ -442,7 +449,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Choosing \(p\) for KAEM</h3>
+                    <h2 id="choosing-p">Choosing \(p\) for KAEM</h2>
                     <p>
                         <a
                             href="https://doi.org/10.1016/j.csda.2009.07.025"
@@ -501,7 +508,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Why thermo over diffusion for KAEM</h3>
+                    <h2 id="thermo-over-diffusion">Why thermo over diffusion for KAEM</h2>
                     <ul>
                         <li>
                             <span class="accent">prior preserved</span>
@@ -551,7 +558,7 @@
                 </div>
 
                 <div class="project-header">
-                    <h3>Parallel Tempering</h3>
+                    <h2 id="parallel-tempering">Parallel Tempering</h2>
                     <a
                         href="https://github.com/PritRaj1/NonConvex-RUST"
                         target="_blank"
@@ -574,7 +581,10 @@
                 </div>
             </main>
             <nav aria-label="Back to home">
-                <a href="index.html" class="back-link bottom">&larr; Back</a>
+                <a href="index.html" class="back-link bottom">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
         </div>
     </body>

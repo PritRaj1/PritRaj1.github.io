@@ -35,8 +35,11 @@
     <body>
         <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
-            <nav aria-label="Breadcrumb">
-                <a href="index.html" class="back-link">&larr; Back</a>
+            <nav aria-label="Back">
+                <a href="index.html" class="back-link">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
             <main id="main">
                 <div class="featured">
@@ -51,7 +54,8 @@
                         rel="noopener"
                         class="paper-link"
                     >
-                        Read the paper &rarr;
+                        Read the paper
+                        <span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
 
@@ -114,7 +118,7 @@
                 </ol>
 
                 <div class="requirement-section">
-                    <h4 class="method-title">Standardised</h4>
+                    <h2 class="method-title" id="standardised">Standardised</h2>
                     <p>
                         The Kolmogorov-Arnold Representation Theorem decomposes any continuous
                         multivariate function into two finite sums of univariate ones.
@@ -151,7 +155,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h4 class="method-title">Sustainable</h4>
+                    <h2 class="method-title" id="sustainable">Sustainable</h2>
                     <p>
                         Wu et al. (2022) report a
                         <span class="accent">30 : 29 : 41</span>
@@ -182,7 +186,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h4 class="method-title">Interpretable</h4>
+                    <h2 class="method-title" id="interpretable">Interpretable</h2>
                     <p>
                         The prior is a product of 1D densities, since the Kolmogorov-Arnold
                         Representation Theorem provides the basis. You can plot and interpret them,
@@ -207,7 +211,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h4 class="method-title">Informed</h4>
+                    <h2 class="method-title" id="informed">Informed</h2>
                     <p>Three places to inject what you know about the problem:</p>
                     <ul>
                         <li>the reference prior</li>
@@ -218,7 +222,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h4 class="method-title">Accessible</h4>
+                    <h2 class="method-title" id="accessible">Accessible</h2>
                     <p>KAEM is a robust probabilistic model. It can run on laptops.</p>
                     <p>
                         With the correct priors and biases, posterior expectations can be estimated
@@ -244,7 +248,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Metrics</h3>
+                    <h2 id="metrics">Metrics</h2>
                     <p>How do we quantify the perceptual quality of generated images?</p>
                     <p>
                         It's not exact, but the academic community has adopted the following
@@ -467,7 +471,7 @@
 
                 <div class="section-major">
                     <div class="project-header">
-                        <h3>Implementation</h3>
+                        <h2 id="implementation">Implementation</h2>
                         <a
                             href="https://github.com/thezettascale/KAEM"
                             target="_blank"
@@ -616,7 +620,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Closing</h3>
+                    <h2 id="closing">Closing</h2>
                     <p>
                         Generative models are often built bottom-up. Create and scale an
                         architecture, tune until the metrics improve. The design principles get
@@ -656,7 +660,10 @@
                 </div>
             </main>
             <nav aria-label="Back to home">
-                <a href="index.html" class="back-link bottom">&larr; Back</a>
+                <a href="index.html" class="back-link bottom">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
         </div>
     </body>

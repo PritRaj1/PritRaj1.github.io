@@ -35,8 +35,11 @@
     <body>
         <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
-            <nav aria-label="Breadcrumb">
-                <a href="index.html" class="back-link">&larr; Back</a>
+            <nav aria-label="Back">
+                <a href="index.html" class="back-link">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
             <main id="main">
                 <div class="featured">
@@ -51,7 +54,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Drug solubility on AqSolDB</h3>
+                    <h2 id="drug-solubility">Drug solubility on AqSolDB</h2>
                     <p>
                         <a
                             href="https://doi.org/10.1038/s41597-019-0151-1"
@@ -86,7 +89,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Two kinds of uncertainty</h3>
+                    <h2 id="two-kinds-of-uncertainty">Two kinds of uncertainty</h2>
                     <div class="def-grid">
                         <div class="def-card">
                             <span class="def-name">Aleatoric</span>
@@ -108,7 +111,7 @@
                         </div>
                     </div>
 
-                    <h4 class="method-title">Aleatoric sources</h4>
+                    <h3 class="method-title" id="aleatoric-sources">Aleatoric sources</h3>
                     <ul>
                         <li>
                             <span class="accent">conformational flexibility</span>
@@ -189,7 +192,7 @@
                             thermodynamic minimum
                         </li>
                     </ul>
-                    <h4 class="method-title">Epistemic sources</h4>
+                    <h3 class="method-title" id="epistemic-sources">Epistemic sources</h3>
                     <ul>
                         <li>
                             <span class="accent">data sparsity</span>
@@ -211,7 +214,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Gaussian processes</h3>
+                    <h2 id="gaussian-processes">Gaussian processes</h2>
                     <p>
                         <a
                             href="https://distill.pub/2019/visual-exploration-gaussian-processes/"
@@ -238,7 +241,7 @@
                         \(\mathbf{c}\) (variance is non-negative in every direction).
                     </p>
 
-                    <h4 class="method-title">Regression</h4>
+                    <h3 class="method-title" id="regression">Regression</h3>
                     <p>
                         With \(n\) observations \(y_i = f(x_i) + \varepsilon_i\) where
                         \(\varepsilon_i \sim \mathcal{N}(0, \lambda)\) (the aleatoric noise),
@@ -285,7 +288,7 @@
                         </li>
                     </ul>
 
-                    <h4 class="method-title">Marginal likelihood</h4>
+                    <h3 class="method-title" id="marginal-likelihood">Marginal likelihood</h3>
                     <p>
                         The kernel has free parameters \(\theta\) (length scales \(\sigma_i\), noise
                         \(\lambda\)), chosen by maximising the
@@ -325,7 +328,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Kernels</h3>
+                    <h2 id="kernels">Kernels</h2>
                     <p>
                         The
                         <a
@@ -389,7 +392,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Sparse GPs: \(\mathcal{O}(n^3)\) is the problem</h3>
+                    <h2 id="sparse-gps">Sparse GPs: \(\mathcal{O}(n^3)\) is the problem</h2>
                     <p>
                         The dense posterior needs \((K + \lambda I)^{-1}\), which involves
                         \(\mathcal{O}(n^3)\) time complexity and \(\mathcal{O}(n^2)\) storage for
@@ -439,7 +442,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Active learning</h3>
+                    <h2 id="active-learning">Active learning</h2>
                     <p>
                         Wet-lab solubility measurements are expensive! Each trial burns hours to
                         days of work, milligrams of compound, spectrometer runs, etc. The space of
@@ -471,7 +474,7 @@
                         .)
                     </p>
                     <div class="project-header">
-                        <h3>GP-AqSolDB</h3>
+                        <h2 id="gp-aqsoldb">GP-AqSolDB</h2>
                         <a
                             href="https://github.com/PritRaj1/GP-AqSolDB"
                             target="_blank"
@@ -505,7 +508,10 @@
                 </div>
             </main>
             <nav aria-label="Back to home">
-                <a href="index.html" class="back-link bottom">&larr; Back</a>
+                <a href="index.html" class="back-link bottom">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
         </div>
     </body>

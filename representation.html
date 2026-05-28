@@ -35,8 +35,11 @@
     <body>
         <a href="#main" class="skip-link">Skip to content</a>
         <div class="container">
-            <nav aria-label="Breadcrumb">
-                <a href="index.html" class="back-link">&larr; Back</a>
+            <nav aria-label="Back">
+                <a href="index.html" class="back-link">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
             <main id="main">
                 <div class="featured">
@@ -48,7 +51,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>An intro to scientific machine learning</h3>
+                    <h2 id="intro-to-sciml">An intro to scientific machine learning</h2>
                     <p>
                         On the axes of big worldly problems, we have two resources at our disposal
                         to model said problems: acquired human knowledge, and acquired data!
@@ -182,7 +185,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>Neural Operators</h3>
+                    <h2 id="neural-operators">Neural Operators</h2>
                     <p>
                         Neural networks map between fixed discretisations, \(\mathbb{R}^n \to
                         \mathbb{R}^m\). Neural operators (
@@ -213,7 +216,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Integral Kernel Operator</h3>
+                    <h2 id="integral-kernel-operator">Integral Kernel Operator</h2>
                     <p>A neural-operator layer has the form</p>
                     \[ v_{t+1}(x) = \sigma\!\left(W v_t(x) + (\mathcal{K} v_t)(x) + b\right) \]
                     <p>where the integral kernel operator (IKO) is</p>
@@ -288,7 +291,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h3>A bit of personal speculation</h3>
+                    <h2 id="personal-speculation">A bit of personal speculation</h2>
                     <p>
                         Transformers and attention have sequence length dimension (temporal) and an
                         embedding dimension (spatial). Almost like a discretised 2D field.
@@ -316,7 +319,7 @@
                 </div>
 
                 <div class="requirement-section">
-                    <h3>Where Attention fails</h3>
+                    <h2 id="where-attention-fails">Where Attention fails</h2>
                     <p>
                         If you know the family of PDEs your data comes from, a model with the
                         correct inductive biases outperforms on:
@@ -350,7 +353,9 @@
 
                 <div class="requirement-section">
                     <div class="project-header">
-                        <h3>1D three-phase viscoelastic composite</h3>
+                        <h2 id="1d-viscoelastic-composite">
+                            1D three-phase viscoelastic composite
+                        </h2>
                         <a
                             href="https://github.com/PritRaj1/viscoplastic-sequence"
                             target="_blank"
@@ -412,7 +417,7 @@
 
                 <div class="requirement-section">
                     <div class="project-header">
-                        <h3>2D Darcy flow on the unit box</h3>
+                        <h2 id="2d-darcy-flow">2D Darcy flow on the unit box</h2>
                         <a
                             href="https://github.com/thezettascale/darcy-cnn"
                             target="_blank"
@@ -475,7 +480,7 @@
                     </p>
                 </div>
                 <div class="section-major">
-                    <h3>So is attention bad?</h3>
+                    <h2 id="is-attention-bad">So is attention bad?</h2>
                     <p>
                         Not in the slightest! Attention is highly data-parallel and versatile. It's
                         matmul-heavy and scales on existing hardware. The recurrent neural operator
@@ -511,7 +516,10 @@
                 </div>
             </main>
             <nav aria-label="Back to home">
-                <a href="index.html" class="back-link bottom">&larr; Back</a>
+                <a href="index.html" class="back-link bottom">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
             </nav>
         </div>
     </body>
