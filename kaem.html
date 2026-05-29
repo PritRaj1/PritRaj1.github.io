@@ -45,8 +45,9 @@
                 <div class="featured">
                     <h1>KAEM: Kolmogorov-Arnold Energy Model</h1>
                     <p>
-                        Generative AI models succumb to trade-offs. GANs sacrifice training stability,
-                        VAEs sample quality, diffusion inference speed. KAEM addresses all three.
+                        Generative AI models succumb to trade-offs. GANs sacrifice training
+                        stability, VAEs sample quality, diffusion inference speed. KAEM addresses
+                        all three.
                     </p>
                     <a
                         href="https://arxiv.org/abs/2506.14167"
@@ -611,11 +612,159 @@
                         Reactant traces and optimises ordinary imperative Julia directly into MLIR.
                         No special rewriting.
                     </p>
+                </div>
+
+                <div class="requirement-section">
+                    <h2 id="quick-comparisons">Quick comparisons</h2>
+                    <p>
+                        Once compiled, Reactant is slightly faster than JAX, a few times faster than
+                        torch.compile, and around 20x faster than eager PyTorch (on laptop GPU).
+                        Compile-time difference are much larger.
+                    </p>
+                    <p>A small MLP experiment to pin this down, (not KAEM training itself):</p>
+
+                    <div class="stack-block">
+                        <div class="stack-row">
+                            <span class="stack-name">Model</span>
+                            <span class="stack-why">
+                                MLP, \(d \to 2d{+}1 \to 4d{+}2 \to 1\) with \(\tanh\), \(d = 41\),
+                                batch \(128\)
+                            </span>
+                        </div>
+                        <div class="stack-row">
+                            <span class="stack-name">Hardware</span>
+                            <span class="stack-why">4GB GTX 1650</span>
+                        </div>
+                        <div class="stack-row">
+                            <span class="stack-name">Workload</span>
+                            <span class="stack-why">identical Langevin sampling chain</span>
+                        </div>
+                        <div class="stack-row">
+                            <span class="stack-name">Timing</span>
+                            <span class="stack-why">
+                                time to compile (first call, with caches cleared) and time to run
+                                compiled chain (median of ten subsequent calls)
+                            </span>
+                        </div>
+                        <div class="stack-row">
+                            <span class="stack-name">PyTorch</span>
+                            <span class="stack-why">
+                                <code class="math">torch.func.grad</code>
+                                in both modes for parity with
+                                <code class="math">torch.compile</code>
+                                ; eager
+                                <code class="math">autograd.grad</code>
+                                does not compose with it
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="bench">
+                        <div class="bench-title">Time to compile a 200-step Langevin chain</div>
+                        <div class="bench-row best">
+                            <span class="bench-label">Reactant @trace for</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 0.3%"></div>
+                            </div>
+                            <span class="bench-value">0.3 s</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">JAX lax.scan</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 0.5%"></div>
+                            </div>
+                            <span class="bench-value">0.5 s</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">Reactant unrolled for</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 21.8%"></div>
+                            </div>
+                            <span class="bench-value">22 s</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">torch.compile</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 100%"></div>
+                            </div>
+                            <span class="bench-value">101 s</span>
+                        </div>
+                    </div>
+
+                    <div class="bench">
+                        <div class="bench-title">Time to run once compiled</div>
+                        <div class="bench-row best">
+                            <span class="bench-label">Reactant @trace for</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 5%"></div>
+                            </div>
+                            <span class="bench-value">8.8 ms</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">JAX lax.scan</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 5.2%"></div>
+                            </div>
+                            <span class="bench-value">9.2 ms</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">torch.compile</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 6.5%"></div>
+                            </div>
+                            <span class="bench-value">11.6 ms</span>
+                        </div>
+                        <div class="bench-row">
+                            <span class="bench-label">PyTorch eager</span>
+                            <div class="bench-bar-track">
+                                <div class="bench-bar" style="--w: 100%"></div>
+                            </div>
+                            <span class="bench-value">177.6 ms</span>
+                        </div>
+                    </div>
+                    <p>
+                        <a
+                            href="https://enzymead.github.io/Reactant.jl/dev/api/api#ReactantCore.@trace"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <code class="math">@trace</code>
+                        </a>
+                        and
+                        <a
+                            href="https://docs.jax.dev/en/latest/_autosummary/jax.lax.scan.html"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <code class="math">lax.scan</code>
+                        </a>
+                        compile the whole chain as a single loop op, so the cost stays constant in
+                        chain length. In contrast, torch.compile and a plain Julia for loop copy the
+                        loop body once per step, which is why 200 steps cost 101 s and 22 s
+                        respectively.
+                    </p>
 
                     <p>
-                        <span class="accent">
-                            KAEM is as fast as the maths allows, on any hardware that MLIR targets.
-                        </span>
+                        torch.compile only amortises its 101 s cost after approx 600 runs at the
+                        same input shapes. Reactant and JAX recompile on shape changes too, but each
+                        recompile is sub-second - torch.compile
+                        <a
+                            href="https://docs.pytorch.org/docs/main/user_guide/torch_compiler/compile/programming_model.recompilation.html"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            pays the full cost again
+                        </a>
+                        .
+                        <code class="math">lax.scan</code>
+                        also needs the loop body rewritten as a pure function returning the next
+                        state, where Reactant
+                        <code class="math">@trace</code>
+                        compiles the idiomatic Julia for loop without rewriting.
+                    </p>
+                    <p class="benchccote">
+                        Disclosure: at A100 scale and larger models, kernel launch overhead matters
+                        less and the eager-vs-compiled gap narrows.
                     </p>
                 </div>
 
