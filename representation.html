@@ -383,7 +383,7 @@
                                 alt="Transformer prediction on viscoelastic stress field"
                             />
                             <div class="gif-label">
-                                Transformer. 4,209,205 params, purely data-driven
+                                Transformer. 4,257,391 params, purely data-driven (8.2 min/run)
                             </div>
                         </div>
                         <div class="gif-item">
@@ -391,12 +391,14 @@
                                 src="images/RNO_visco_prediction.gif"
                                 alt="RNO prediction on viscoelastic stress field"
                             />
-                            <div class="gif-label">RNO. 52 params + PDE/time-series bias</div>
+                            <div class="gif-label">
+                                RNO. 39 params + PDE/time-series bias (6.9 min/run)
+                            </div>
                         </div>
                     </div>
                     <p>
-                        4,209,205 versus 52 parameters, an
-                        <span class="accent">80,946x ratio</span>
+                        4,257,391 versus 39 parameters, a
+                        <span class="accent">109,164x ratio</span>
                         between them. Same amount of data, same amount of tuning, both fit the data.
                         The Recurrent Neural Operator wins by carrying two biases Attention has to
                         learn:
@@ -484,7 +486,8 @@
                     <p>
                         Not in the slightest! Attention is highly data-parallel and versatile. It's
                         matmul-heavy and scales on existing hardware. The recurrent neural operator
-                        is sequential due to its recurrence relationship.
+                        is sequential, (it only outperformed on wall-clock in the above project
+                        because the scale was small).
                     </p>
                     <p>
                         With abundant data and unknown structure, more compute is better than more
