@@ -64,10 +64,10 @@
                 </div>
 
                 <p>
-                    KAEM is a latent-variable generative model! Like a VAE, it draws a
-                    low-dimensional latent sample and decodes it into data. Unlike a VAE, the latent
-                    prior isn't a fixed Gaussian. It's a set of learned 1D densities based on
-                    Kolmogorov-Arnold Networks (
+                    KAEM is a latent-variable generative model built for scientific/representation
+                    discovery! Like a VAE, it draws a low-dimensional latent sample and decodes it
+                    into data. Unlike a VAE, the latent prior isn't a fixed Gaussian. It's a set of
+                    learned 1D densities based on Kolmogorov-Arnold Networks (
                     <a href="https://arxiv.org/abs/2404.19756" target="_blank" rel="noopener">
                         arXiv 2404.19756
                     </a>
@@ -129,15 +129,14 @@
                         Deterministic. Definitive. Universal for continuous functions.
                     </p>
                     <p>
-                        That isn't readily applied to probabilistic modelling. KAEM gets there by
+                        This isn't readily applied to probabilistic modelling. KAEM gets there by
                         recasting the inner functions \(\psi_{q,p} : [0,1] \to \mathbb{R}\) as
                         Markov kernels, inverse CDFs acting on uniform noise on [0,1].
                     </p>
                     <p>
                         Inverse transform sampling becomes a measurable map from uniform noise into
-                        the target, so KART's deterministic structure is preserved and a
-                        probabilistic interpretation falls out without introducing stochasticity
-                        into the representation.
+                        the target, so KART's determinism is preserved and a probabilistic
+                        interpretation falls out without introducing stochasticity into KART
                     </p>
                     <p>
                         The result is one skeleton across modalities. This is a
@@ -192,13 +191,12 @@
                 <div class="requirement-section">
                     <h2 class="method-title" id="interpretable">Interpretable</h2>
                     <p>
-                        The prior is a product of 1D densities, since the Kolmogorov-Arnold
-                        Representation Theorem provides the basis. You can plot and interpret them,
-                        modes and tails are easily visible. Contrastive divergence (the criterion
-                        used to train EBMs, aligning prior to posterior like empirical Bayes)
-                        sculpts them to the data. Interpolate between two latent samples with SLERP,
-                        spherical linear interpolation (see image), and the traversal has a meaning
-                        you can read straight off the plot.
+                        The prior is a product of 1D densities, since the Kolmogorov-Arnold Theorem
+                        provides the basis. You can plot/interpret them, modes and tails are easily
+                        visible. Contrastive divergence, (the criterion used to train EBMs, aligning
+                        prior to posterior via empirical Bayes), sculpts them to data. Interpolate
+                        between two latent samples with SLERP, spherical linear interpolation (see
+                        image), and the traversal has meaning you can read off the plot.
                     </p>
                     <div class="gif-single">
                         <img
@@ -230,7 +228,7 @@
                     <p>KAEM is a robust probabilistic model. It can run on laptops.</p>
                     <p>
                         With the correct priors and biases, posterior expectations can be estimated
-                        by importance sampling (a simple weighted average over samples). No large
+                        by importance sampling, (a simple weighted average over samples). No large
                         encoder network needed, (unlike a VAE). Just a sample-based estimator with
                         no parameters of its own. And generation is a fast and exact inverse
                         transform on uniform noise, no iteration at inference.
@@ -257,9 +255,9 @@
                     <p>
                         It's not exact, but the academic community has adopted the following
                         approach. Pass real and generated images through InceptionV3, then measure
-                        distance between the two datasets in InceptionV3's feature space. Two
-                        standard ways to compute that distance.
+                        distance between the two datasets in InceptionV3's feature space.
                     </p>
+                    <p>Two standard ways to compute that distance:</p>
 
                     <div class="def-grid">
                         <div class="def-card">
@@ -794,11 +792,11 @@
                     </ul>
                     <p>The specs defined the model, not the other way round.</p>
                     <p>
-                        In reality, it doesn't yet reach all 5. It's only been tested on fairly
-                        small (yet standard and consistent with the literature) image datasets at my
-                        limited budget, not the language or scientific data I'm ultimately aiming
-                        at. Plus optimiser dynamics are such that different initialisations could
-                        produce different representations, so KAEM isn't yet the reproducible
+                        In reality, it doesn't yet reach all 5. It's only been tested on small, (yet
+                        standard and consistent with the literature) image datasets at my limited
+                        budget, not the language or scientific data I'm ultimately aiming at. Plus
+                        optimiser dynamics are such that different initialisations could produce
+                        different representations, so KAEM isn't yet the reproducible
                         <em>standard</em>
                         the first spec demands. Overall, there's major work to do beyond this
                         introductory paper.
