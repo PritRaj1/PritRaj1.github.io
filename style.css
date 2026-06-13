@@ -6,8 +6,8 @@
 
     --text-strong: #ffffff;
     --text: #dcdad5;
-    --text-soft: #a19f9a;
-    --text-muted: #5e6063;
+    --text-soft: #c2bfb6;
+    --text-muted: #b3ac9a;
 
     --accent: #e2ba6e;
     --accent-bright: #ebd29f;
@@ -438,7 +438,7 @@ h1 {
 }
 
 .gif-single.wide {
-    max-width: 100%;
+    max-width: 35%;
 }
 
 /* KAEM page hero */
@@ -1035,7 +1035,7 @@ h1 {
 }
 
 .limit-cycle-figure {
-    max-width: 100%;
+    max-width: 35%;
     margin: 16px auto 8px;
 }
 
