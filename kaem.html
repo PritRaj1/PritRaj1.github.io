@@ -61,6 +61,24 @@
                         Read the paper
                         <span aria-hidden="true">&rarr;</span>
                     </a>
+                    <a
+                        href="https://github.com/PritRaj1/thermo-ebms"
+                        target="_blank"
+                        rel="noopener"
+                        class="paper-link"
+                    >
+                        JAX package
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    <a
+                        href="https://github.com/thezettascale/KAEM"
+                        target="_blank"
+                        rel="noopener"
+                        class="paper-link"
+                    >
+                        Julia repository
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
                 </div>
 
                 <p>
@@ -486,9 +504,9 @@
                     </div>
 
                     <p>
-                        KAEM was implemented in Julia! JAX is an awesome project, and I've come full
-                        circle in adopting it as my primary toolkit once again, but Julia needs more
-                        love, and its primary weakness is adoption!
+                        The research for KAEM was conducted in Julia! JAX is an awesome project, and
+                        I've come full circle in adopting it as my primary toolkit once again, but
+                        Julia needs more love, and its primary weakness is adoption!
                     </p>
 
                     <div class="stack-block">
@@ -499,14 +517,16 @@
                         <div class="stack-row">
                             <span class="stack-name">Lux.jl</span>
                             <span class="stack-why">
-                                pure functions -> full visibility to compiler optimisations
+                                pure functions -> full visibility to compiler optimisations, (same
+                                as Flax)
                             </span>
                         </div>
 
                         <div class="stack-row">
                             <span class="stack-name">Reactant.jl</span>
                             <span class="stack-why">
-                                compiles Julia to MLIR, an open standard any hardware can target
+                                compiles Julia to XLA/MLIR, an open standard that any hardware can
+                                target
                             </span>
                         </div>
                         <div class="stack-row">
@@ -537,10 +557,18 @@
                                 Open and modular compiler IR. Keeps IR high-level (immutable SSA
                                 tensors) for as long as possible so linear-algebra + fusion
                                 optimisations work on the maths itself. Only bufferises to mutable
-                                memrefs when needed for memory planning and affine-dialect's
-                                (pseudo-polyhedral) transformations before lowering to hardware.
-                                MLIR is retargettable across hardware as vendors can plug in at the
-                                lowest level and reuse the other levels that they need.
+                                'memrefs' when it's absolutely needed for memory planning and
+                                <a
+                                    href="https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    (pseudo-polyhedral) transformations
+                                </a>
+                                before lowering to hardware backend. Importantly, MLIR is
+                                retargettable across hardware as vendors can simply plug in at the
+                                lowest level and reuse the other levels/optimisations that they
+                                need.
                             </p>
                         </div>
                         <div class="def-card">
@@ -583,10 +611,19 @@
                     </ul>
                     <p>
                         PyTorch differentiates eagerly. JAX differentiates the trace before XLA
-                        optimises it. Enzyme differentiates after the optimisation passes, so
+                        optimises it.
                         <span class="accent">
-                            the backward pass inherits every optimisation the forward pass earned.
+                            Enzyme differentiates after the optimisation passes, so the backward pass inherits every optimisation the forward pass earned.
                         </span>
+                        . This is the biggest draw for me, Enzyme is the fastest AD library. It's also available for JAX
+                        <a
+                            href="https://github.com/EnzymeAD/Enzyme-JAX"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            (Enzyme-JAX)
+                        </a>
+                        , but it's not quite ready for deep learning.
                     </p>
 
                     <p>How KAEM benefits:</p>
@@ -606,184 +643,6 @@
                         </li>
                         <li>the same compiled program retargets to any MLIR-backed accelerator</li>
                     </ol>
-
-                    <p>
-                        In PyTorch, each Langevin step would be interpreter overhead. In JAX, the
-                        sampler becomes a
-                        <code class="math">lax.scan</code>
-                        with pure-functional state. No mutation and requires manual
-                        <code class="math">stop_gradient</code>
-                        to detach MCMC samples from \(\partial \mathcal{L} / \partial \theta\) .
-                    </p>
-                    <p>
-                        Reactant traces and optimises ordinary imperative Julia directly into MLIR.
-                        No special rewriting.
-                    </p>
-                </div>
-
-                <div class="requirement-section">
-                    <h2 id="quick-comparisons">Quick comparisons</h2>
-                    <p>
-                        Once compiled, Reactant is slightly faster than JAX, a few times faster than
-                        torch.compile, and around 20x faster than eager PyTorch (on laptop GPU).
-                        Compile-time difference are much larger.
-                    </p>
-                    <p>A small MLP experiment to pin this down, (not KAEM training itself):</p>
-
-                    <div class="stack-block">
-                        <div class="stack-row">
-                            <span class="stack-name">Model</span>
-                            <span class="stack-why">
-                                MLP, \(d \to 2d{+}1 \to 4d{+}2 \to 1\) with \(\tanh\), \(d = 41\),
-                                batch \(128\)
-                            </span>
-                        </div>
-                        <div class="stack-row">
-                            <span class="stack-name">Hardware</span>
-                            <span class="stack-why">4GB GTX 1650</span>
-                        </div>
-                        <div class="stack-row">
-                            <span class="stack-name">Workload</span>
-                            <span class="stack-why">identical Langevin sampling chain</span>
-                        </div>
-                        <div class="stack-row">
-                            <span class="stack-name">Timing</span>
-                            <span class="stack-why">
-                                time to compile (first call, with caches cleared) and time to run
-                                compiled chain (median of ten subsequent calls)
-                            </span>
-                        </div>
-                        <div class="stack-row">
-                            <span class="stack-name">PyTorch</span>
-                            <span class="stack-why">
-                                <code class="math">torch.func.grad</code>
-                                in both modes for parity with
-                                <code class="math">torch.compile</code>
-                                ; eager
-                                <code class="math">autograd.grad</code>
-                                does not compose with it
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="bench">
-                        <div class="bench-title">Time to compile a 200-step Langevin chain</div>
-                        <div class="bench-row best">
-                            <span class="bench-label">Reactant @trace for</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 0.3%"></div>
-                            </div>
-                            <span class="bench-value">0.3 s</span>
-                        </div>
-                        <div class="bench-row">
-                            <span class="bench-label">JAX lax.scan</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 0.5%"></div>
-                            </div>
-                            <span class="bench-value">0.5 s</span>
-                        </div>
-                        <div class="bench-row">
-                            <span class="bench-label">Reactant unrolled for</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 21.8%"></div>
-                            </div>
-                            <span class="bench-value">22 s</span>
-                        </div>
-                        <div class="bench-row">
-                            <span class="bench-label">torch.compile</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 100%"></div>
-                            </div>
-                            <span class="bench-value">101 s</span>
-                        </div>
-                    </div>
-
-                    <div class="bench">
-                        <div class="bench-title">Time to run once compiled</div>
-                        <div class="bench-row best">
-                            <span class="bench-label">Reactant @trace for</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 5%"></div>
-                            </div>
-                            <span class="bench-value">8.8 ms</span>
-                        </div>
-                        <div class="bench-row">
-                            <span class="bench-label">JAX lax.scan</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 5.2%"></div>
-                            </div>
-                            <span class="bench-value">9.2 ms</span>
-                        </div>
-                        <div class="bench-row">
-                            <span class="bench-label">torch.compile</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 6.5%"></div>
-                            </div>
-                            <span class="bench-value">11.6 ms</span>
-                        </div>
-                        <div class="bench-row">
-                            <span class="bench-label">PyTorch eager</span>
-                            <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 100%"></div>
-                            </div>
-                            <span class="bench-value">177.6 ms</span>
-                        </div>
-                    </div>
-                    <p>
-                        <a
-                            href="https://enzymead.github.io/Reactant.jl/dev/api/api#ReactantCore.@trace"
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            <code class="math">@trace</code>
-                        </a>
-                        and
-                        <a
-                            href="https://docs.jax.dev/en/latest/_autosummary/jax.lax.scan.html"
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            <code class="math">lax.scan</code>
-                        </a>
-                        compile the whole chain as a single loop op, so the cost stays constant in
-                        chain length. In contrast, torch.compile and a plain Julia for loop copy the
-                        loop body once per step, which is why 200 steps cost 101 s and 22 s
-                        respectively.
-                    </p>
-
-                    <p>
-                        torch.compile only amortises its 101 s cost after approx 600 runs at the
-                        same input shapes. Reactant and JAX recompile on shape changes too, but each
-                        recompile is sub-second - torch.compile
-                        <a
-                            href="https://docs.pytorch.org/docs/main/user_guide/torch_compiler/compile/programming_model.recompilation.html"
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            pays the full cost again
-                        </a>
-                        .
-                        <code class="math">lax.scan</code>
-                        also needs the loop body rewritten as a pure function returning the next
-                        state, where Reactant
-                        <code class="math">@trace</code>
-                        compiles the idiomatic Julia for loop without rewriting.
-                    </p>
-                    <p class="benchccote">
-                        Disclosure: at A100 scale and larger models, kernel launch overhead matters
-                        less and the eager-vs-compiled gap narrows. Additionally, despite my
-                        admiration for the team behind Julia, for non-academic, production-level,
-                        distributed machine learning, I would actually choose jax/grain/orbax as my
-                        toolkit. I'm currently rewriting the original
-                        <a
-                            href="https://github.com/PritRaj1/JAX-ThermoEBM/tree/refactor"
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            MEng project
-                        </a>
-                        to use this stack instead.
-                    </p>
                 </div>
 
                 <div class="section-major">
