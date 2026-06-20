@@ -44,10 +44,7 @@
             <main id="main">
                 <div class="featured">
                     <h1>Representation first</h1>
-                    <p>
-                        Attention is all you need?
-                        <span class="accent">HA!</span>
-                    </p>
+                    <p>Attention is all you need?</p>
                 </div>
 
                 <div class="section-major">
@@ -129,14 +126,14 @@
                             <p class="def-body">
                                 \(F = ma\) predicts trajectories from initial conditions. Maxwell's
                                 equations are closed-form. Newtonian mechanics gets you to the Moon
-                                and back!
+                                and back.
                             </p>
                         </div>
                         <div class="def-card">
                             <span class="def-name">low-right</span>
                             <p class="def-body">
                                 Pretrain on the internet, LLMs pick up natural language without
-                                anyone writing down the dynamics of grammar. In recent history, this
+                                anyone writing down the dynamics of speech. In recent history, this
                                 has been the point of deep learning as an endeavour.
                             </p>
                         </div>
@@ -160,10 +157,10 @@
                         </div>
                     </div>
                     <p>
-                        And even when you have an abundance of data, (e.g. in something like the
-                        climate sciences), the complexity of the underlying manifold governing
-                        scientific phenomena is such that relationships aren't always discoverable
-                        from data-driven methods alone (
+                        And even with an abundance of data, (e.g. in something like the climate
+                        sciences), the complexity of the underlying manifold governing scientific
+                        phenomena is such that relationships aren't always discoverable by
+                        data-driven methods alone (
                         <a href="https://arxiv.org/abs/2511.08860" target="_blank" rel="noopener">
                             arXiv 2511.08860
                         </a>
@@ -195,18 +192,18 @@
                         ) map between
                         <span class="accent">infinite-dimensional function spaces</span>
                         : \[\mathcal{A}(D; \mathbb{R}^{d_a}) \to \mathcal{U}(D; \mathbb{R}^{d_u})\]
-                        Discretisation, \(D\), is a lossy sampling detail of the input function, (or
-                        equivalence class of functions). And trained at one resolution, neural
-                        operators can still generalise to others, (this is called zero-shot
-                        super-resolution, and it's not something attention can do).
+                        Discretisation, \(D\), is a lossy sampling detail of the input function. And
+                        trained at one resolution, neural operators can still generalise to others,
+                        (this is called zero-shot super-resolution, and it's not something neural
+                        networks can do).
                     </p>
                     <p>
-                        This is awesome given that the natural world is field-valued with multiple
-                        degrees of freedom at each point in space-time, (the domain of partial
-                        differential equations, PDEs). If you apply a time-varying strain
-                        \(\epsilon(x, t)\) to a viscoelastic composite, it won't respond with a
-                        pointwise stress value or vector. It responds with a stress field
-                        \(\sigma(x, t)\).
+                        This is better suited to physical modeling given that the natural world is
+                        field-valued with multiple degrees of freedom at each point in space-time,
+                        (the domain of partial differential equations, PDEs). If you apply a
+                        time-varying strain \(\epsilon(x, t)\) to a viscoelastic composite, it won't
+                        respond with a pointwise stress value or vector. It responds with a stress
+                        field \(\sigma(x, t)\).
                     </p>
                     <p>
                         Caveat: neural operators don't yet match the fidelity of numerical solvers
@@ -291,7 +288,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h2 id="personal-speculation">A bit of personal speculation</h2>
+                    <h2 id="personal-speculation">Attention</h2>
                     <p>
                         Transformers and attention have sequence length dimension (temporal) and an
                         embedding dimension (spatial). Almost like a discretised 2D field.
@@ -304,7 +301,7 @@
                         viscoelastic materials, Darcy flows, and other PDE systems.
                     </p>
                     <p>
-                        Which raises a question that needs asking:
+                        Which raises a question:
                         <span class="accent">
                             if the same framework fits viscoplastic mechanics, fluid flow, and
                             natural language, is language itself a (very complicated) system of
@@ -313,8 +310,19 @@
                     </p>
                     <p>
                         I strongly suspect yes, and there is likely a better representation for
-                        natural language somewhere out there in the void. Until we have it,
-                        attention is the best general-purpose substitute.
+                        natural language somewhere out there in the void. It's a burning question
+                        that needs asking, what exactly are the secrets of natural language?
+                    </p>
+                    <p>
+                        In the extremity, an LLM can be quantized to \(\{+1, 0, -1\}\), (
+                        <a href="https://arxiv.org/abs/2406.07177" target="_blank" rel="noopener">
+                            arXiv 2406.07177
+                        </a>
+                        ).
+                    </p>
+                    <p>
+                        It that something you're willing to accept: \(\{+1, 0, -1\}\) to produce
+                        written word?
                     </p>
                 </div>
 
@@ -335,10 +343,6 @@
                             the training distribution
                         </li>
                         <li>
-                            <span class="accent">sharp gradients and boundary conditions</span>
-                            - Fourier modes for periodic flow, wavelets for shocks and edges, etc.
-                        </li>
-                        <li>
                             <span class="accent">explainability and discoverability</span>
                             - confident the model is able to discover the relationships you're
                             targeting
@@ -346,7 +350,7 @@
                         <li>
                             <span class="accent">cost</span>
                             - FFT is \(O(N \log N)\), truncated graph kernel is \(O(N k)\), but
-                            Attention is \(O(N^2)\) in sequence length.
+                            Attention is \(O(N^2)\) in sequence length
                         </li>
                     </ul>
                 </div>
@@ -372,8 +376,11 @@
                         \(v(x)\), so both are piecewise-constant across the three phases. The
                         constitutive law below couples the stress field \(\sigma(x, t)\) to the
                         strain field \(\epsilon(x, t)\) and the rate of displacement \(\partial
-                        u/\partial t\). Goal: models have to learn the operator \(\epsilon(\cdot, t)
-                        \to \sigma(\cdot, t)\) rolled forward in time. \[\sigma(x, t) = E(x)\,
+                        u/\partial t\).
+                    </p>
+                    <p>
+                        Goal: models have to learn the operator \(\epsilon(\cdot, t) \to
+                        \sigma(\cdot, t)\) rolled forward in time. \[\sigma(x, t) = E(x)\,
                         \epsilon(x, t) + v(x)\, \partial u(x, t) / \partial t\]
                     </p>
                     <div class="gif-row gif-row-pair" style="max-width: 560px">
@@ -434,11 +441,14 @@
                         Fluid pressing through a porous medium, 2D on the unit box. The permeability
                         \(a(x)\) is a heterogeneous random field, forcing \(f(x)\) is constant. The
                         Darcy PDE below gives the pressure field \(u(x)\) for any permeability
-                        sample. Goal: models have to learn the operator \(a \to u\). No iterative
-                        PDE solver at inference time, just a single forward pass! People think AI is
-                        unsustainable, but these neural operators are a potential replacement for
-                        the slow, iterative solvers running on today's HPCs! \[-\nabla \cdot (a(x)\,
-                        \nabla u(x)) = f(x), \; x \in (0, 1)^2\]
+                        sample.
+                    </p>
+                    <p>Goal: models have to learn the operator \(a \to u\).</p>
+                    <p>
+                        No iterative PDE solver at inference time, just a single forward pass!
+                        People think AI is unsustainable, but these neural operators are a potential
+                        replacement for the slow, iterative solvers running on today's HPCs.
+                        \[-\nabla \cdot (a(x)\, \nabla u(x)) = f(x), \; x \in (0, 1)^2\]
                     </p>
                     <div class="gif-row-2-1">
                         <div class="gif-item">
@@ -482,13 +492,7 @@
                     </p>
                 </div>
                 <div class="section-major">
-                    <h2 id="is-attention-bad">So is attention bad?</h2>
-                    <p>
-                        Not in the slightest! Attention is highly data-parallel and versatile. It's
-                        matmul-heavy and scales on existing hardware. The recurrent neural operator
-                        is sequential, (it only outperformed on wall-clock in the above project
-                        because the scale was small).
-                    </p>
+                    <h2 id="is-attention-bad">On the scalability of Attention</h2>
                     <p>
                         With abundant data and unknown structure, more compute is better than more
                         research into bespoke architectures, especially when they're difficult to
@@ -498,6 +502,12 @@
                         <span class="accent">
                             You want to be greedy with your hardware usage, not your time spent.
                         </span>
+                    </p>
+                    <p>
+                        Attention is highly data-parallel and versatile. It's matmul-heavy and
+                        scales on existing hardware. The recurrent neural operator is sequential,
+                        (it only outperformed on wall-clock in the above project because the scale
+                        was small).
                     </p>
                     <p>
                         However, there's a difference between scaling a system and understanding

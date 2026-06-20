@@ -18,6 +18,8 @@
     --border-alt: #17191a;
     --border-subtle: #131516;
     --border-hairline: #2e3134;
+
+    --max-width: 680px;
 }
 * {
     margin: 0;
@@ -40,6 +42,7 @@ body {
 .container {
     max-width: var(--max-width);
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 main > p {
@@ -754,6 +757,7 @@ h1 {
     color: var(--arrow);
     grid-column: 1;
     grid-row: 1;
+    text-align: center;
 }
 
 .requirements .name {
@@ -1035,7 +1039,6 @@ h1 {
 }
 
 .limit-cycle-figure {
-    max-width: 35%;
     margin: 16px auto 8px;
 }
 

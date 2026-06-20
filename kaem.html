@@ -42,23 +42,55 @@
                 </a>
             </nav>
             <main id="main">
+                <p class="kaem-question">
+                    What are the requirements for discovering the true, agreed-upon, standard
+                    representations across images, language, and scientific data?
+                </p>
+                <ol class="requirements">
+                    <li>
+                        <span class="name">standardised</span>
+                        <span class="why">
+                            methodologies must corroborate, not automated tuning or guessing
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">sustainable</span>
+                        <span class="why">
+                            the scientific method is iterative - repeated across RNGs, datasets,
+                            optimisation dynamics, scales, architectures
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">interpretable</span>
+                        <span class="why">
+                            predictions at the edge of human knowledge must be verifiable and
+                            understood
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">informed</span>
+                        <span class="why">
+                            centuries worth of knowledge shouldn't be discarded, and we can't rely
+                            entirely on data
+                        </span>
+                    </li>
+                    <li>
+                        <span class="name">accessible</span>
+                        <span class="why">
+                            knowledgeable and passionate people from many different backgrounds will
+                            use AI
+                        </span>
+                    </li>
+                </ol>
                 <div class="featured">
                     <h1>KAEM: Kolmogorov-Arnold Energy Model</h1>
-                    <p>
-                        Generative AI models succumb to trade-offs. GANs sacrifice training
-                        stability, VAEs sample quality, diffusion inference speed. KAEM addresses
-                        all three.
-                        <span class="accent">
-                            *KAEM is currently being rerun for more technically defensible results.
-                        </span>
-                    </p>
                     <a
                         href="https://arxiv.org/abs/2506.14167"
                         target="_blank"
                         rel="noopener"
                         class="paper-link"
                     >
-                        Read the paper
+                        Paper
                         <span aria-hidden="true">&rarr;</span>
                     </a>
                     <a
@@ -80,12 +112,11 @@
                         <span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
-
+                <p>KAEM is an unsupervised generative model built for the above requirements.</p>
                 <p>
-                    KAEM is a latent-variable generative model built for scientific/representation
-                    discovery! Like a VAE, it draws a low-dimensional latent sample and decodes it
-                    into data. Unlike a VAE, the latent prior isn't a fixed Gaussian. It's a set of
-                    learned 1D densities based on Kolmogorov-Arnold Networks (
+                    Like a VAE, it draws a low-dimensional latent sample and decodes it into data.
+                    Unlike a VAE, the latent prior isn't a fixed Gaussian. It's a set of learned 1D
+                    densities based on Kolmogorov-Arnold Networks (
                     <a href="https://arxiv.org/abs/2404.19756" target="_blank" rel="noopener">
                         arXiv 2404.19756
                     </a>
@@ -94,85 +125,42 @@
                 </p>
 
                 <p>
-                    Also read about how I introduce
+                    The papers also introduces
                     <a href="defaults.html">annealing</a>
-                    as a highly parallel and interpretable alternative to diffusion modelling for
-                    KAEM's training!
+                    as a highly parallel, interpretable, speed-preserving alternative to diffusion
+                    modelling.
                 </p>
-
-                <p class="kaem-question">
-                    What are the requirements for discovering the true, agreed-upon, standard
-                    representations across images, language, and scientific data?
-                </p>
-                <ol class="requirements">
-                    <li>
-                        <span class="name">standardised</span>
-                        <span class="why">methodologies must corroborate, no guessing</span>
-                    </li>
-                    <li>
-                        <span class="name">sustainable</span>
-                        <span class="why">
-                            the scientific method is iterative - repeated across RNGs, datasets,
-                            optimisation dynamics, scales, architectures
-                        </span>
-                    </li>
-                    <li>
-                        <span class="name">interpretable</span>
-                        <span class="why">
-                            predictions at the edge of human knowledge must be verifiable and
-                            understood
-                        </span>
-                    </li>
-                    <li>
-                        <span class="name">informed</span>
-                        <span class="why">
-                            centuries worth of human knowledge shouldn't be discarded, plus STEM
-                            data is from sensors, lab setups, and physical surrogates
-                        </span>
-                    </li>
-                    <li>
-                        <span class="name">accessible</span>
-                        <span class="why">
-                            knowledgeable and passionate people from many different backgrounds will
-                            use AI
-                        </span>
-                    </li>
-                </ol>
 
                 <div class="requirement-section">
                     <h2 class="method-title" id="standardised">Standardised</h2>
                     <p>
                         The Kolmogorov-Arnold Representation Theorem decomposes any continuous
-                        multivariate function into two finite sums of univariate ones.
-                        Deterministic. Definitive. Universal for continuous functions.
+                        multivariate function into two finite sums of univariate ones:
                     </p>
+                    <figure id="eq-kart" class="katex-display">
+                        \[ g(u_1, \dots, u_{n_z}) = \sum_{q=1}^{2n_z+1} \Phi_q \left(
+                        \sum_{p=1}^{n_z} \psi_{q,p}(u_p) \right) \]
+                        <figcaption>KA Theorem</figcaption>
+                    </figure>
+
+                    <ul>
+                        <li>Deterministic</li>
+                        <li>Definitive</li>
+                        <li>Universal for continuous functions</li>
+                    </ul>
                     <p>
                         This isn't readily applied to probabilistic modelling. KAEM gets there by
                         recasting the inner functions \(\psi_{q,p} : [0,1] \to \mathbb{R}\) as
-                        Markov kernels, inverse CDFs acting on uniform noise on [0,1].
+                        Markov kernels, inverse CDFs acting on uniform noise.
                     </p>
                     <p>
                         Inverse transform sampling becomes a measurable map from uniform noise into
-                        the target, so KART's determinism is preserved and a probabilistic
-                        interpretation falls out without introducing stochasticity into KART
+                        the target, so the
+                        <a href="#eq-kart">KA therorem's</a>
+                        determinism is preserved and a probabilistic interpretation falls out
+                        without introducing stochasticity into the representation.
                     </p>
-                    <p>
-                        The result is one skeleton across modalities. This is a
-                        <span class="accent">new application of deterministic representation</span>
-                        to generative modelling.
-                    </p>
-                    <p>
-                        Disclosure: KART was strictly adhered to on simple datasets (MNIST, FMNIST),
-                        where a KAN generator with independent univariate priors worked well. On
-                        SVHN, CIFAR10, and CelebA, I cheated and used a CNN decoder for spatial
-                        inductive bias and a mixture-of-univariate prior instead of the strict
-                        factorised form. The deterministic skeleton works, but the RGB images lean
-                        on CNN bias too, not KART alone (
-                        <a href="https://arxiv.org/abs/2506.14167" target="_blank" rel="noopener">
-                            see the paper
-                        </a>
-                        ).
-                    </p>
+                    <p>The result is one standard skeleton across modalities.</p>
                 </div>
 
                 <div class="requirement-section">
@@ -213,8 +201,8 @@
                         provides the basis. You can plot/interpret them, modes and tails are easily
                         visible. Contrastive divergence, (the criterion used to train EBMs, aligning
                         prior to posterior via empirical Bayes), sculpts them to data. Interpolate
-                        between two latent samples with SLERP, spherical linear interpolation (see
-                        image), and the traversal has meaning you can read off the plot.
+                        between two latent samples, and the traversal has meaning you can read off
+                        the plot.
                     </p>
                     <div class="gif-single">
                         <img
@@ -247,13 +235,13 @@
                     <p>
                         With the correct priors and biases, posterior expectations can be estimated
                         by importance sampling, (a simple weighted average over samples). No large
-                        encoder network needed, (unlike a VAE). Just a sample-based estimator with
-                        no parameters of its own. And generation is a fast and exact inverse
-                        transform on uniform noise, no iteration at inference.
+                        encoder network needed, just a sample-based estimator with no parameters of
+                        its own. And generation is a fast and exact inverse transform on uniform
+                        noise, no iteration at inference.
                     </p>
                     <p>
-                        The univariate 1D priors are easy to plot and understand. A domain expert
-                        without a computational statistics background can read them.
+                        The univariate 1D priors are also easy to plot and understand. A domain
+                        expert without a computational statistics background can read them.
                     </p>
                     <div class="gif-single">
                         <img
@@ -327,8 +315,9 @@
                         </li>
                     </ol>
                     <p>
-                        We use effectively unbiased estimators by applying linear regression across
-                        sample sizes {2000, 4000, ..., 20,000} to extrapolate to N=&infin; (
+                        My experimetns used effectively unbiased estimators by applying linear
+                        regression across sample sizes {2000, 4000, ..., 20,000} to extrapolate to
+                        N=&infin; (
                         <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
                             arXiv 1911.07023
                         </a>
@@ -336,7 +325,7 @@
                         <sub>&infin;</sub>
                         and KID
                         <sub>&infin;</sub>
-                        , which are unbiased estimators of FID/KID at infinite samples.
+                        - unbiased estimators of FID/KID at infinite samples.
                     </p>
 
                     <div class="bench">
@@ -476,7 +465,7 @@
                         <sub>&infin;</sub>
                         tracks FID
                         <sub>&infin;</sub>
-                        ; full table in the paper.
+                        - full table in the paper.
                     </p>
 
                     <p>
@@ -485,13 +474,13 @@
                         outperformed:
                         <span class="accent">KAEM (Thermo) beats MLE</span>
                         at 108.0 vs 126.9, consistent with the premise that annealing pays off on
-                        multimodal posterior manifolds.
+                        multimodal posterior densities.
                     </p>
                 </div>
 
                 <div class="section-major">
                     <div class="project-header">
-                        <h2 id="implementation">Implementation</h2>
+                        <h2 id="implementation">Compilation</h2>
                         <a
                             href="https://github.com/thezettascale/KAEM"
                             target="_blank"
@@ -499,14 +488,24 @@
                             class="repo-link"
                             aria-label="Source on GitHub"
                         >
-                            github &#8599;
+                            Julia &#8599;
+                        </a>
+                        |
+                        <a
+                            href="https://github.com/PritRaj1/thermo-ebms"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="Source on GitHub"
+                        >
+                            JAX &#8599;
                         </a>
                     </div>
 
                     <p>
-                        The research for KAEM was conducted in Julia! JAX is an awesome project, and
-                        I've come full circle in adopting it as my primary toolkit once again, but
-                        Julia needs more love, and its primary weakness is adoption!
+                        The paper's experiments were conducted in Julia, since it needs more love
+                        and its primary weakness is adoption! The JAX implementation has been
+                        provided as a more polished, production-level package.
                     </p>
 
                     <div class="stack-block">
@@ -563,12 +562,11 @@
                                     target="_blank"
                                     rel="noopener"
                                 >
-                                    (pseudo-polyhedral) transformations
+                                    (pseudo-polyhedral) transformations.
                                 </a>
-                                before lowering to hardware backend. Importantly, MLIR is
-                                retargettable across hardware as vendors can simply plug in at the
-                                lowest level and reuse the other levels/optimisations that they
-                                need.
+                                Importantly, MLIR is retargettable across hardware as compute
+                                vendors can simply plug in at the lowest level and reuse the other
+                                levels/optimisations that they need.
                             </p>
                         </div>
                         <div class="def-card">
@@ -610,12 +608,18 @@
                         </li>
                     </ul>
                     <p>
-                        PyTorch differentiates eagerly. JAX differentiates the trace before XLA
-                        optimises it.
+                        PyTorch differentiates eagerly. JAX differentiates the trace before XLA sees
+                        it.
+                    </p>
+                    <p>
                         <span class="accent">
-                            Enzyme differentiates after the optimisation passes, so the backward pass inherits every optimisation the forward pass earned.
+                            Enzyme differentiates after multiple optimisation passes, so the
+                            backward pass inherits every optimisation the forward pass earned.
                         </span>
-                        . This is the biggest draw for me, Enzyme is the fastest AD library. It's also available for JAX
+                    </p>
+                    <p>
+                        This is the biggest draw for me, Enzyme is the fastest AD library. It's also
+                        being worked on for JAX
                         <a
                             href="https://github.com/EnzymeAD/Enzyme-JAX"
                             target="_blank"
@@ -634,8 +638,8 @@
                             stays in fast memory across every step
                         </li>
                         <li>
-                            the score \(\nabla \log \pi\) is found by Enzyme autodiff at each
-                            Langevin step, inside the same kernel
+                            the score \(\nabla \log \pi\) is found by Enzyme AD at each Langevin
+                            step, inside the same kernel
                         </li>
                         <li>
                             \(\partial \mathcal{L} / \partial \theta\) by Enzyme on the outer step,
@@ -661,7 +665,7 @@
                         once, with:
                     </p>
                     <ul>
-                        <li>a deterministic KART skeleton</li>
+                        <li>a deterministic KA theorem skeleton</li>
                         <li>a prior you can plot</li>
                         <li>single-pass inference</li>
                         <li>room for domain knowledge</li>
@@ -680,7 +684,7 @@
 
                     <p>
                         But I still believe it's a big step towards my 5 requirements, and a
-                        broader, grander, harder conceptualisation:
+                        broader, grander, more ambitious conceptualisation:
                     </p>
                     <p class="closing-line">"The Kolmogorov-Arnold theorem is all you need."</p>
                 </div>
