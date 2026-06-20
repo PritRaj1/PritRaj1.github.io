@@ -50,12 +50,13 @@
                         (CPGs). These use physical structure to produce unconscious, rhythmic
                         signals for walking, flying, and swimming, freeing the brain for
                         higher-level control and decision making.
+                    </p>
+                    <p>
                         <span class="accent">No fancy algorithms!</span>
                     </p>
                 </div>
 
                 <div class="requirement-section">
-                    <h2 id="first-the-mechanics">First the mechanics</h2>
                     <p>
                         The default in machine learning is to reach for data, but old-school
                         engineers first look for mechanical, analogue, or physically-informed
@@ -68,7 +69,7 @@
                     <p>
                         Statistical models work better with task-specific priors. Engineering
                         systems are the same. Bake structure into the mechanism and the control loop
-                        has less work to do.
+                        has less work to do. There are no controllers in any of these clips:
                     </p>
                     <div class="video-row">
                         <div class="video-item">
@@ -123,39 +124,54 @@
                         </div>
                     </div>
                     <p>
-                        No controllers in any of those clips! The mechanics does the work that a
-                        controller would otherwise be asked to do.
+                        The mechanics does the work that a controller would otherwise be asked to
+                        do.
                     </p>
                 </div>
 
                 <div class="requirement-section">
-                    <h2 id="locomotion-problem">The locomotion problem</h2>
+                    <h3 id="locomotion-problem">The locomotion problem</h3>
                     <p>
-                        Legs are nonlinear, contact dynamics are discontinuous, and the policy has
-                        to handle disturbances in real time. All on power-limited hardware! We'll
-                        cover three potential solutions for locomotion:
+                        Legs are nonlinear, contact dynamics are discontinuous, and the controller
+                        has to handle disturbances in real time. All on frequency-limited hardware!
+                        There are a couple examples on how it can be modeled:
                     </p>
-                    <ul>
-                        <li>
-                            <span class="accent">world models</span>
-                            - learn the dynamics from rollouts and train a policy by practising
-                            inside the learned model
-                        </li>
-                        <li>
-                            <span class="accent">model predictive control</span>
-                            - solve a finite-horizon optimisation problem every control cycle
-                        </li>
-                        <li>
-                            <span class="accent">central pattern generators</span>
-                            - bake rhythm into the circuitry so the dynamics themselves
-                            <em>are</em>
-                            the gait
-                        </li>
-                    </ul>
+                    <div class="def-grid">
+                        <div class="def-card">
+                            <span class="def-name">JEPA</span>
+                            <span class="def-expand">world models</span>
+                            <p class="def-body">
+                                Data-heavy. Millions of frames to fit encoder + predictor + policy.
+                                Three networks at inference. Latent state opaque, errors compound on
+                                long horizons. No inductive bias for periodicity.
+                            </p>
+                        </div>
+                        <div class="def-card">
+                            <span class="def-name">MPC</span>
+                            <span class="def-expand">model predictive control</span>
+                            <p class="def-body">
+                                Compute-heavy, solves an optimization problem at every control
+                                cycle. Real-time only with an accurate \(f\), a short horizon, and
+                                warm-starts. Can be brittle and model-mismatched.
+                            </p>
+                        </div>
+                        <div class="def-card">
+                            <span class="def-name">CPGs</span>
+                            <span class="def-expand">
+                                central pattern generators (the central nervous system's locomotive
+                                engine)
+                            </span>
+                            <p class="def-body">
+                                Structure-heavy. Rhythm lives in an ODE with a few analog
+                                parameters. No learning, no online optimisation. Robust by
+                                limit-cycle attraction.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="requirement-section">
-                    <h2 id="above-locomotion-layer">Above the locomotion layer</h2>
+                    <h3 id="above-locomotion-layer">Above the locomotion layer</h3>
                     <p>
                         Above the locomotion layer sits high-level intent and decision-making, the
                         policy that chooses what to do: "walk to the door", "pick up the cup".
@@ -163,8 +179,9 @@
                         vision-language model (VLM), already grounded in objects, scenes, and
                         language through web-scale pretraining, and co-fine-tune it to emit robot
                         actions. The model inherits the VLM's world knowledge without more
-                        pretraining. Examples include:
+                        pretraining.
                     </p>
+                    <p>Examples include:</p>
                     <div class="def-grid">
                         <div class="def-card">
                             <span class="def-name">π0</span>
@@ -180,14 +197,13 @@
                                 )
                             </span>
                             <p class="def-body">
-                                A pre-trained VLM is paired with a flow-matching action expert, (a
-                                small transformer head trained to predict a velocity field that
-                                transports Gaussian noise to motor commands). At inference, the
-                                field is integrated over ~10 Euler steps to produce an action chunk,
-                                (a sequence of 50 future motor commands, i.e., 1 second of
+                                A pre-trained VLM is paired with a flow-matching generative model to
+                                produce motor control. At inference, the flow matching vector field
+                                is integrated over ~10 Euler steps (fast) to produce an action
+                                chunk, (a sequence of 50 future motor commands, i.e., 1 second of
                                 continuous control at 50 Hz), rather than single actions. It
                                 performs dexterous bimanual manipulation end-to-end, (e.g., folding
-                                laundry, bussing tables), with no separate low-level controller.
+                                laundry, bussing tables), with no separate controller.
                             </p>
                         </div>
                         <div class="def-card">
@@ -210,8 +226,8 @@
                                 <em>System-1</em>
                                 for dexterous body control. This is the first VLA to control the
                                 entire humanoid upper body end-to-end, (arms, hands, torso, head,
-                                fingers). Slightly similar hierarchical pattern to brain -> central
-                                nervous system actually!
+                                fingers). Somewhat analogous to brain -> central nervous system
+                                hierarchy.
                             </p>
                         </div>
                     </div>
@@ -219,388 +235,78 @@
                         Even at the frontier, locomotion and walking gaits aren't yet controlled by
                         VLA. Stabilising leg joints and contact requires controllers running at
                         hundreds of Hz, which is currently above the rate a VLM-scale model can
-                        produce, (for now)! Helix runs its upper body through VLA but keeps the legs
+                        produce, (for now). Helix runs its upper body through VLA but keeps the legs
                         on a separate low-level loop.
                     </p>
                 </div>
 
                 <div class="section-major">
-                    <h2 id="world-models">World models</h2>
-                    <p>
-                        <span class="accent">World Models</span>
-                        (
-                        <a href="https://arxiv.org/abs/1803.10122" target="_blank" rel="noopener">
-                            arXiv 1803.10122
-                        </a>
-                        ) learn how the world evolves, while 'practising' inside the learned model
-                        instead of reality. A variational autoencoder reconstructs observations and
-                        a recurrent net predicts how the latents evolve.
-                    </p>
-                    <p>
-                        The modern reformulation is the
-                        <span class="accent">Joint Embedding Predictive Architecture</span>
-                        (
+                    <div class="project-header">
+                        <h2 id="neuromorphic-robots">Neuromorphic Robots</h2>
                         <a
-                            href="https://openreview.net/forum?id=BZ5a1r-kVsf"
+                            href="docs/conference_poster.pdf"
                             target="_blank"
                             rel="noopener"
+                            class="repo-link"
+                            aria-label="Neuromorphic Robots conference poster PDF"
                         >
-                            JEPA
+                            poster &#8599;
                         </a>
-                        ). No decoder - all predicting happens in latent space. Pixel-level
-                        reconstruction wastes compute on detail the model never ends up needing,
-                        JEPA lets the encoder discard anything that doesn't help with predictions.
-                    </p>
-                    <p>
-                        Two encoders share weights, one for the context \(x\) and one for the target
-                        \(y\). A predictor maps the context embedding plus a latent action \(z\) to
-                        a prediction of the target embedding:
-                    </p>
-                    <p>
-                        \[ \begin{aligned} s_x &amp;= E_\phi(x) &amp;&amp; \text{(context encoder)},
-                        \\ s_y &amp;= E_\phi(y) &amp;&amp; \text{(target encoder, weights shared)},
-                        \\ \hat s_y &amp;= P_\theta(s_x, z) &amp;&amp; \text{(latent predictor)}.
-                        \end{aligned} \]
-                    </p>
-                    <p>Training minimises a latent distance, with an anti-collapse regulariser:</p>
-                    <p>
-                        \[ \mathcal{L}(\phi, \theta) \;=\; D\!\left(s_y,\, \hat s_y\right) \;+\;
-                        \mathcal{R}_{\text{anti-collapse}} \]
-                    </p>
-                    <svg
-                        class="flow-figure"
-                        viewBox="0 0 560 220"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-label="JEPA architecture: shared encoders for context and target, predictor in latent space, loss between predicted and target embedding"
-                    >
-                        <defs>
-                            <marker
-                                id="arr-jepa"
-                                viewBox="0 0 10 10"
-                                refX="9"
-                                refY="5"
-                                markerWidth="6"
-                                markerHeight="6"
-                                orient="auto"
-                            >
-                                <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head" />
-                            </marker>
-                        </defs>
-
-                        <rect class="box-input" x="20" y="55" width="48" height="38" rx="4" />
-                        <text x="44" y="80" text-anchor="middle" class="box-label">x</text>
-                        <text x="44" y="48" text-anchor="middle" class="box-sub">context</text>
-
-                        <rect class="box-net" x="105" y="55" width="76" height="38" rx="4" />
-                        <text x="143" y="76" text-anchor="middle" class="box-label">E_φ</text>
-                        <text x="143" y="88" text-anchor="middle" class="box-sub">encoder</text>
-
-                        <text x="217" y="70" text-anchor="middle" class="latent-label">s_x</text>
-
-                        <rect class="box-net" x="260" y="55" width="86" height="38" rx="4" />
-                        <text x="303" y="76" text-anchor="middle" class="box-label">P_θ</text>
-                        <text x="303" y="88" text-anchor="middle" class="box-sub">predictor</text>
-
-                        <text x="303" y="36" text-anchor="middle" class="latent-label">
-                            z (action)
-                        </text>
-
-                        <text x="384" y="70" text-anchor="middle" class="latent-label">ŝ_y</text>
-
-                        <rect class="box-input" x="20" y="155" width="48" height="38" rx="4" />
-                        <text x="44" y="180" text-anchor="middle" class="box-label">y</text>
-                        <text x="44" y="148" text-anchor="middle" class="box-sub">target</text>
-
-                        <rect class="box-net" x="105" y="155" width="76" height="38" rx="4" />
-                        <text x="143" y="176" text-anchor="middle" class="box-label">E_φ</text>
-                        <text x="143" y="188" text-anchor="middle" class="box-sub">encoder</text>
-
-                        <text x="217" y="170" text-anchor="middle" class="latent-label">s_y</text>
-
-                        <rect class="box-loss" x="430" y="155" width="110" height="40" rx="6" />
-                        <text x="485" y="175" text-anchor="middle" class="box-label">ℒ</text>
-                        <text x="485" y="189" text-anchor="middle" class="box-sub">
-                            latent-space loss
-                        </text>
-
-                        <line
-                            x1="68"
-                            y1="74"
-                            x2="103"
-                            y2="74"
-                            class="edge"
-                            marker-end="url(#arr-jepa)"
-                        />
-                        <line
-                            x1="181"
-                            y1="74"
-                            x2="258"
-                            y2="74"
-                            class="edge"
-                            marker-end="url(#arr-jepa)"
-                        />
-                        <line
-                            x1="346"
-                            y1="74"
-                            x2="430"
-                            y2="168"
-                            class="edge"
-                            marker-end="url(#arr-jepa)"
-                        />
-                        <line
-                            x1="303"
-                            y1="40"
-                            x2="303"
-                            y2="55"
-                            class="edge"
-                            marker-end="url(#arr-jepa)"
-                        />
-
-                        <line
-                            x1="68"
-                            y1="174"
-                            x2="103"
-                            y2="174"
-                            class="edge"
-                            marker-end="url(#arr-jepa)"
-                        />
-                        <line
-                            x1="181"
-                            y1="174"
-                            x2="430"
-                            y2="174"
-                            class="edge"
-                            marker-end="url(#arr-jepa)"
-                        />
-
-                        <line
-                            x1="143"
-                            y1="100"
-                            x2="143"
-                            y2="150"
-                            class="edge"
-                            stroke-dasharray="2 2"
-                        />
-                        <text x="170" y="128" text-anchor="start" class="note">shared weights</text>
-                    </svg>
-                    <p class="gif-label svg-caption">
-                        JEPA: both encoders share \(\phi\). The predictor lives entirely in latent
-                        space, no decoder.
-                    </p>
-                    <p>
-                        Without \(\mathcal{R}_{\text{anti-collapse}}\), the encoder has a degenerate
-                        cheat. Map every input to the same constant latent. Then \(s_y = \hat s_y\)
-                        trivially, the loss is zero, and nothing's been learned! Standard fixes
-                        either regularise the variance of the embedding so it can't shrink to a
-                        point or use a momentum-averaged target encoder with a stop-gradient (what
-                        I-JEPA uses).
-                    </p>
-                    <p>
-                        Hierarchical JEPA (H-JEPA) stacks JEPAs at different temporal resolutions.
-                        Its top level encodes seconds and predicts abstract intent (e.g., "walk
-                        forward"). Bottom level encodes milliseconds and predicts the next motor
-                        command. Almost like brain -> central nervous system (CNS): high-level has
-                        intention, the lower level fills in the blanks to realise it.
-                    </p>
-                    <p>
-                        Caveat: what's actually ready to make robots walk is the
-                        <span class="accent">Dreamer</span>
-                        line of world models, which use a pixel decoder.
-                        <a href="https://arxiv.org/abs/2206.14176" target="_blank" rel="noopener">
-                            DayDreamer
+                        <a
+                            href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="Neuromorphic Robots on GitHub"
+                        >
+                            github &#8599;
                         </a>
-                        trained a quadruped to walk in the real world in under an hour, and
-                        <a href="https://arxiv.org/abs/2301.04104" target="_blank" rel="noopener">
-                            DreamerV3
+                        <a
+                            href="https://uk.mathworks.com/matlabcentral/fileexchange/135517-quadbot-neuromorphic"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="QuadBot-NeuroMorphic on MATLAB File Exchange"
+                        >
+                            matlab fx &#8599;
                         </a>
-                        is the stronger successor. JEPA is the current hot topic, (at least in my
-                        circles at time of writing), not yet used out in the field.
-                    </p>
-                </div>
-
-                <div class="section-major">
-                    <h2 id="model-predictive-control">Model predictive control</h2>
-                    <p>
-                        Model predictive control (MPC) plans a short trajectory against a known
-                        dynamics model, executes the first step, then replans. Full-trajectory
-                        optimisation is intractable, but an \(H\)-step lookahead is tractable, and
-                        re-solving every cycle catches disturbances before they accumulate. This is
-                        the
-                        <span class="accent">receding-horizon</span>
-                        principle.
-                    </p>
-                    <p>
-                        Given the current state \(x\) and dynamics \(f\), MPC finds the control
-                        inputs \(u_{0:H-1}\) minimising a running cost \(\ell\) plus a terminal cost
-                        \(\ell_f\):
-                    </p>
-                    <p>
-                        \[ \min_{u_{0:H-1}} \; \sum_{k=0}^{H-1} \ell(x_k, u_k) \,+\, \ell_f(x_H)
-                        \quad \text{s.t.} \quad x_{k+1} = f(x_k, u_k), \;\; x_0 = x. \]
-                    </p>
-                    <p>
-                        Only \(u_0\) is presently applied. The new state is observed and the problem
-                        gets re-solved from scratch. The horizon \(H\) is short (a fraction of a
-                        second if robot locomotion) but the constant replanning lets the controller
-                        stay reactive.
-                    </p>
-                    <svg
-                        class="flow-figure"
-                        viewBox="0 0 560 200"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-label="Receding horizon: at each control step, plan H steps ahead but execute only the first, then shift the window and replan"
-                    >
-                        <line x1="40" y1="170" x2="540" y2="170" class="edge" />
-                        <text x="44" y="190" text-anchor="start" class="box-sub">t=0</text>
-                        <text x="124" y="190" text-anchor="middle" class="box-sub">t=1</text>
-                        <text x="204" y="190" text-anchor="middle" class="box-sub">t=2</text>
-                        <text x="284" y="190" text-anchor="middle" class="box-sub">t=3</text>
-                        <text x="364" y="190" text-anchor="middle" class="box-sub">t=4</text>
-                        <text x="444" y="190" text-anchor="middle" class="box-sub">t=5</text>
-                        <line x1="44" y1="165" x2="44" y2="175" class="edge" />
-                        <line x1="124" y1="165" x2="124" y2="175" class="edge" />
-                        <line x1="204" y1="165" x2="204" y2="175" class="edge" />
-                        <line x1="284" y1="165" x2="284" y2="175" class="edge" />
-                        <line x1="364" y1="165" x2="364" y2="175" class="edge" />
-                        <line x1="444" y1="165" x2="444" y2="175" class="edge" />
-
-                        <text x="540" y="190" text-anchor="end" class="note">time</text>
-
-                        <text x="44" y="30" text-anchor="start" class="latent-label">
-                            plan at t=0
-                        </text>
-                        <polyline class="plan" points="44,42 124,42 204,42 284,42" />
-                        <circle cx="44" cy="42" r="4" class="state-dot" />
-                        <circle cx="124" cy="42" r="3.5" class="plan-dot" />
-                        <circle cx="204" cy="42" r="3.5" class="plan-dot" />
-                        <circle cx="284" cy="42" r="3.5" class="plan-dot" />
-                        <text x="300" y="46" text-anchor="start" class="note">
-                            (execute only first step)
-                        </text>
-
-                        <text x="124" y="68" text-anchor="start" class="latent-label">
-                            plan at t=1
-                        </text>
-                        <polyline class="plan" points="124,80 204,80 284,80 364,80" />
-                        <circle cx="124" cy="80" r="4" class="state-dot" />
-                        <circle cx="204" cy="80" r="3.5" class="plan-dot" />
-                        <circle cx="284" cy="80" r="3.5" class="plan-dot" />
-                        <circle cx="364" cy="80" r="3.5" class="plan-dot" />
-
-                        <text x="204" y="106" text-anchor="start" class="latent-label">
-                            plan at t=2
-                        </text>
-                        <polyline class="plan" points="204,118 284,118 364,118 444,118" />
-                        <circle cx="204" cy="118" r="4" class="state-dot" />
-                        <circle cx="284" cy="118" r="3.5" class="plan-dot" />
-                        <circle cx="364" cy="118" r="3.5" class="plan-dot" />
-                        <circle cx="444" cy="118" r="3.5" class="plan-dot" />
-
-                        <text x="44" y="140" text-anchor="start" class="note">
-                            executed trajectory
-                        </text>
-                        <polyline class="past" points="44,150 124,150 204,150" />
-                        <circle cx="44" cy="150" r="3.5" class="past-dot" />
-                        <circle cx="124" cy="150" r="3.5" class="past-dot" />
-                        <circle cx="204" cy="150" r="3.5" class="past-dot" />
-                    </svg>
-                    <p class="gif-label svg-caption">
-                        Receding horizon with \(H = 3\). At each step the controller plans \(H\)
-                        steps ahead (dashed), executes only the first, then shifts the window and
-                        replans from the new state.
-                    </p>
-                    <p>There are two main flavours of solver:</p>
-
-                    <h3 class="method-title" id="mpc-sample-based">Sample-based</h3>
-                    <p>
-                        Model Predictive Path Integral control (
-                        <a href="https://arxiv.org/abs/1707.02342" target="_blank" rel="noopener">
-                            arXiv 1707.02342
-                        </a>
-                        ) draws \(N\) candidate control sequences \(u^n\) from a Gaussian centred on
-                        the previous solution, simulates each through \(f\), scores them by
-                        trajectory cost \(S^n\), and combines by a Boltzmann weight:
-                    </p>
-                    <p>
-                        \[ u_k^{\star} \;=\; \sum_{n=1}^{N} w_n\, u_k^n, \qquad w_n =
-                        \frac{\exp(-S^n/\lambda)}{\sum_{j} \exp(-S^j/\lambda)}. \]
-                    </p>
-                    <p>
-                        \(\lambda\) is the temperature. Small \(\lambda\) sharpens the weights onto
-                        the lowest-cost sample, large \(\lambda\) averages broadly. Parallel and
-                        gradient-free, but variance scales with horizon.
-                    </p>
-                    <p>
-                        The Cross-Entropy Method (CEM) is the other classic sample-based MPC solver.
-                        Same idea, different update rule. Draw \(N\) samples, keep the top-\(k\)
-                        lowest-cost ones, refit the sampling Gaussian to that elite set, repeat.
-                        Below, CEM finds a minimum of a continuous, constrained, non-convex
-                        landscape, where the elite-set updates pull the sampling distribution toward
-                        a local basin over a few iterations:
-                    </p>
-                    <div class="gif-single" style="max-width: 380px">
-                        <img
-                            src="images/cem_kbf.gif"
-                            alt="Cross-Entropy Method contracting its sampling Gaussian onto a basin of a multimodal landscape"
-                        />
-                        <div class="gif-label">
-                            CEM on a multimodal landscape. The sampling Gaussian fits the elite set
-                            and contracts onto a minimum (
-                            <a
-                                href="https://github.com/PritRaj1/NonConvex-RUST"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                github &#8599;
-                            </a>
-                            ).
-                        </div>
                     </div>
-
-                    <h3 class="method-title" id="mpc-gradient-based">Gradient-based</h3>
-                    <p>
-                        Iterative Linear-Quadratic Regulator (iLQR) and Differential Dynamic
-                        Programming (DDP) linearises \(f\) (first-order Taylor expansion) around a
-                        nominal trajectory \((\bar x_{0:H}, \bar u_{0:H-1})\), (same trick as small
-                        angle approx \(\sin\theta \approx \theta\) for a pendulum).
-                    </p>
-                    <p>
-                        Writing the linearised dynamics as a state space model, \(x_{k+1} \approx
-                        A_k x_k + B_k u_k\), with Jacobians \(A_k = \partial f / \partial x\) and
-                        \(B_k = \partial f / \partial u\), then expanding the cost to 2nd order with
-                        matrices \(Q_k, R_k\), gives a Linear-Quadratic Regulator (LQR) sub-problem.
-                        LQR has a closed-form solution. The value function \(V_k(x) = \tfrac{1}{2}
-                        x^\top P_k x\) propagates via
-                    </p>
-                    <p>
-                        \[ P_k \;=\; Q_k + A_k^\top P_{k+1} A_k - A_k^\top P_{k+1} B_k \left(R_k +
-                        B_k^\top P_{k+1} B_k\right)^{-1} B_k^\top P_{k+1} A_k, \]
-                    </p>
-                    <p>
-                        backwards from \(P_H\). Iterates by relinearising on new trajectory and
-                        re-solving. \(f\) must be differentiable.
-                    </p>
                 </div>
 
-                <div class="section-major">
-                    <h2 id="central-pattern-generators">Central pattern generators</h2>
+                <div class="gif-row gif-row-pair">
+                    <div class="gif-item">
+                        <img src="images/Synapider.jpg" alt="Synapider, the spider-leg quadruped" />
+                        <div class="gif-label">Synapider</div>
+                    </div>
+                    <div class="gif-item">
+                        <img src="images/NeuroPup.jpg" alt="NeuroPup, the dog-leg quadruped" />
+                        <div class="gif-label">NeuroPup</div>
+                    </div>
+                </div>
+
+                <div class="requirement-section">
+                    <p>Screw the learning, skip the optimisation.</p>
                     <p>
-                        Screw the learning, skip the optimisation. Build a circuit whose dynamics
+                        Build a circuit whose dynamics
                         <em>are</em>
-                        the gait.
+                        the gait. Central pattern generators are nature's answer to the locomotion
+                        problem.
                     </p>
                     <p>
-                        In my project, (see below), each unit was a Multi-Quadratic
-                        Integrate-and-Fire (MQIF) neuron (
+                        These are tiny neuronal circuits, typically in the spinal cord. Each neuron
+                        can be modeled computationally using the
+                        <em>Multi-Quadratic Integrate-and-Fire (MQIF) neuron</em>
+                        (
                         <a href="https://arxiv.org/abs/1709.06824" target="_blank" rel="noopener">
                             arXiv 1709.06824
                         </a>
                         ): a three-state ordinary differential equation (ODE) with a fast voltage
                         \(V\), a slow recovery variable \(V_s\), an ultra-slow modulator \(V_{us}\),
-                        and a hard reset on \(V\). There are other neuron models, but this one was
-                        analytically simpler to design and tune:
+                        and a hard reset on \(V\).
+                    </p>
+                    <p>
+                        There are other neuron models, but this one was analytically simpler to
+                        design and tune:
                     </p>
                     <p>
                         \[ \begin{aligned} C\, \dot V \;&amp;=\; I + g_f (V - V_0)^2 - g_s (V_s -
@@ -613,35 +319,37 @@
                         \[ V &gt; V_{th} \;\;\Longrightarrow\;\; V \leftarrow V_{reset}, \quad V_s
                         \leftarrow V_{s,reset}, \quad V_{us} \leftarrow V_{us} + \Delta_{us}. \]
                     </p>
-                    <p>Three timescales.</p>
+                    <p>The ODE is characterised by 3 timescales:</p>
                     <ul>
-                        <li>fast (\(\tau_V \sim C/250\) ms) - spike kinetics.</li>
-                        <li>slow (\(\tau_s \sim 2\) ms) - within-burst spike rate.</li>
-                        <li>ultra-slow (\(\tau_{us} \sim 80\) ms) - burst envelope.</li>
+                        <li>fast (\(\tau_V \sim C/250\) ms) - governs spike kinetics.</li>
+                        <li>slow (\(\tau_s \sim 2\) ms) - governs within-burst spike rate.</li>
+                        <li>ultra-slow (\(\tau_{us} \sim 80\) ms) - governs burst envelope.</li>
                     </ul>
                     <p>
-                        On the timescale of a single spike, \(V_{us}\) barely moves. Can be treated
-                        as a fixed parameter so the \((V, V_s)\) subsystem becomes 2D. Its
-                        equilibria satisfy \(\dot V = \dot V_s = 0\), so \(V^{\star} = V_s^{\star}\)
-                        and
+                        On the timescale of a single spike, \(V_{us}\) barely moves. It can be
+                        treated as a fixed parameter so the \((V, V_s)\) subsystem becomes 2D.
+                    </p>
+                    <p>
+                        Its equilibria satisfy \(\dot V = \dot V_s = 0\), so \(V^{\star} =
+                        V_s^{\star}\) and
                     </p>
                     <p>
                         \[ g_f (V^{\star} - V_0)^2 \;=\; g_s (V^{\star} - V_{s,0})^2 + g_{us}
-                        (V_{us} - V_{us,0})^2 - I. \]
+                        \underbrace{(V_{us} - V_{us,0})^2}_{O(V_{us}^2)} - I. \]
                     </p>
                     <p>
-                        The right-hand side grows quadratically in \(V_{us}\), so the geometry of
-                        \((V, V_s)\) flow flips with \(V_{us}\):
+                        The right-hand side grows quadratically in \(V_{us}\), so the flow of \((V,
+                        V_s)\) flips with \(V_{us}\). When:
                     </p>
                     <ul>
                         <li>
-                            \(V_{us} \approx V_{us,0}\) - right-hand side is small, the equilibrium
-                            is unstable and the 2D flow is a
+                            \(V_{us} \approx V_{us,0} \rightarrow\) right-hand side is small, the
+                            equilibrium is unstable and the 2D flow is a
                             <span class="accent">tonic-spiking limit cycle</span>
                         </li>
                         <li>
-                            \(V_{us}\) far from \(V_{us,0}\) - the right-hand side dominates the
-                            depolarising drive, stable equilibrium and the 2D flow
+                            \(V_{us}\) far from \(V_{us,0} \rightarrow\) right-hand side dominates
+                            the depolarising drive, yielding a stable equilibrium, so the 2D flow
                             <span class="accent">rests</span>
                         </li>
                     </ul>
@@ -650,7 +358,7 @@
                         and a small oscillation appears in its place. That switch is a
                         <span class="accent">Hopf bifurcation</span>
                         , (the means by which an ODE flips from resting at a fixed point to orbiting
-                        a limit cycle as a state variable crosses a critical value).
+                        a limit cycle as a state variable crosses some critical value).
                     </p>
                     <p>
                         \(V_{us}\) slowly traverses \(V_{us}^{\star}\) in both directions, and
@@ -698,8 +406,7 @@
                         The closed three-dimensional loop is a
                         <span class="accent">stable limit cycle</span>
                         - a periodic trajectory that nearby states are attracted to. Push the
-                        neuron, the dynamics pull it back to the cycle. Two different initial
-                        conditions (IC\(_A\), IC\(_B\)) end up on the same orbit.
+                        neuron, the dynamics pull it back to the cycle.
                     </p>
                     <div class="limit-cycle-figure">
                         <img
@@ -709,9 +416,10 @@
                         <div class="gif-label">
                             Two initial conditions, IC\(_A\) (orange square, near rest) and IC\(_B\)
                             (blue square, far from the cycle), converge onto the same bursting limit
-                            cycle in the \((V, V_{us})\) plane. Each burst climbs \(V_{us}\) by
-                            \(\Delta_{us}\) per spike past \(V_{us}^{\star}\), the quiet phase
-                            relaxes \(V_{us}\) back. Parameters from
+                            cycle in the \((V, V_{us})\) plane, despite starting from very different
+                            places. Each burst climbs \(V_{us}\) by \(\Delta_{us}\) per spike past
+                            \(V_{us}^{\star}\), the quiet phase relaxes \(V_{us}\) back. Parameters
+                            from
                             <a
                                 href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
                                 target="_blank"
@@ -721,12 +429,15 @@
                             </a>
                         </div>
                     </div>
-                    <h3 class="method-title" id="half-centre-cpg">Half-centre CPG</h3>
+                    <h2 id="half-centre-cpg">Half-centre CPG</h2>
                     <p>
                         A half-centre CPG is two coupled MQIF units \(A\) and \(B\) with inhibitory
-                        synapses. Each synapse has a gating variable \(s\) that lags pre-synaptic
-                        activity with time constant \(\tau_{syn}\) and feeds back as an inhibitory
-                        current scaled by conductance \(g_{syn}\):
+                        synapses.
+                    </p>
+                    <p>
+                        Each synapse has a gating variable \(s\) that lags pre-synaptic activity
+                        with time constant \(\tau_{syn}\) and feeds back as an inhibitory current
+                        with conductance \(g_{syn}\):
                     </p>
                     <p>
                         \[ \tau_{syn}\, \dot s_{AB} \;=\; \sigma(V_A - V_{syn}) - s_{AB}, \qquad I_B
@@ -734,16 +445,19 @@
                     </p>
                     <p>
                         and symmetrically for the \(B \to A\) synapse, where \(\sigma\) is the
-                        sigmoid function. When \(A\) bursts, \(s_{AB}\) saturates near 1 and the
-                        inhibitory current to \(B\) holds it silent. Once \(V_{us}\) of neuron \(A\)
-                        surpasses \(V_{us}^{\star}\) and bursting dies, \(s_{AB}\) decays, the
-                        inhibition lifts, and \(B\) fires and in turn silences \(A\). The pair
-                        alternates with no external clock. That's the
-                        <span class="accent">half-centre oscillator</span>
+                        sigmoid function.
+                    </p>
+                    <p>
+                        When \(A\) bursts, \(s_{AB}\) saturates near 1 and the inhibitory current to
+                        \(B\) holds it silent. Once \(V_{us}\) of neuron \(A\) surpasses
+                        \(V_{us}^{\star}\) and bursting dies, \(s_{AB}\) decays, the inhibition
+                        lifts, and \(B\) fires and in turn silences \(A\). The pair alternates with
+                        no external clock. This is a
+                        <span class="accent">half-centre CPG oscillator</span>
                         .
                     </p>
 
-                    <h3 class="method-title" id="phase-selects-gait">Phase selects gait</h3>
+                    <h2 id="phase-selects-gait">Phase selects gait</h2>
                     <p>
                         Four units connected like above in a directed inhibition graph give a
                         quad-centre CPG, one neuron per leg. The graph's adjacency matrix encodes
@@ -804,22 +518,25 @@
                     </svg>
                     <p class="gif-label svg-caption">
                         Stance windows per leg, time along x. Front-left (FL) and front-right (FR)
-                        are warm, back-left (BL) and back-right (BR) cool. Same four units,
-                        different inhibition adjacency.
+                        are top/orange, back-left (BL) and back-right (BR) are bottom/purple-ish.
+                        Same four units, different inhibition adjacency.
                         <strong>Walk</strong>
                         : four-beat sequence (one leg at a time).
                         <strong>Trot</strong>
-                        : diagonal pairs sync, FL+BR (orange+pink), then FR+BL (yellow+blue).
+                        : diagonal pairs sync.
                         <strong>Bound</strong>
                         : front pair (FL+FR) synced, then back pair (BL+BR).
                     </p>
-                    <h3 class="method-title" id="adaptation">Adaptation</h3>
+                    <h2 id="adaptation">Adaptation</h2>
                     <p>
                         When input current \(I\) is raised and the firing rate increases, gait
                         frequency climbs with it. Swap the inhibition graph and the gait swaps. A
-                        handful of hyperparams/inputs replaces an entire policy network! This TED
-                        talk on a CPG-driven salamander robot shows how robust the idea is. Swimming
-                        is typically a difficult control problem, but CPGs handle it naturally.
+                        handful of hyperparams/inputs replaces an entire neural network!
+                    </p>
+                    <p>
+                        This TED talk on a CPG-driven salamander robot shows how robust the idea is.
+                        Swimming is typically a difficult control problem, but CPGs handle it
+                        naturally.
                     </p>
                     <div class="video-single">
                         <div class="video-embed">
@@ -833,110 +550,33 @@
                     </div>
                 </div>
 
-                <div class="requirement-section">
-                    <h2 id="three-approaches-three-costs">Three approaches, three costs</h2>
-                    <div class="def-grid">
-                        <div class="def-card">
-                            <span class="def-name">JEPA</span>
-                            <span class="def-expand">world models</span>
-                            <p class="def-body">
-                                Data-heavy. Millions of frames to fit encoder + predictor + policy.
-                                Three networks at inference. Latent state opaque, errors compound on
-                                long horizons. No inductive bias for periodicity.
-                            </p>
-                        </div>
-                        <div class="def-card">
-                            <span class="def-name">MPC</span>
-                            <span class="def-expand">model predictive control</span>
-                            <p class="def-body">
-                                Compute-heavy, resolve at every cycle. Real-time only with an
-                                accurate \(f\), a short horizon, and warm-starts. Often brittle and
-                                model-mismatched.
-                            </p>
-                        </div>
-                        <div class="def-card">
-                            <span class="def-name">CPGs</span>
-                            <span class="def-expand">central pattern generators</span>
-                            <p class="def-body">
-                                Structure-heavy. Rhythm lives in an ODE with a few analog
-                                parameters. No learning, no online optimisation. Robust by
-                                limit-cycle attraction.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="section-major">
-                    <div class="project-header">
-                        <h2 id="neuromorphic-robots">Neuromorphic Robots!</h2>
-                        <a
-                            href="docs/conference_poster.pdf"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Neuromorphic Robots conference poster PDF"
-                        >
-                            poster &#8599;
-                        </a>
-                        <a
-                            href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Neuromorphic Robots on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                        <a
-                            href="https://uk.mathworks.com/matlabcentral/fileexchange/135517-quadbot-neuromorphic"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="QuadBot-NeuroMorphic on MATLAB File Exchange"
-                        >
-                            matlab fx &#8599;
-                        </a>
-                    </div>
+                    <h2 id="mechanics">The Build</h2>
                 </div>
-                <div class="gif-row gif-row-pair">
-                    <div class="gif-item">
-                        <img src="images/Synapider.jpg" alt="Synapider, the spider-leg quadruped" />
-                        <div class="gif-label">Synapider</div>
-                    </div>
-                    <div class="gif-item">
-                        <img src="images/NeuroPup.jpg" alt="NeuroPup, the dog-leg quadruped" />
-                        <div class="gif-label">NeuroPup</div>
-                    </div>
-                </div>
-
                 <div class="requirement-section">
                     <h2 id="motor-degrees-of-freedom">1. Motor degrees of freedom</h2>
-                    <p>
-                        Get the kinematics right before adding actuation. Spider was easy, one motor
-                        per joint. Dog was harder, so I built a joints-only prototype first and
-                        moved it by hand to check.
-                    </p>
                     <div class="gif-row gif-row-pair">
                         <div class="gif-item">
                             <img
                                 src="images/prototype.gif"
                                 alt="Joints-only dog-leg prototype, no motors yet, moved by hand"
                             />
-                            <div class="gif-label">Dog leg, joints+band only, (like a muscle)</div>
+                            <div class="gif-label">
+                                Dog leg prototype, joints+band only, (like a muscle)
+                            </div>
                         </div>
                         <div class="gif-item">
                             <img
                                 src="images/another_proto.gif"
                                 alt="Single-motor spider-leg prototype"
                             />
-                            <div class="gif-label">Spider leg. One motor, one joint</div>
+                            <div class="gif-label">Spider leg prototype One motor, one joint</div>
                         </div>
                     </div>
                     <p>
-                        The dog leg got two antagonistic joints (later replaced by motors) joined by
-                        an elastic band acting as a tendon. Joints rotating together swings the leg,
-                        rotating against extends/contracts it. The elastic stores energy the same
-                        way muscle does, so the leg has passive compliance for free.
+                        The dog leg featured two antagonistic joints (later replaced by motors)
+                        joined by an elastic band acting as a tendon. Joints rotating together swung
+                        the leg, rotating against extended/contracted it.
                     </p>
                 </div>
 
@@ -962,17 +602,15 @@
                     <ul>
                         <li>
                             <span class="accent">gear ratios</span>
-                            for torque. Each drive motor gears down ~3:1 to multiply torque at the
-                            joint.
+                            for torque, \(\sim 3:1\) force multiplication
                         </li>
                         <li>
-                            <span class="accent">support axles on both sides</span>
+                            <span class="accent">double-side axle support</span>
                             - otherwise cantilevered axles bend, slip, and chew through
                         </li>
                         <li>
-                            <span class="accent">leg tuned for loading</span>
-                            and laser-cut narrow where bending moments were large. Kept gaps
-                            elsewhere to save mass/recycle MDF
+                            <span class="accent">leg tuned for shear</span>
+                            and laser-cut narrow where moments were large
                         </li>
                     </ul>
                     <div class="gif-grid-2">
@@ -989,7 +627,7 @@
                                 alt="Pillow-block brackets supporting axles on both sides"
                             />
                             <div class="gif-label">
-                                Don't cantilever axles. Support them on both sides.
+                                Old cantilevered axles - replaced with double support
                             </div>
                         </div>
                         <div class="gif-item">
@@ -1003,7 +641,6 @@
                             </div>
                         </div>
                     </div>
-                    <p>(White parts 3D-printed, wood laser-cut, metal pre-fabbed)</p>
                 </div>
 
                 <div class="requirement-section">
@@ -1024,8 +661,7 @@
                     <h2 id="the-gaits">4. The gaits</h2>
                     <p>
                         MQIF units, half-centre and quad-centre coupling, implemented in Simulink.
-                        No policy network, no MPC solver, no online optimisation! Change the gait by
-                        changing the inhibition graph.
+                        No neural network, no MPC solver, no online optimisation.
                     </p>
                     <div class="gif-row gif-row-pair">
                         <div class="gif-item">
@@ -1048,13 +684,11 @@
                 </div>
 
                 <div class="requirement-section">
-                    <p>Thanks for reading :)</p>
+                    <p>In nature, locomotion is resolved by attractor dynamics.</p>
                     <p>
-                        AI is the best at high-level decision making, but in nature, locomotion is
-                        resolved by attractor dynamics!
-                        <span class="accent">Rhythm doesn't need to be learned.</span>
+                        <span class="accent">For rhythm does not need to be learned.</span>
                     </p>
-                    <p class="closing-line">It's in the wiring ;)</p>
+                    <p class="closing-line">It's in our wiring ;)</p>
                 </div>
             </main>
             <nav aria-label="Back to home">
