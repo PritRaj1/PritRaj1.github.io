@@ -42,14 +42,6 @@
                         </li>
                     </ul>
                     <p>
-                        It is tempting as a hardware company to platform cheap inference alone, but
-                        there is a long, rich history of real analysis in engineering that I don't
-                        think holds without floating-point representation.
-                        <span class="accent">
-                            I will not bow to trade-offs and mutual exclusivity.
-                        </span>
-                    </p>
-                    <p>
                         Ozaki scheme II recovers FP64 accuracy from INT8 and FP16 by decomposing
                         floats, running the matmuls at lower precisions, and reconstructing with the
                         Chinese Remainder Theorem. INT8 MACs are 16x smaller than FP64, so the same

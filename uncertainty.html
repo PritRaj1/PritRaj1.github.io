@@ -47,6 +47,8 @@
                     <p>
                         A self-driving car that's 99% accurate gets 1 in 100 decisions wrong. That
                         decision could happen at a school crossing.
+                    </p>
+                    <p>
                         <span class="accent">
                             Uncertainty quantification is how engineers catch that last 1%.
                         </span>
@@ -85,17 +87,16 @@
                             - solubility problems can be a leading cause of late-stage failure
                         </li>
                     </ul>
-                    <p>Solubility predictions are full of uncertainty!</p>
+                    <p>Solubility predictions are full of uncertainty:</p>
                 </div>
 
                 <div class="requirement-section">
-                    <h2 id="two-kinds-of-uncertainty">Two kinds of uncertainty</h2>
                     <div class="def-grid">
                         <div class="def-card">
                             <span class="def-name">Aleatoric</span>
                             <span class="def-expand">irreducible noise in measurements</span>
                             <p class="def-body">
-                                Two identical experiments might give different solubilities! More
+                                Two identical experiments might give different solubilities. More
                                 data shrinks the standard error of the mean, but can't remove the
                                 noise itself.
                             </p>
@@ -111,7 +112,7 @@
                         </div>
                     </div>
 
-                    <h3 class="method-title" id="aleatoric-sources">Aleatoric sources</h3>
+                    <h2 class="method-title" id="aleatoric-sources">Aleatoric sources</h2>
                     <ul>
                         <li>
                             <span class="accent">conformational flexibility</span>
@@ -192,7 +193,7 @@
                             thermodynamic minimum
                         </li>
                     </ul>
-                    <h3 class="method-title" id="epistemic-sources">Epistemic sources</h3>
+                    <h2 class="method-title" id="epistemic-sources">Epistemic sources</h2>
                     <ul>
                         <li>
                             <span class="accent">data sparsity</span>
@@ -311,7 +312,7 @@
                     </p>
                     <p>
                         Fit the hyperparameters this way and you get the posterior uncertainty
-                        surface on real data.
+                        surface on each sample:
                     </p>
                     <div class="gif-single" style="max-width: 600px">
                         <img
@@ -410,8 +411,11 @@
                     <p>
                         \[ K_{\mathrm{FITC}} \;=\;
                         \underbrace{K_{nm}K_{mm}^{-1}K_{mn}}_{\text{low-rank}} \;+\;
-                        \underbrace{\Lambda}_{\text{diagonal correction}}, \qquad \Lambda \;=\;
-                        \mathrm{diag}\!\bigl(K - K_{nm}K_{mm}^{-1}K_{mn}\bigr) + \lambda I \]
+                        \underbrace{\Lambda}_{\text{diagonal correction}}\]
+                    </p>
+                    <p>
+                        \[ \Lambda \;=\; \mathrm{diag}\!\bigl(K - K_{nm}K_{mm}^{-1}K_{mn}\bigr) +
+                        \lambda I \]
                     </p>
                     <p>
                         The diagonal \(\Lambda\) restores the correct marginal variance at each
@@ -442,9 +446,20 @@
                 </div>
 
                 <div class="section-major">
-                    <h2 id="active-learning">Active learning</h2>
+                    <div class="project-header">
+                        <h2 id="active-learning">Active Learning</h2>
+                        <a
+                            href="https://github.com/PritRaj1/GP-AqSolDB"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="GP-AqSolDB on GitHub"
+                        >
+                            github &#8599;
+                        </a>
+                    </div>
                     <p>
-                        Wet-lab solubility measurements are expensive! Each trial burns hours to
+                        Wet-lab solubility measurements are expensive. Each trial burns hours to
                         days of work, milligrams of compound, spectrometer runs, etc. The space of
                         drug-like molecules runs into \(10^{60}\), AqSolDB has labelled around
                         \(10^4\).
@@ -457,54 +472,29 @@
                         assessments.
                     </p>
                     <p>
-                        Below uses the simplest acquisition rule,
-                        <span class="accent">max variance</span>
-                        : each round finds the pool molecule with the highest posterior std,
-                        \(\arg\max_x \mathrm{diag}\,\Sigma_*(x)\), to target the most uncertain
-                        region. The loop is fit GP, score every candidate, label the top one,
-                        retrain.
+                        <span class="accent">
+                            It's not enough to simply make decisions. You have to quantify the
+                            validity of them.
+                        </span>
                     </p>
-                    <p>
-                        (More standard acquisition functions like upper confidence bound or expected
-                        improvement balance exploration and exploitation better. Examples in
-                        Garnett's
-                        <a href="https://bayesoptbook.com/" target="_blank" rel="noopener">
-                            Bayesian Optimization Book
-                        </a>
-                        .)
-                    </p>
-                    <div class="project-header">
-                        <h2 id="gp-aqsoldb">GP-AqSolDB</h2>
-                        <a
-                            href="https://github.com/PritRaj1/GP-AqSolDB"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="GP-AqSolDB on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                    </div>
+
                     <div class="gif-single">
                         <img
                             src="images/active_learning.gif"
                             alt="Active-learning loop: GP posterior tightens as new high-variance points are queried"
                         />
                         <div class="gif-label">
-                            Active learning on AqSolDB. Each queried molecule shrinks the
-                            epistemic-uncertainty band around its neighbourhood.
+                            Active learning on AqSolDB. Each queried molecule reduces epistemic
+                            uncertainty
                         </div>
                     </div>
                 </div>
 
                 <div class="requirement-section">
-                    <p>
-                        <span class="accent">
-                            It's not enough to simply make decisions. You have to quantify the
-                            validity of them!
-                        </span>
+                    <p class="closing-line">
+                        "The quest for certainty blocks the search for meaning. Uncertainty is the
+                        very condition to impel man to unfold his powers"
                     </p>
-                    <p class="closing-line">Communicate what you don't know.</p>
                 </div>
             </main>
             <nav aria-label="Back to home">

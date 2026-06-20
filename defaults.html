@@ -47,7 +47,9 @@
                     <p>
                         Energy-based models mix poorly on multimodal posteriors. The literature
                         defaults to diffusion to address it.
-                        <span class="accent">I propose annealing instead!</span>
+                    </p>
+                    <p>
+                        <span class="accent">We anneal.</span>
                     </p>
                 </div>
 
@@ -82,8 +84,9 @@
                         >
                             blog
                         </a>
-                        is the best resource for this, and is one of the inspirations for my own
-                        website! I'll summarise briefly here, in the context of EBMs (
+                        is the best resource for understanding score-based generative models, (it's
+                        one of the inspirations for my own website)! I'll summarise briefly here, in
+                        the context of latent EBMs (
                         <a href="https://arxiv.org/abs/2101.03288" target="_blank" rel="noopener">
                             arXiv 2101.03288
                         </a>
@@ -111,10 +114,13 @@
                     </p>
                     <p>
                         The Hessian trace \(\mathrm{tr}(\nabla_z^2 \log p_f(z))\) is the new pain:
-                        \(O(d^2)\) directly, \(O(d)\) with the Hutchinson estimator at the cost of
-                        variance. Denoising score matching skips it entirely by perturbing data with
-                        a Gaussian kernel \(q(\tilde z \mid z) = \mathcal{N}(\tilde z;\, z,\,
-                        \sigma^2 I)\).
+                        \(O(d^2)\) to resolve exactly, \(O(d)\) with the Hutchinson estimator at the
+                        cost of variance.
+                    </p>
+                    <p>
+                        Denoising score matching skips it entirely by perturbing data with a
+                        Gaussian kernel \(q(\tilde z \mid z) = \mathcal{N}(\tilde z;\, z,\, \sigma^2
+                        I)\).
                     </p>
                     <p>
                         Stack a discrete sequence of noise scales \(\sigma_1 &lt; \cdots &lt;
@@ -123,7 +129,7 @@
                             arXiv 1907.05600
                         </a>
                         ), or parametrise as a discrete Markov chain \(z_0 \to z_1 \to \cdots \to
-                        z_T\), and you get DDPM (
+                        z_T\), and you get diffusion model (DDPM) (
                         <a href="https://arxiv.org/abs/2006.11239" target="_blank" rel="noopener">
                             arXiv 2006.11239
                         </a>
@@ -209,8 +215,8 @@
                         <a href="https://arxiv.org/abs/2405.13910" target="_blank" rel="noopener">
                             arXiv 2405.13910
                         </a>
-                        ) stacks the latent space top-down and runs a diffusion scheme over the
-                        multi-layer prior.
+                        ) stacks the latent space top-down and runs diffusion over the multi-level
+                        prior.
                     </p>
                     <svg
                         class="flow-figure"
@@ -311,17 +317,15 @@
                         ).
                     </p>
                     <p>
-                        It works really well, but the cost is that generation is no longer
-                        single-pass. The prior is now a chain of conditional EBMs, walked back
-                        through sequentially at inference, so its structure is spread across the
-                        reverse steps. Not something that's easy to interpret.
+                        It works, but the cost is that generation is no longer single-pass. The
+                        prior is now a chain of conditional EBMs, walked back through sequentially
+                        at inference, so its structure is spread across the reverse steps. Not
+                        something that's easy to interpret.
                     </p>
                 </div>
 
                 <div class="section-major">
-                    <h2 id="thermodynamic-integration">
-                        Thermodynamic integration (KAEM's method)
-                    </h2>
+                    <h2 id="thermodynamic-integration">Thermodynamic integration</h2>
                     <p>
                         This is the method I proposed for
                         <a href="kaem.html">KAEM's</a>
@@ -503,10 +507,6 @@
                             posterior, sharpening high-variance, data-informed detail.
                         </li>
                     </ul>
-                    <p>
-                        Coarse global features first, fine local detail last. Annealing the
-                        annealing itself XD
-                    </p>
                 </div>
 
                 <div class="section-major">
@@ -534,13 +534,7 @@
                             >
                                 arXiv 1905.02939
                             </a>
-                            ). Compute scales with VRAM, not wall time. Remember from the
-                            <a href="representation.html">SciML page</a>
-                            :
-                            <span class="accent">
-                                You want to be greedy with your hardware usage, not with your time
-                                spent.
-                            </span>
+                            ). Compute scales with VRAM, not time.
                         </li>
                         <li>
                             <span class="accent">no surrogate objective</span>
