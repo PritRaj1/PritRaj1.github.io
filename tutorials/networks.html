@@ -41,7 +41,7 @@
             </nav>
             <main id="main">
                 <div class="featured">
-                    <h1>The purity of neural networks</h1>
+                    <h1>The mechanics of neural networks</h1>
                     <p>
                         Neural networks explained by their frameworks and a philosophical divide:
                         <span class="accent">
@@ -67,16 +67,17 @@
                     <p>
                         Firstly, Torch is
                         <em>implicitly parameterised.</em>
-                        A neural network's parameters are closely tied to the torch.nn class its
-                        defined by, which can be quite opaque to a compiler, (and maybe a
-                        performance engineer). Meaning something like torch.compile is limited in
-                        terms how deep its optimisations can go.
+                        A neural network's parameters are closely tied to the
+                        <em>torch.nn</em>
+                        class its defined by, which can be quite opaque to a compiler. Meaning
+                        something like torch.compile can sometimes be limited by how deep its
+                        optimisations can go.
                     </p>
                     <p>
                         Python/PyTorch also follows an interpreted or eager execution model
-                        (line-by-line). Meaning it's dynamic and fast to compile/prototype with, but
-                        at the cost of interpreter overhead, (e.g. each iteration of a loop would
-                        accumulate slowdowns).
+                        (line-by-line). Meaning it's dynamic and fast to run/prototype with, but at
+                        the cost of interpreter overhead, (e.g. each iteration of a loop accumulates
+                        slowdowns).
                     </p>
                     <p>
                         These trade-offs are usually worked around, but my biggest problem remains:
@@ -87,7 +88,7 @@
                         </span>
                     </p>
                     <p>
-                        This stands in contrast to the nature of JAX and Julia's Lux.jl. And it can
+                        This stands in contrast to the style of JAX and Julia's Lux.jl. And it can
                         be profoundly meaningful to explore deep learning in languages beyond what
                         we're familiar with:
                     </p>
@@ -105,7 +106,7 @@
                             </span>
                             <p class="def-body">
                                 for quick and intuitive learning, backed by a vast and supportive
-                                ecosystem and the convenience of object-oriented design
+                                ecosystem + the convenience of object-oriented design
                             </p>
                         </div>
                         <div class="def-card">
@@ -120,8 +121,8 @@
                                 </a>
                             </span>
                             <p class="def-body">
-                                familiarly object-oriented, but with native JIT/XLA compilation, and
-                                first-class multi-device support and scalability
+                                nnx is familiarly object-oriented, but with native JIT/XLA
+                                compilation, and first-class multi-device support and scalability
                             </p>
                         </div>
                         <div class="def-card">
@@ -136,12 +137,29 @@
                                 </a>
                             </span>
                             <p class="def-body">
-                                for a comprehensive mathematical understanding in advanced
-                                scientific and numerical computing, with purely immutable and
-                                functional design
+                                for a comprehensive mathematical understanding of advanced
+                                scientific and numerical computing - purely immutable and functional
+                                in its design
                             </p>
                         </div>
-                        <p></p>
+                        <p>
+                            Da Vinci differentiated himself as a true Renaissance man with one key
+                            characteristic:
+                            <span class="accent">meticulous mechanistic understanding</span>
+                            .
+                        </p>
+                        <p>
+                            By revisiting the fundamentals of neural networks through the lens of
+                            <em>Flax NNX</em>
+                            and
+                            <em>Julia Lux.jl,</em>
+                            you walk a bold and decisive path that many in the field have
+                            discouraged me from treading.
+                        </p>
+                        <p>
+                            So welcome aboard the crazy train you beautiful person - my pleasure to
+                            accomodate your journey.
+                        </p>
                     </div>
                 </div>
             </main>
