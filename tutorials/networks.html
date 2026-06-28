@@ -31,6 +31,126 @@
     </head>
 
     <body>
-        <p>Coming soon..</p>
+        <a href="#main" class="skip-link">Skip to content</a>
+        <div class="container">
+            <nav aria-label="Back">
+                <a href="../index.html" class="back-link">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
+            </nav>
+            <main id="main">
+                <div class="featured">
+                    <h1>The purity of neural networks</h1>
+                    <p>
+                        Neural networks explained by their frameworks and a philosophical divide:
+                        <span class="accent">
+                            functional purity vs object-oriented convenience.
+                        </span>
+                    </p>
+                </div>
+
+                <div class="section-major">
+                    <h2 id="into">Passing the Torch</h2>
+                    <p>
+                        I've learned a lot since my
+                        <a
+                            href="https://www.linkedin.com/posts/prithvi-raj-eng_i-moved-from-pytorch-to-jax-to-julia-a-activity-7330842135534919681-9XJF?utm_source=share&utm_medium=member_desktop&rcm=ACoAADUTwcMBFnTsuwtIbYGuiSVLmSAnTVDeOQQ"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            hard-line stances on deep learning frameworks,
+                        </a>
+                        and it doesn't all hold. That said, I still wouldn't limit myself to PyTorch
+                        alone - a scout is always prepared.
+                    </p>
+                    <p>
+                        Firstly, Torch is
+                        <em>implicitly parameterised.</em>
+                        A neural network's parameters are closely tied to the torch.nn class its
+                        defined by, which can be quite opaque to a compiler, (and maybe a
+                        performance engineer). Meaning something like torch.compile is limited in
+                        terms how deep its optimisations can go.
+                    </p>
+                    <p>
+                        Python/PyTorch also follows an interpreted or eager execution model
+                        (line-by-line). Meaning it's dynamic and fast to compile/prototype with, but
+                        at the cost of interpreter overhead, (e.g. each iteration of a loop would
+                        accumulate slowdowns).
+                    </p>
+                    <p>
+                        These trade-offs are usually worked around, but my biggest problem remains:
+                    </p>
+                    <p>
+                        <span class="accent">
+                            PyTorch abstracts away the fundamental nature of neural networks.
+                        </span>
+                    </p>
+                    <p>
+                        This stands in contrast to the nature of JAX and Julia's Lux.jl. And it can
+                        be profoundly meaningful to explore deep learning in languages beyond what
+                        we're familiar with:
+                    </p>
+                    <div class="def-grid">
+                        <div class="def-card">
+                            <span class="def-name">Torch</span>
+                            <span class="def-expand">
+                                <a
+                                    href="https://docs.pytorch.org/tutorials/beginner/nn_tutorial.html"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    torch.nn
+                                </a>
+                            </span>
+                            <p class="def-body">
+                                for quick and intuitive learning, backed by a vast and supportive
+                                ecosystem and the convenience of object-oriented design
+                            </p>
+                        </div>
+                        <div class="def-card">
+                            <span class="def-name">JAX</span>
+                            <span class="def-expand">
+                                <a
+                                    href="https://flax.readthedocs.io/en/latest/nnx_basics.html"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    Flax NNX
+                                </a>
+                            </span>
+                            <p class="def-body">
+                                familiarly object-oriented, but with native JIT/XLA compilation, and
+                                first-class multi-device support and scalability
+                            </p>
+                        </div>
+                        <div class="def-card">
+                            <span class="def-name">Julia</span>
+                            <span class="def-expand">
+                                <a
+                                    href="https://lux.csail.mit.edu/dev/introduction/overview"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    Lux.jl
+                                </a>
+                            </span>
+                            <p class="def-body">
+                                for a comprehensive mathematical understanding in advanced
+                                scientific and numerical computing, with purely immutable and
+                                functional design
+                            </p>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </main>
+            <nav aria-label="Back to home">
+                <a href="../index.html" class="back-link bottom">
+                    <span aria-hidden="true">&larr;</span>
+                    Back
+                </a>
+            </nav>
+        </div>
     </body>
 </html>
