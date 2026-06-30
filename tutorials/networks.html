@@ -61,37 +61,19 @@
                         >
                             hard-line stances on deep learning frameworks,
                         </a>
-                        and it doesn't all hold. That said, I still wouldn't limit myself to PyTorch
-                        alone - a scout is always prepared.
+                        and it doesn't all hold. That said, I still wouldn't advise someone to only
+                        learn PyTorch - a scout is always prepared.
                     </p>
                     <p>
-                        Firstly, Torch is
-                        <em>implicitly parameterised.</em>
-                        A neural network's parameters are closely tied to the
-                        <em>torch.nn</em>
-                        class its defined by, which can be quite opaque to a compiler. Meaning
-                        something like torch.compile can sometimes be limited by how deep its
-                        optimisations can go.
-                    </p>
-                    <p>
-                        Python/PyTorch also follows an interpreted or eager execution model
-                        (line-by-line). Meaning it's dynamic and fast to run/prototype with, but at
-                        the cost of interpreter overhead, (e.g. each iteration of a loop accumulates
-                        slowdowns).
-                    </p>
-                    <p>
-                        These trade-offs are usually worked around, but my biggest problem remains:
+                        Even ignoring practicality, it can be profoundly meaningful to explore deep
+                        learning in languages beyond what we're familiar with, because:
                     </p>
                     <p>
                         <span class="accent">
                             PyTorch abstracts away the fundamental nature of neural networks.
                         </span>
                     </p>
-                    <p>
-                        This stands in contrast to the style of JAX and Julia's Lux.jl. And it can
-                        be profoundly meaningful to explore deep learning in languages beyond what
-                        we're familiar with:
-                    </p>
+                    <p>This stands in contrast to the compile-centric style of JAX and Julia's Lux.jl:</p>
                     <div class="def-grid">
                         <div class="def-card">
                             <span class="def-name">Torch</span>
@@ -121,7 +103,7 @@
                                 </a>
                             </span>
                             <p class="def-body">
-                                nnx is familiarly object-oriented, but with native JIT/XLA
+                                familiarly object-oriented, (nnx api), but with native JIT/XLA
                                 compilation, and first-class multi-device support and scalability
                             </p>
                         </div>
@@ -137,16 +119,14 @@
                                 </a>
                             </span>
                             <p class="def-body">
-                                for a comprehensive mathematical understanding of advanced
-                                scientific and numerical computing - purely immutable and functional
-                                in its design
+                                to develop a comprehensive understanding of advanced scientific and
+                                numerical computing - purely immutable and functional in its design
                             </p>
                         </div>
                         <p>
                             Da Vinci differentiated himself as a true Renaissance man with one key
                             characteristic:
-                            <span class="accent">meticulous mechanistic understanding</span>
-                            .
+                            <span class="accent">meticulous mechanistic understanding.</span>
                         </p>
                         <p>
                             By revisiting the fundamentals of neural networks through the lens of
@@ -157,7 +137,7 @@
                             discouraged me from treading.
                         </p>
                         <p>
-                            So welcome aboard the crazy train my beautiful friend - my pleasure to
+                            So welcome aboard the crazy train my beautiful friend, my pleasure to
                             accomodate the journey.
                         </p>
                     </div>
@@ -172,12 +152,12 @@
                         For any \( \varepsilon \gt 0 \) and any continuous many-to-one function, \(
                         f(\bm{x}): K \to \mathbb{R} \), defined on a compact subset of \(n\)-dim
                         space, \( K \subset \mathbb{R}^n \), there exists a singe layer feedforward
-                        neural network, \( F(\bm{x}; \theta) \), such that: \[ \vert F(\bm{x};
-                        \theta) - f(\bm{x}) \vert \lt \varepsilon \quad \forall \bm{x} \in K \] The
-                        approximating network function takes the form: \[ F(\bm{x}; \theta) =
-                        \sum_{j=1}^M w_j \sigma(a_j \cdot x_j + b_j) = \bm{W} \cdot \sigma \left(
-                        \bm{A}\bm{x} + \bm{b} \right) \] With learnable matrices, \(\theta = \{
-                        \bm{W}, \bm{A}, \bm{b} \}\)
+                        neural network, \( F(\bm{x}; \bm{\theta}) \), such that: \[ \vert F(\bm{x};
+                        \bm{\theta}) - f(\bm{x}) \vert \lt \varepsilon \quad \forall \bm{x} \in K \] The
+                        approximating network function takes the form: \[ F(\bm{x}; \bm{\theta)} =
+                        \sum_{j=1}^M w_j \sigma(a_j \cdot x_j + b_j) = \bm{w} \cdot \sigma \left(
+                        \bm{a}\bm{x} + \bm{b} \right) \] With learnable \( n \)-dim vectors, \(\bm{\theta} = \{
+                        \bm{w}, \bm{a}, \bm{b} \}\)
                     </p>
                 </div>
             </main>
