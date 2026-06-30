@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h2 id="into">Passing the Torch</h2>
+                    <h2 id="intro">Passing the Torch</h2>
                     <p>
                         I've learned a lot since my
                         <a
@@ -157,10 +157,28 @@
                             discouraged me from treading.
                         </p>
                         <p>
-                            So welcome aboard the crazy train you beautiful person - my pleasure to
-                            accomodate your journey.
+                            So welcome aboard the crazy train my beautiful friend - my pleasure to
+                            accomodate the journey.
                         </p>
                     </div>
+                </div>
+                <div class="section-major">
+                    <h2 id="functions">Neural networks as stateful functions</h2>
+                    <p>
+                        Neural networks are mathematical functions, where approximation is
+                        guaranteed by the Universal Approximation theorem:
+                    </p>
+                    <p>
+                        For any \( \varepsilon \gt 0 \) and any continuous many-to-one function, \(
+                        f(\bm{x}): K \to \mathbb{R} \), defined on a compact subset of \(n\)-dim
+                        space, \( K \subset \mathbb{R}^n \), there exists a singe layer feedforward
+                        neural network, \( F(\bm{x}; \theta) \), such that: \[ \vert F(\bm{x};
+                        \theta) - f(\bm{x}) \vert \lt \varepsilon \quad \forall \bm{x} \in K \] The
+                        approximating network function takes the form: \[ F(\bm{x}; \theta) =
+                        \sum_{j=1}^M w_j \sigma(a_j \cdot x_j + b_j) = \bm{W} \cdot \sigma \left(
+                        \bm{A}\bm{x} + \bm{b} \right) \] With learnable matrices, \(\theta = \{
+                        \bm{W}, \bm{A}, \bm{b} \}\)
+                    </p>
                 </div>
             </main>
             <nav aria-label="Back to home">
