@@ -192,6 +192,11 @@
                             Sampling speed comparable to VAE, ~700x faster than DDPM
                         </div>
                     </div>
+                    <p>
+                        The small gap to VAE can be closed by optimizing or caching the ITS
+                        computational kernel, (since the partition/normalizing constant does not
+                        need recomputing per generation), or by choosing a different KAN basis.
+                    </p>
                 </div>
 
                 <div class="requirement-section">
@@ -206,14 +211,12 @@
                     </p>
                     <div class="gif-single">
                         <img
-                            src="../images/slerp_4.png"
-                            alt="SLERP interpolation on CelebA with inspectable prior densities"
+                            src="../images/mode_cdf_1.png"
+                            alt="Interpolation on CelebA with inspectable prior densities"
                         />
                         <div class="gif-label">
-                            A straight line between two latent samples would cut through the empty
-                            centre of the space and decode to something illegible. SLERP traverses
-                            the arc where the samples actually live, so every step stays a plausible
-                            sample.
+                            Interpolation between two latent samples, (high density to low). Every
+                            step stays a plausible sample.
                         </div>
                     </div>
                     <p>
@@ -270,7 +273,7 @@
 
                 <div class="section-major">
                     <h2 id="metrics">Metrics</h2>
-                    <p>*Better metrics are incoming, (I fixed some derivations)!</p>
+                    <p>*Better metrics are incoming, (I fixed some stuff)!</p>
                     <p>How do we quantify the perceptual quality of generated images?</p>
                     <p>
                         It's not exact, but the academic community has adopted the following
@@ -348,12 +351,12 @@
                             <sub>&infin;</sub>
                             (lower is better)
                         </div>
-                        <div class="bench-row">
+                        <div class="bench-row best">
                             <span class="bench-label">KAEM (MLE)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 58.73%"></div>
+                                <div class="bench-bar" style="--w: 57.94%"></div>
                             </div>
-                            <span class="bench-value">63.86</span>
+                            <span class="bench-value">63.00</span>
                         </div>
                         <div class="bench-row">
                             <span class="bench-label">KAEM (Thermo)</span>
@@ -369,7 +372,7 @@
                             </div>
                             <span class="bench-value">107.80</span>
                         </div>
-                        <div class="bench-row best">
+                        <div class="bench-row">
                             <span class="bench-label">Neural Latent EBM</span>
                             <div class="bench-bar-track">
                                 <div class="bench-bar" style="--w: 58.57%"></div>
@@ -394,9 +397,9 @@
                         <div class="bench-row">
                             <span class="bench-label">KAEM (MLE)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 53.8%"></div>
+                                <div class="bench-bar" style="--w: 59.8%"></div>
                             </div>
-                            <span class="bench-value">137.39</span>
+                            <span class="bench-value">134.70</span>
                         </div>
                         <div class="bench-row">
                             <span class="bench-label">KAEM (Thermo)</span>
@@ -437,9 +440,9 @@
                         <div class="bench-row">
                             <span class="bench-label">KAEM (MLE)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 72.9%"></div>
+                                <div class="bench-bar" style="--w: 67.8%"></div>
                             </div>
-                            <span class="bench-value">126.89</span>
+                            <span class="bench-value">118.06</span>
                         </div>
                         <div class="bench-row">
                             <span class="bench-label">KAEM (Thermo)</span>
