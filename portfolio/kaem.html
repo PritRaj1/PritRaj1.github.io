@@ -177,11 +177,17 @@
                     </p>
                     <p>
                         Inference is the largest slice, so KAEM keeps it fast (single forward pass).
+                        The generative process is also entirely static and deterministic, prior
+                        sampling can just be look up table (LUT for \(\psi_{q,p} : [0,1] \to
+                        \mathbb{R}\) ).
+                    </p>
+                    <p>
                         <a href="../defaults.html">Annealing</a>
                         only runs during training, and parallelises across temperatures instead of
                         paying a sequential cost every generation like diffusion. Experimentation is
-                        also large. A standardised representation with stronger inductive bias
-                        reduces the architecture search/tuning and reliance on guessing.
+                        also a large slice. A standardised, transferable representation with
+                        stronger inductive bias reduces the architecture search/tuning and reliance
+                        on guessing.
                     </p>
                     <div class="gif-single">
                         <img
@@ -695,6 +701,47 @@
                         broader, grander, more ambitious conceptualisation:
                     </p>
                     <p class="closing-line">"The Kolmogorov-Arnold theorem is all you need."</p>
+                </div>
+
+                <div class="section-major">
+                    <h2 id="closing">Next steps</h2>
+                    <ul>
+                        <li>
+                            Latent EBMs are expressive enough for coherent multimodal generative
+                            modeling:
+                            <a
+                                href="https://arxiv.org/abs/2409.19862"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                (early example)
+                            </a>
+                        </li>
+                        <li>
+                            Since latent EBMs are so versatile, (e.g. a trained EBM can easily be
+                            repurposed for classification without retraining), there's a promising
+                            direction for a semi-supervised generative model using ideas from KAEM:
+                            <a
+                                href="https://openreview.net/pdf?id=UlZGDIQlbH1"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                (interpretable symbolic vector coupling example)
+                            </a>
+                        </li>
+                        <li>
+                            KAEM's prior sampling is entirely static, so a promising direction maybe
+                            be to replace the entire generative process with a symbolic
+                            representation:
+                            <a
+                                href="https://arxiv.org/abs/2603.23854"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                (example of KAN symbolic regression for an ODE system)
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </main>
             <nav aria-label="Back to home">
