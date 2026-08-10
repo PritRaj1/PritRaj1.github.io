@@ -61,19 +61,22 @@
                         >
                             hard-line stances on deep learning frameworks,
                         </a>
-                        and it doesn't all hold. That said, I still wouldn't advise someone to only
-                        learn PyTorch - a scout is always prepared.
+                        and it doesn't all hold, (PyTorch is really fast). That said, I still
+                        wouldn't advise someone to only learn PyTorch - a scout is always prepared.
                     </p>
                     <p>
-                        Even ignoring practicality, it can be profoundly meaningful to explore deep
-                        learning in languages beyond what we're familiar with, because:
+                        Ignoring personal preference, it can be profoundly meaningful to explore
+                        deep learning in languages beyond what we're familiar with, because:
                     </p>
                     <p>
                         <span class="accent">
                             PyTorch abstracts away the fundamental nature of neural networks.
                         </span>
                     </p>
-                    <p>This stands in contrast to the compile-centric style of JAX and Julia's Lux.jl:</p>
+                    <p>
+                        This stands in contrast to the compile-centric style of JAX and Julia's
+                        Lux.jl:
+                    </p>
                     <div class="def-grid">
                         <div class="def-card">
                             <span class="def-name">Torch</span>
@@ -87,7 +90,7 @@
                                 </a>
                             </span>
                             <p class="def-body">
-                                for quick and intuitive learning, backed by a vast and supportive
+                                quick and intuitive learning, backed by a vast and supportive
                                 ecosystem + the convenience of object-oriented design
                             </p>
                         </div>
@@ -121,6 +124,7 @@
                             <p class="def-body">
                                 to develop a comprehensive understanding of advanced scientific and
                                 numerical computing - purely immutable and functional in its design
+                                (similar what JAX's Flax.linen used to be)
                             </p>
                         </div>
                         <p>
@@ -137,10 +141,32 @@
                             discouraged me from treading.
                         </p>
                         <p>
-                            So welcome aboard the crazy train my beautiful friend, my pleasure to
-                            accomodate the journey.
+                            So welcome aboard the crazy train buddy, my pleasure to accomodate the
+                            journey.
                         </p>
                     </div>
+                </div>
+                <div class="section-major">
+                    <h2 id="functions">Other resources</h2>
+                    <p>
+                        This will be a very untraditional approach to exploring deep learning.
+                        There's lots of other resources to fill in the gaps - so many that it might
+                        feel overwhelming. I'll point you to these two in particular:
+                    </p>
+                    <ul>
+                        <li>
+                            <a href="https://learn.arena.education/" target="_blank" rel="noopener">
+                                ARENA
+                            </a>
+                            - this was big in the UK AI safety community, I really like it
+                        </li>
+                        <li>
+                            <a href="https://comfyai.app/about" target="_blank" rel="noopener">
+                                AI Roadmap
+                            </a>
+                            - particularly about LLMs and industry specifics
+                        </li>
+                    </ul>
                 </div>
                 <div class="section-major">
                     <h2 id="functions">Neural networks as stateful functions</h2>
@@ -153,11 +179,11 @@
                         f(\bm{x}): K \to \mathbb{R} \), defined on a compact subset of \(n\)-dim
                         space, \( K \subset \mathbb{R}^n \), there exists a singe layer feedforward
                         neural network, \( F(\bm{x}; \bm{\theta}) \), such that: \[ \vert F(\bm{x};
-                        \bm{\theta}) - f(\bm{x}) \vert \lt \varepsilon \quad \forall \bm{x} \in K \] The
-                        approximating network function takes the form: \[ F(\bm{x}; \bm{\theta)} =
-                        \sum_{j=1}^M w_j \sigma(a_j \cdot x_j + b_j) = \bm{w} \cdot \sigma \left(
-                        \bm{a}\bm{x} + \bm{b} \right) \] With learnable \( n \)-dim vectors, \(\bm{\theta} = \{
-                        \bm{w}, \bm{a}, \bm{b} \}\)
+                        \bm{\theta}) - f(\bm{x}) \vert \lt \varepsilon \quad \forall \bm{x} \in K \]
+                        The approximating network function takes the form: \[ F(\bm{x}; \bm{\theta)}
+                        = \sum_{j=1}^M w_j \sigma(a_j \cdot x_j + b_j) = \bm{w} \cdot \sigma \left(
+                        \bm{a}\bm{x} + \bm{b} \right) \] With learnable \( n \)-dim vectors,
+                        \(\bm{\theta} = \{ \bm{w}, \bm{a}, \bm{b} \}\)
                     </p>
                 </div>
             </main>
