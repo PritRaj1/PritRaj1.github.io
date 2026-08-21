@@ -160,50 +160,6 @@ h1 {
     font-weight: 600;
 }
 
-.pillars-lead {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 14px;
-}
-
-.pillars {
-    list-style: none;
-    margin: 0 0 40px 18px;
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-.pillars li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: 12px;
-    row-gap: 2px;
-    padding: 8px 0;
-    max-width: var(--max-text-width);
-}
-
-.pillars li::before {
-    content: '→';
-    color: var(--arrow);
-    grid-column: 1;
-    grid-row: 1;
-}
-
-.pillars .name {
-    grid-column: 2;
-    grid-row: 1;
-    color: var(--accent);
-}
-
-.pillars .why {
-    grid-column: 2;
-    grid-row: 2;
-    color: var(--text-muted);
-    font-size: 0.88rem;
-}
-
 .list-heading {
     font-family: var(--font-serif);
     font-size: 1.4rem;
@@ -218,30 +174,6 @@ h1 {
     font-size: 0.98rem;
     margin-bottom: 28px;
     max-width: var(--max-text-width);
-}
-
-.featured-row {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    border-left: 3px solid var(--accent-dim);
-    padding: 18px 22px;
-    margin-bottom: 32px;
-    color: var(--text);
-    transition:
-        border-color 0.2s,
-        background 0.2s;
-}
-
-.featured-row:hover {
-    border-color: var(--accent-bright);
-    background: rgba(212, 160, 128, 0.04);
-    color: var(--text);
-}
-
-.featured-row .row-title {
-    font-size: 1.4rem;
-    margin-bottom: 6px;
 }
 
 .card {
