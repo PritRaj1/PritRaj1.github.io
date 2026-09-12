@@ -152,23 +152,5 @@
         </div>
 
         <script src="cats.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                let n = 0;
-                document.querySelectorAll('.pillars li').forEach((el, i) => {
-                    el.addEventListener('click', () => {
-                        if (i === n) {
-                            n++;
-                            if (n === 5)
-                                window.open(
-                                    '\x68\x74\x74\x70\x73\x3a\x2f\x2f\x79\x6f\x75\x74\x75\x2e\x62\x65\x2f\x71\x68\x4f\x55\x45\x78\x59\x6e\x50\x78\x77',
-                                    '_blank',
-                                );
-                        }
-                        n = n === 5 || i !== n - 1 ? 0 : n;
-                    });
-                });
-            });
-        </script>
     </body>
 </html>
