@@ -288,7 +288,6 @@
 
                 <div class="section-major">
                     <h2 id="metrics">Metrics</h2>
-                    <p>*Better metrics are incoming, (I fixed some stuff)!</p>
                     <p>How do we quantify the perceptual quality of generated images?</p>
                     <p>
                         It's not exact, but the academic community has adopted the following
@@ -312,8 +311,8 @@
                                 )
                             </span>
                             <p class="def-body">
-                                Models the two feature distributions as Gaussians, then finds the
-                                Fréchet distance.
+                                Models the two feature distributions as Gaussians, then Fréchet
+                                distance.
                             </p>
                         </div>
                         <div class="def-card">
@@ -336,7 +335,7 @@
                     <p>However, FID and KID are biased in two ways:</p>
                     <ol>
                         <li>
-                            InceptionV3 is trained on ImageNet, so scores favour ImageNet-like
+                            InceptionV3 is trained on ImageNet, so favours ImageNet-like
                             distributions.
                         </li>
                         <li>
@@ -347,7 +346,7 @@
                         </li>
                     </ol>
                     <p>
-                        My experimetns used effectively unbiased estimators by applying linear
+                        My experiments used effectively unbiased estimators by applying linear
                         regression across sample sizes {2000, 4000, ..., 20,000} to extrapolate to
                         N=&infin; (
                         <a href="https://arxiv.org/abs/1911.07023" target="_blank" rel="noopener">
@@ -362,17 +361,19 @@
 
                     <div class="bench">
                         <div class="bench-title">
-                            SVHN &mdash; FID
+                            SVHN - FID
                             <sub>&infin;</sub>
                             (lower is better)
                         </div>
+
                         <div class="bench-row best">
                             <span class="bench-label">KAEM (MLE)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 57.94%"></div>
+                                <div class="bench-bar" style="--w: 39.77%"></div>
                             </div>
-                            <span class="bench-value">63.00</span>
+                            <span class="bench-value">43.23</span>
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">KAEM (Thermo)</span>
                             <div class="bench-bar-track">
@@ -380,6 +381,7 @@
                             </div>
                             <span class="bench-value">108.74</span>
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">VAE</span>
                             <div class="bench-bar-track">
@@ -387,35 +389,39 @@
                             </div>
                             <span class="bench-value">107.80</span>
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">Neural Latent EBM</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 58.57%"></div>
+                                <div class="bench-bar" style="--w: 58.59%"></div>
                             </div>
                             <span class="bench-value">63.69</span>
                         </div>
+
                         <div class="bench-row ref">
                             <span class="bench-label">DDPM (ref.)</span>
                             <div class="bench-bar-track">
                                 <div class="bench-bar" style="--w: 18.39%"></div>
                             </div>
-                            <span class="bench-value">20.0</span>
+                            <span class="bench-value">20.00</span>
                         </div>
                     </div>
 
                     <div class="bench">
                         <div class="bench-title">
-                            CIFAR10 &mdash; FID
+                            CIFAR10 - FID
                             <sub>&infin;</sub>
                             (lower is better)
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">KAEM (MLE)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 59.8%"></div>
+                                <div class="bench-bar" style="--w: 59.68%"></div>
                             </div>
-                            <span class="bench-value">134.70</span>
+                            <span class="bench-value">134.55</span>
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">KAEM (Thermo)</span>
                             <div class="bench-bar-track">
@@ -423,24 +429,27 @@
                             </div>
                             <span class="bench-value">225.34</span>
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">VAE</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 80.3%"></div>
+                                <div class="bench-bar" style="--w: 80.35%"></div>
                             </div>
                             <span class="bench-value">181.05</span>
                         </div>
+
                         <div class="bench-row best">
                             <span class="bench-label">Neural Latent EBM</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 53.38%"></div>
+                                <div class="bench-bar" style="--w: 53.37%"></div>
                             </div>
                             <span class="bench-value">120.28</span>
                         </div>
+
                         <div class="bench-row ref">
                             <span class="bench-label">DDPM (ref.)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 25.65%"></div>
+                                <div class="bench-bar" style="--w: 25.67%"></div>
                             </div>
                             <span class="bench-value">57.88</span>
                         </div>
@@ -448,24 +457,27 @@
 
                     <div class="bench">
                         <div class="bench-title">
-                            CelebA &mdash; FID
+                            CelebA - FID
                             <sub>&infin;</sub>
                             (lower is better)
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">KAEM (MLE)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 67.8%"></div>
+                                <div class="bench-bar" style="--w: 55.66%"></div>
                             </div>
-                            <span class="bench-value">118.06</span>
+                            <span class="bench-value">96.88</span>
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">KAEM (Thermo)</span>
                             <div class="bench-bar-track">
-                                <div class="bench-bar" style="--w: 60.21%"></div>
+                                <div class="bench-bar" style="--w: 62.07%"></div>
                             </div>
                             <span class="bench-value">108.04</span>
                         </div>
+
                         <div class="bench-row">
                             <span class="bench-label">VAE</span>
                             <div class="bench-bar-track">
@@ -473,6 +485,7 @@
                             </div>
                             <span class="bench-value">136.57</span>
                         </div>
+
                         <div class="bench-row best">
                             <span class="bench-label">Neural Latent EBM</span>
                             <div class="bench-bar-track">
@@ -480,6 +493,7 @@
                             </div>
                             <span class="bench-value">85.57</span>
                         </div>
+
                         <div class="bench-row ref">
                             <span class="bench-label">DDPM (ref.)</span>
                             <div class="bench-bar-track">
@@ -491,38 +505,83 @@
 
                     <p class="bench-note">
                         All trained at matched param + compute budget, so these are like-for-like
-                        comparisons at small scale, not SOTA. Best marked among latent-prior models.
-                        DDPM is a pixel-space reference (also matched budget) at ~700x slower
-                        inference. KID
+                        comparisons at small scale, not SOTA due to resource constraints. Best
+                        marked among latent-prior models. DDPM is a pixel-space reference (also
+                        matched budget) at ~700x slower inference. KID
                         <sub>&infin;</sub>
                         tracks FID
                         <sub>&infin;</sub>
                         - full table in the paper.
                     </p>
+
+                    <div class="sample-grid">
+                        <div class="gif-item">
+                            <img
+                                src="../images/svhn_real_reference.png"
+                                alt="Real SVHN samples"
+                                loading="lazy"
+                            />
+                            <div class="gif-label">Real</div>
+                        </div>
+
+                        <div class="gif-item">
+                            <img
+                                src="../images/svhn_baseline_pang.png"
+                                alt="SVHN samples generated by Neural EBM"
+                                loading="lazy"
+                            />
+                            <div class="gif-label">Neural EBM</div>
+                        </div>
+
+                        <div class="gif-item">
+                            <img
+                                src="../images/svhn_vanilla_ula_mixture.png"
+                                alt="SVHN samples generated by KAEM trained with MLE"
+                                loading="lazy"
+                            />
+                            <div class="gif-label">KAEM (MLE)</div>
+                        </div>
+
+                        <div class="gif-item">
+                            <img
+                                src="../images/svhn_thermodynamic_ula_mixture.png"
+                                alt="SVHN samples generated by KAEM with thermodynamic training using Nt equals 10"
+                                loading="lazy"
+                            />
+                            <div class="gif-label">
+                                KAEM (Thermo,
+                                <em>
+                                    N
+                                    <sub>t</sub>
+                                    = 10
+                                </em>
+                                )
+                            </div>
+                        </div>
+
+                        <div class="gif-item">
+                            <img
+                                src="../images/svhn_baseline_vae.png"
+                                alt="SVHN samples generated by VAE"
+                                loading="lazy"
+                            />
+                            <div class="gif-label">VAE</div>
+                        </div>
+
+                        <div class="gif-item">
+                            <img
+                                src="../images/svhn_baseline_ddpm.png"
+                                alt="SVHN samples generated by DDPM"
+                                loading="lazy"
+                            />
+                            <div class="gif-label">DDPM (ref.)</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="section-major">
                     <div class="project-header">
                         <h2 id="implementation">Compilation</h2>
-                        <a
-                            href="https://github.com/thezettascale/KAEM"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Source on GitHub"
-                        >
-                            Julia &#8599;
-                        </a>
-                        |
-                        <a
-                            href="https://github.com/PritRaj1/thermo-ebms"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Source on GitHub"
-                        >
-                            JAX &#8599;
-                        </a>
                     </div>
 
                     <p>
@@ -577,15 +636,15 @@
                             </span>
                             <p class="def-body">
                                 Open and modular compiler IR. Keeps IR high-level (immutable SSA
-                                tensors) for as long as possible so linear-algebra + fusion
-                                optimisations work on the maths itself. Only bufferises to mutable
-                                'memrefs' when it's absolutely needed for memory planning and
+                                tensors) for as long as possible for linear-algebra + fusion
+                                optimisations. Only bufferises to mutable 'memrefs' when it's
+                                absolutely needed for memory planning and
                                 <a
                                     href="https://mlir.llvm.org/docs/Dialects/Affine/#polyhedral-structures"
                                     target="_blank"
                                     rel="noopener"
                                 >
-                                    (pseudo-polyhedral) transformations.
+                                    (pseudo-polyhedral) transforms.
                                 </a>
                                 Importantly, MLIR is retargettable across hardware as compute
                                 vendors can simply plug in at the lowest level and reuse the other
