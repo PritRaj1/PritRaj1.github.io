@@ -44,19 +44,72 @@
             <main id="main">
                 <div class="featured">
                     <h1>Intelligence is hierarchical</h1>
+                    <p>Biological intelligence comes in levels.</p>
                     <p>
-                        Real intelligence is hierarchical. Low-level control is handled by simple
-                        circuits in the central nervous system, called central pattern generators
-                        (CPGs). These use physical structure to produce unconscious, rhythmic
-                        signals for walking, flying, and swimming, freeing the brain for
-                        higher-level control and decision making.
+                        Low-level control is handled by simple circuits in the central nervous
+                        system called central pattern generators (CPGs). These use physical
+                        structure to produce unconscious, rhythmic signals for walking, flying, and
+                        swimming, leaving brain capacity for higher-level coordination and decision
+                        making.
                     </p>
                     <p>
-                        <span class="accent">No fancy algorithms!</span>
+                        <span class="accent">No fancy algorithms.</span>
                     </p>
+                    <p>You don't need reasoning to walk.</p>
                 </div>
 
+                <div class="section-major">
+                    <div class="project-header">
+                        <h2 id="neuromorphic-robots">Neuromorphic Robots</h2>
+                        <a
+                            href="../docs/conference_poster.pdf"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="Neuromorphic Robots conference poster PDF"
+                        >
+                            poster &#8599;
+                        </a>
+                        <a
+                            href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="Neuromorphic Robots on GitHub"
+                        >
+                            github &#8599;
+                        </a>
+                        <a
+                            href="https://uk.mathworks.com/matlabcentral/fileexchange/135517-quadbot-neuromorphic"
+                            target="_blank"
+                            rel="noopener"
+                            class="repo-link"
+                            aria-label="QuadBot-NeuroMorphic on MATLAB File Exchange"
+                        >
+                            matlab fx &#8599;
+                        </a>
+                    </div>
+                </div>
+
+                <div class="gif-row gif-row-pair">
+                    <div class="gif-item">
+                        <img
+                            src="../images/Synapider.jpg"
+                            alt="Synapider, the spider-leg quadruped"
+                        />
+                        <div class="gif-label">Synapider</div>
+                    </div>
+                    <div class="gif-item">
+                        <img src="../images/NeuroPup.jpg" alt="NeuroPup, the dog-leg quadruped" />
+                        <div class="gif-label">NeuroPup</div>
+                    </div>
+                </div>
+
+                <div class="section-major">
+                    <h2 id="mechanics-first">Mechanics First</h2>
+                </div>
                 <div class="requirement-section">
+                    <h2 id="good-mechanics">Good Mechanics</h2>
                     <p>
                         The default in machine learning is to reach for data, but old-school
                         engineers first look for mechanical, analogue, or physically-informed
@@ -127,564 +180,581 @@
                         The mechanics does the work that a controller would otherwise be asked to
                         do.
                     </p>
-                </div>
-
-                <div class="requirement-section">
-                    <h3 id="locomotion-problem">The locomotion problem</h3>
                     <p>
-                        Legs are nonlinear, contact dynamics are discontinuous, and the controller
-                        has to handle disturbances in real time. All on frequency-limited hardware!
-                        There are a couple examples on how it can be modeled:
+                        So before even considering the best algorithm for the job, it's important to
+                        make the physical build bullet-proof and defensible.
                     </p>
-                    <div class="def-grid">
-                        <div class="def-card">
-                            <span class="def-name">JEPA</span>
-                            <span class="def-expand">world models</span>
-                            <p class="def-body">
-                                Data-heavy. Millions of frames to fit encoder + predictor + policy.
-                                Three networks at inference. Latent state opaque, errors compound on
-                                long horizons. No inductive bias for periodicity.
-                            </p>
+
+                    <div class="requirement-section">
+                        <h3 id="motor-degrees-of-freedom">1. Biomechanics and D-o-F</h3>
+                        <p>
+                            Nature reflects this philosophy in everything - no part of an organism
+                            has been designed in isolation. To design quadrupeds for my project, two
+                            distinct movement patterns were established using ideas from animals
+                            with different degrees-of-freedom in their limbs:
+                        </p>
+                        <div class="gif-row gif-row-pair">
+                            <div class="gif-item">
+                                <img
+                                    src="../images/prototype.gif"
+                                    alt="Joints-only dog-leg prototype, no motors yet, moved by hand"
+                                />
+                                <div class="gif-label">
+                                    Dog leg prototype, joints+band only, (like a muscle)
+                                </div>
+                            </div>
+                            <div class="gif-item">
+                                <img
+                                    src="../images/another_proto.gif"
+                                    alt="Single-motor spider-leg prototype"
+                                />
+                                <div class="gif-label">
+                                    Spider leg prototype One motor, one joint
+                                </div>
+                            </div>
                         </div>
-                        <div class="def-card">
-                            <span class="def-name">MPC</span>
-                            <span class="def-expand">model predictive control</span>
-                            <p class="def-body">
-                                Compute-heavy, solves an optimization problem at every control
-                                cycle. Real-time only with an accurate \(f\), a short horizon, and
-                                warm-starts. Can be brittle and model-mismatched.
-                            </p>
+                        <p>
+                            The dog leg featured two antagonistic joints (later replaced by motors)
+                            joined by an elastic band acting as a tendon. Joints rotating together
+                            swung the leg, rotating against each other extended/contracted it.
+                        </p>
+                        <p>The "spider" leg was just a motorised stick :P</p>
+
+                        <h3 id="mechanical-strength">2. Mechanical strength and forces</h3>
+                        <p>The motors alone could not carry the chassis and payload:</p>
+                        <div class="video-single">
+                            <div class="video-embed">
+                                <video
+                                    src="../images/breakage.mp4"
+                                    controls
+                                    muted
+                                    playsinline
+                                    preload="metadata"
+                                ></video>
+                            </div>
+                            <div class="gif-label">
+                                Early iteration snapping under load. Each failure became the next
+                                reinforcement.
+                            </div>
                         </div>
-                        <div class="def-card">
-                            <span class="def-name">CPGs</span>
-                            <span class="def-expand">
-                                central pattern generators (the central nervous system's locomotive
-                                engine)
-                            </span>
-                            <p class="def-body">
-                                Structure-heavy. Rhythm lives in an ODE with a few analog
-                                parameters. No learning, no online optimisation. Robust by
-                                limit-cycle attraction.
-                            </p>
+                        <p>
+                            No matter what algorithm is incorporated, this is a pen-and-paper
+                            problem.
+                        </p>
+                        <p>I applied three fixes:</p>
+                        <ul>
+                            <li>
+                                <span class="accent">gear ratios</span>
+                                for torque - approx \(3\times\) force multiplication
+                            </li>
+                            <li>
+                                <span class="accent">double-side axle support</span>
+                                - otherwise cantilevered axles bend, slip, and chew through their
+                                support
+                            </li>
+                            <li>
+                                <span class="accent">leg tuned for shear</span>
+                                and laser-cut narrow where moments were large
+                            </li>
+                        </ul>
+                        <div class="gif-grid-2">
+                            <div class="gif-item">
+                                <img
+                                    src="../images/use_gears.gif"
+                                    alt="Gear train multiplying motor torque"
+                                />
+                                <div class="gif-label">Gear ratios for torque under payload.</div>
+                            </div>
+                            <div class="gif-item">
+                                <img
+                                    src="../images/support_axles.gif"
+                                    alt="Pillow-block brackets supporting axles on both sides"
+                                />
+                                <div class="gif-label">
+                                    Old cantilevered axles - replaced with double support
+                                </div>
+                            </div>
+                            <div class="gif-item">
+                                <img
+                                    src="../images/dog_cap.gif"
+                                    alt="Joint with both sides supported"
+                                />
+                                <div class="gif-label">Joint supported in two places, not one.</div>
+                            </div>
+                            <div class="gif-item">
+                                <img src="../images/3D_print.gif" alt="3D-printed axle housing" />
+                                <div class="gif-label">
+                                    3D-printed housings hold axles in alignment.
+                                </div>
+                            </div>
+                        </div>
+                        <h3 id="finished-legs">3. Final legs</h3>
+                        <div class="gif-row gif-row-pair">
+                            <div class="gif-item">
+                                <img
+                                    src="../images/spider_leg.jpg"
+                                    alt="Synapider leg, final design"
+                                />
+                                <div class="gif-label">Synapider leg</div>
+                            </div>
+                            <div class="gif-item">
+                                <img src="../images/dog_leg.jpg" alt="NeuroPup leg, final design" />
+                                <div class="gif-label">NeuroPup leg</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="requirement-section">
-                    <h3 id="above-locomotion-layer">Above the locomotion layer</h3>
-                    <p>
-                        Above the locomotion layer sits high-level intent and decision-making, the
-                        policy that chooses what to do: "walk to the door", "pick up the cup".
-                        Vision-Language-Action models (VLA) are the frontier. Take a pre-trained
-                        vision-language model (VLM), already grounded in objects, scenes, and
-                        language through web-scale pretraining, and co-fine-tune it to emit robot
-                        actions. The model inherits the VLM's world knowledge without more
-                        pretraining.
-                    </p>
-                    <p>Examples include:</p>
-                    <div class="def-grid">
-                        <div class="def-card">
-                            <span class="def-name">π0</span>
-                            <span class="def-expand">
-                                Physical Intelligence (
-                                <a
-                                    href="https://arxiv.org/abs/2410.24164"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    arXiv 2410.24164
-                                </a>
-                                )
-                            </span>
-                            <p class="def-body">
-                                A pre-trained VLM is paired with a flow-matching generative model to
-                                produce motor control. At inference, the flow matching vector field
-                                is integrated over ~10 Euler steps (fast) to produce an action
-                                chunk, (a sequence of 50 future motor commands, i.e., 1 second of
-                                continuous control at 50 Hz), rather than single actions. It
-                                performs dexterous bimanual manipulation end-to-end, (e.g., folding
-                                laundry, bussing tables), with no separate controller.
-                            </p>
-                        </div>
-                        <div class="def-card">
-                            <span class="def-name">Helix</span>
-                            <span class="def-expand">
-                                Figure (
-                                <a
-                                    href="https://www.figure.ai/news/helix"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    blog
-                                </a>
-                                )
-                            </span>
-                            <p class="def-body">
-                                A dual-system architecture pairing a slow VLM as
-                                <em>System-2</em>
-                                for high-level reasoning and a high-rate transformer as
-                                <em>System-1</em>
-                                for dexterous body control. This is the first VLA to control the
-                                entire humanoid upper body end-to-end, (arms, hands, torso, head,
-                                fingers). Somewhat analogous to brain -> central nervous system
-                                hierarchy.
-                            </p>
+                    <div class="section-major">
+                        <h1 id="closing">The Locomotion Problem</h1>
+                    </div>
+
+                    <div class="requirement-section">
+                        <h3 id="control-is-difficult">Control is Difficult</h3>
+                        <p>
+                            Legs are nonlinear, contact dynamics are discontinuous, and the
+                            controller has to handle disturbances in real time. All on
+                            frequency-limited hardware! There are a couple examples on how it can be
+                            modeled:
+                        </p>
+                        <div class="def-grid">
+                            <div class="def-card">
+                                <span class="def-name">JEPA</span>
+                                <span class="def-expand">world models</span>
+                                <p class="def-body">
+                                    Data-heavy. Millions of frames to fit encoder + predictor +
+                                    policy. Three networks at inference. Latent state opaque, errors
+                                    compound on long horizons. No inductive bias for periodicity.
+                                </p>
+                            </div>
+                            <div class="def-card">
+                                <span class="def-name">MPC</span>
+                                <span class="def-expand">model predictive control</span>
+                                <p class="def-body">
+                                    Compute-heavy, solves an optimization problem at every control
+                                    cycle. Real-time only with an accurate \(f\), a short horizon,
+                                    and warm-starts. Can be brittle and model-mismatched.
+                                </p>
+                            </div>
+                            <div class="def-card">
+                                <span class="def-name">CPGs</span>
+                                <span class="def-expand">
+                                    central pattern generators (the central nervous system's
+                                    locomotive engine)
+                                </span>
+                                <p class="def-body">
+                                    Structure-heavy. Rhythm lives in an ODE with a few analog
+                                    parameters. No learning, no online optimisation. Robust by
+                                    limit-cycle attraction.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <p>
-                        Even at the frontier, locomotion and walking gaits aren't yet controlled by
-                        VLA. Stabilising leg joints and contact requires controllers running at
-                        hundreds of Hz, which is currently above the rate a VLM-scale model can
-                        produce, (for now). Helix runs its upper body through VLA but keeps the legs
-                        on a separate low-level loop.
-                    </p>
-                </div>
 
-                <div class="section-major">
-                    <div class="project-header">
-                        <h2 id="neuromorphic-robots">Neuromorphic Robots</h2>
-                        <a
-                            href="docs/conference_poster.pdf"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Neuromorphic Robots conference poster PDF"
-                        >
-                            poster &#8599;
-                        </a>
-                        <a
-                            href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="Neuromorphic Robots on GitHub"
-                        >
-                            github &#8599;
-                        </a>
-                        <a
-                            href="https://uk.mathworks.com/matlabcentral/fileexchange/135517-quadbot-neuromorphic"
-                            target="_blank"
-                            rel="noopener"
-                            class="repo-link"
-                            aria-label="QuadBot-NeuroMorphic on MATLAB File Exchange"
-                        >
-                            matlab fx &#8599;
-                        </a>
+                    <div class="requirement-section">
+                        <h3 id="above-locomotion-layer">Above the locomotion layer</h3>
+                        <p>
+                            Above the locomotion layer sits high-level intent and decision-making,
+                            the policy that chooses what to do: "walk to the door", "pick up the
+                            cup".
+                        </p>
+                        <p>
+                            Outside biology, Vision-Language-Action models (VLA) are the frontier.
+                            Take a pre-trained vision-language model (VLM), already grounded in
+                            objects, scenes, and language through web-scale pretraining, and
+                            co-fine-tune it to emit robot actions. The model inherits the VLM's
+                            world knowledge without more pretraining. Examples include:
+                        </p>
+                        <div class="def-grid">
+                            <div class="def-card">
+                                <span class="def-name">π0</span>
+                                <span class="def-expand">
+                                    Physical Intelligence (
+                                    <a
+                                        href="https://arxiv.org/abs/2410.24164"
+                                        target="_blank"
+                                        rel="noopener"
+                                    >
+                                        arXiv 2410.24164
+                                    </a>
+                                    )
+                                </span>
+                                <p class="def-body">
+                                    A pre-trained VLM is paired with a flow-matching generative
+                                    model to produce motor control. At inference, the flow matching
+                                    vector field is integrated over ~10 Euler steps (fast) to
+                                    produce an action chunk, (a sequence of 50 future motor
+                                    commands, i.e., 1 second of continuous control at 50 Hz), rather
+                                    than single actions. It performs dexterous bimanual manipulation
+                                    end-to-end, (e.g., folding laundry, bussing tables), with no
+                                    separate controller.
+                                </p>
+                            </div>
+                            <div class="def-card">
+                                <span class="def-name">Helix</span>
+                                <span class="def-expand">
+                                    Figure (
+                                    <a
+                                        href="https://www.figure.ai/news/helix"
+                                        target="_blank"
+                                        rel="noopener"
+                                    >
+                                        blog
+                                    </a>
+                                    )
+                                </span>
+                                <p class="def-body">
+                                    A dual-system architecture pairing a slow VLM as
+                                    <em>System-2</em>
+                                    for high-level reasoning and a high-rate transformer as
+                                    <em>System-1</em>
+                                    for dexterous body control. This is the first VLA to control the
+                                    entire humanoid upper body end-to-end, (arms, hands, torso,
+                                    head, fingers). Somewhat analogous to brain &rarr; central
+                                    nervous system hierarchy.
+                                </p>
+                            </div>
+                        </div>
+                        <p>
+                            Even at the frontier, locomotion and walking gaits aren't yet controlled
+                            by VLA. Stabilising leg joints and contact requires controllers running
+                            at hundreds of Hz, which is currently above the rate a VLM-scale model
+                            can produce, (for now). Helix runs its upper body through VLA but keeps
+                            the legs on a separate low-level loop.
+                        </p>
                     </div>
-                </div>
 
-                <div class="gif-row gif-row-pair">
-                    <div class="gif-item">
-                        <img
-                            src="../images/Synapider.jpg"
-                            alt="Synapider, the spider-leg quadruped"
-                        />
-                        <div class="gif-label">Synapider</div>
-                    </div>
-                    <div class="gif-item">
-                        <img src="../images/NeuroPup.jpg" alt="NeuroPup, the dog-leg quadruped" />
-                        <div class="gif-label">NeuroPup</div>
-                    </div>
-                </div>
-
-                <div class="requirement-section">
-                    <p>Screw the learning, skip the optimisation.</p>
-                    <p>
-                        Build a circuit whose dynamics
-                        <em>are</em>
-                        the gait. Central pattern generators are nature's answer to the locomotion
-                        problem.
-                    </p>
-                    <p>
-                        These are tiny neuronal circuits, typically in the spinal cord. Each neuron
-                        can be modeled computationally using the
-                        <em>Multi-Quadratic Integrate-and-Fire (MQIF) neuron</em>
-                        (
-                        <a href="https://arxiv.org/abs/1709.06824" target="_blank" rel="noopener">
-                            arXiv 1709.06824
-                        </a>
-                        ): a three-state ordinary differential equation (ODE) with a fast voltage
-                        \(V\), a slow recovery variable \(V_s\), an ultra-slow modulator \(V_{us}\),
-                        and a hard reset on \(V\).
-                    </p>
-                    <p>
-                        There are other neuron models, but this one was analytically simpler to
-                        design and tune:
-                    </p>
-                    <p>
-                        \[ \begin{aligned} C\, \dot V \;&amp;=\; I + g_f (V - V_0)^2 - g_s (V_s -
-                        V_{s,0})^2 - g_{us} (V_{us} - V_{us,0})^2, \\ \dot V_s \;&amp;=\; (V - V_s)
-                        / \tau_s, \\ \dot V_{us} \;&amp;=\; (V - V_{us}) / \tau_{us}, \end{aligned}
-                        \]
-                    </p>
-                    <p>with reset map</p>
-                    <p>
-                        \[ V &gt; V_{th} \;\;\Longrightarrow\;\; V \leftarrow V_{reset}, \quad V_s
-                        \leftarrow V_{s,reset}, \quad V_{us} \leftarrow V_{us} + \Delta_{us}. \]
-                    </p>
-                    <p>The ODE is characterised by 3 timescales:</p>
-                    <ul>
-                        <li>fast (\(\tau_V \sim C/250\) ms) - governs spike kinetics.</li>
-                        <li>slow (\(\tau_s \sim 2\) ms) - governs within-burst spike rate.</li>
-                        <li>ultra-slow (\(\tau_{us} \sim 80\) ms) - governs burst envelope.</li>
-                    </ul>
-                    <p>
-                        On the timescale of a single spike, \(V_{us}\) barely moves. It can be
-                        treated as a fixed parameter so the \((V, V_s)\) subsystem becomes 2D.
-                    </p>
-                    <p>
-                        Its equilibria satisfy \(\dot V = \dot V_s = 0\), so \(V^{\star} =
-                        V_s^{\star}\) and
-                    </p>
-                    <p>
-                        \[ g_f (V^{\star} - V_0)^2 \;=\; g_s (V^{\star} - V_{s,0})^2 + g_{us}
-                        \underbrace{(V_{us} - V_{us,0})^2}_{O(V_{us}^2)} - I. \]
-                    </p>
-                    <p>
-                        The right-hand side grows quadratically in \(V_{us}\), so the flow of \((V,
-                        V_s)\) flips with \(V_{us}\). When:
-                    </p>
-                    <ul>
-                        <li>
-                            \(V_{us} \approx V_{us,0} \rightarrow\) right-hand side is small, the
-                            equilibrium is unstable and the 2D flow is a
-                            <span class="accent">tonic-spiking limit cycle</span>
-                        </li>
-                        <li>
-                            \(V_{us}\) far from \(V_{us,0} \rightarrow\) right-hand side dominates
-                            the depolarising drive, yielding a stable equilibrium, so the 2D flow
-                            <span class="accent">rests</span>
-                        </li>
-                    </ul>
-                    <p>
-                        At the critical value \(V_{us}^{\star}\), the equilibrium loses stability
-                        and a small oscillation appears in its place. That switch is a
-                        <span class="accent">Hopf bifurcation</span>
-                        , (the means by which an ODE flips from resting at a fixed point to orbiting
-                        a limit cycle as a state variable crosses some critical value).
-                    </p>
-                    <p>
-                        \(V_{us}\) slowly traverses \(V_{us}^{\star}\) in both directions, and
-                        that's what creates bursts.
-                    </p>
-                    <svg
-                        class="flow-figure"
-                        viewBox="0 0 560 220"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-label="V_us as a function of time: stair-step climb during a burst, exponential decay during quiet, threshold V_us-star marked as a dashed line"
-                    >
-                        <line x1="40" y1="180" x2="540" y2="180" class="edge" />
-                        <text x="540" y="200" text-anchor="end" class="box-sub">time</text>
-                        <text x="40" y="20" text-anchor="middle" class="box-sub">V_us</text>
-
-                        <line x1="40" y1="110" x2="540" y2="110" class="threshold" />
-                        <text x="510" y="102" text-anchor="start" class="latent-label">V_us*</text>
-
-                        <polyline
-                            class="past"
-                            stroke-width="1.6"
-                            points="50,170 70,170 70,150 95,150 95,130 120,130 120,110 145,110 145,90 170,90 170,70 195,70 220,80 260,105 310,140 380,165 430,172 450,172 450,152 475,152 475,132 500,132 500,112"
-                        />
-
-                        <text x="78" y="162" text-anchor="start" class="note">+Δ_us</text>
-
-                        <text x="122" y="40" text-anchor="middle" class="latent-label">burst</text>
-                        <text x="122" y="54" text-anchor="middle" class="note">V_us climbs</text>
-
-                        <text x="312" y="40" text-anchor="middle" class="latent-label">quiet</text>
-                        <text x="312" y="54" text-anchor="middle" class="note">
-                            V_us decays at 1/τ_us
-                        </text>
-
-                        <text x="488" y="40" text-anchor="middle" class="latent-label">burst</text>
-                    </svg>
-                    <p class="gif-label svg-caption">
-                        Each spike kicks \(V_{us}\) up by \(\Delta_{us}\). After a few spikes
-                        \(V_{us}\) crosses \(V_{us}^{\star}\) and the fast subsystem silences. With
-                        \(V\) at rest, \(V_{us}\) decays back, crosses \(V_{us}^{\star}\) the other
-                        way, and the next burst starts.
-                    </p>
-                    <p>
-                        The closed three-dimensional loop is a
-                        <span class="accent">stable limit cycle</span>
-                        - a periodic trajectory that nearby states are attracted to. Push the
-                        neuron, the dynamics pull it back to the cycle.
-                    </p>
-                    <div class="limit-cycle-figure">
-                        <img
-                            src="../images/limit_cycle.gif"
-                            alt="MQIF bursting: V(t) trace and (V, V_us) phase portrait showing two initial conditions converging onto the bursting limit cycle"
-                        />
-                        <div class="gif-label">
-                            Two initial conditions, IC\(_A\) (orange square, near rest) and IC\(_B\)
-                            (blue square, far from the cycle), converge onto the same bursting limit
-                            cycle in the \((V, V_{us})\) plane, despite starting from very different
-                            places. Each burst climbs \(V_{us}\) by \(\Delta_{us}\) per spike past
-                            \(V_{us}^{\star}\), the quiet phase relaxes \(V_{us}\) back. Parameters
-                            from
+                    <div class="requirement-section">
+                        <h2 id="central-pattern-generators">Central Pattern Generators (CPGs)</h2>
+                        <p>Screw the learning, skip the optimisation.</p>
+                        <p>
+                            Build a circuit whose dynamics
+                            <em>are</em>
+                            the gait. Central pattern generators are nature's answer to the
+                            locomotion problem.
+                        </p>
+                        <p>
+                            These are tiny neuronal circuits, typically in the spinal cord. Each
+                            neuron can be modeled computationally using the
+                            <em>Multi-Quadratic Integrate-and-Fire (MQIF) neuron</em>
+                            (
                             <a
-                                href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
+                                href="https://arxiv.org/abs/1709.06824"
                                 target="_blank"
                                 rel="noopener"
                             >
-                                QuadBot-NeuroMorphic
+                                arXiv 1709.06824
                             </a>
-                        </div>
-                    </div>
-                    <h2 id="half-centre-cpg">Half-centre CPG</h2>
-                    <p>
-                        A half-centre CPG is two coupled MQIF units \(A\) and \(B\) with inhibitory
-                        synapses.
-                    </p>
-                    <p>
-                        Each synapse has a gating variable \(s\) that lags pre-synaptic activity
-                        with time constant \(\tau_{syn}\) and feeds back as an inhibitory current
-                        with conductance \(g_{syn}\):
-                    </p>
-                    <p>
-                        \[ \tau_{syn}\, \dot s_{AB} \;=\; \sigma(V_A - V_{syn}) - s_{AB}, \qquad I_B
-                        \;=\; I_{ext} - g_{syn}\, s_{AB}, \]
-                    </p>
-                    <p>
-                        and symmetrically for the \(B \to A\) synapse, where \(\sigma\) is the
-                        sigmoid function.
-                    </p>
-                    <p>
-                        When \(A\) bursts, \(s_{AB}\) saturates near 1 and the inhibitory current to
-                        \(B\) holds it silent. Once \(V_{us}\) of neuron \(A\) surpasses
-                        \(V_{us}^{\star}\) and bursting dies, \(s_{AB}\) decays, the inhibition
-                        lifts, and \(B\) fires and in turn silences \(A\). The pair alternates with
-                        no external clock. This is a
-                        <span class="accent">half-centre CPG oscillator</span>
-                        .
-                    </p>
+                            ): a three-state ordinary differential equation (ODE) with a fast
+                            voltage \(V\), a slow recovery variable \(V_s\), an ultra-slow modulator
+                            \(V_{us}\), and a hard reset on \(V\):
+                        </p>
 
-                    <h2 id="phase-selects-gait">Phase selects gait</h2>
-                    <p>
-                        Four units connected like above in a directed inhibition graph give a
-                        quad-centre CPG, one neuron per leg. The graph's adjacency matrix encodes
-                        phase relationships: which legs inhibit which, which pairs synchronise,
-                        which alternate. Different inhibition patterns select different gaits (
-                        <a
-                            href="https://doi.org/10.1016/j.neunet.2008.03.014"
-                            target="_blank"
-                            rel="noopener"
+                        <p>
+                            \[ \begin{aligned} C\, \dot V \;&amp;=\; I + g_f (V - V_0)^2 - g_s (V_s
+                            - V_{s,0})^2 - g_{us} (V_{us} - V_{us,0})^2, \\ \dot V_s \;&amp;=\; (V -
+                            V_s) / \tau_s, \\ \dot V_{us} \;&amp;=\; (V - V_{us}) / \tau_{us},
+                            \end{aligned} \]
+                        </p>
+                        <p>with reset map</p>
+                        <p>
+                            \[ V &gt; V_{th} \;\;\Longrightarrow\;\; V \leftarrow V_{reset}, \quad
+                            V_s \leftarrow V_{s,reset}, \quad V_{us} \leftarrow V_{us} +
+                            \Delta_{us}. \]
+                        </p>
+                        <p>
+                            There are other neuron models, but this one was analytically simpler to
+                            design and tune. The ODE is characterised by 3 timescales:
+                        </p>
+                        <ul>
+                            <li>fast (\(\tau_V \sim C/250\) ms) - governs spike kinetics.</li>
+                            <li>slow (\(\tau_s \sim 2\) ms) - governs within-burst spike rate.</li>
+                            <li>ultra-slow (\(\tau_{us} \sim 80\) ms) - governs burst envelope.</li>
+                        </ul>
+                        <p>
+                            On the timescale of a single spike, \(V_{us}\) barely moves. It can be
+                            treated as a fixed parameter so the \((V, V_s)\) subsystem becomes 2D.
+                        </p>
+                        <p>
+                            Its equilibria satisfy \(\dot V = \dot V_s = 0\), so \(V^{\star} =
+                            V_s^{\star}\) and
+                        </p>
+                        <p>
+                            \[ g_f (V^{\star} - V_0)^2 \;=\; g_s (V^{\star} - V_{s,0})^2 + g_{us}
+                            \underbrace{(V_{us} - V_{us,0})^2}_{O(V_{us}^2)} - I. \]
+                        </p>
+                        <p>
+                            The secon term grows quadratically in \(V_{us}\), so the flow of \((V,
+                            V_s)\) flips with \(V_{us}\).
+                        </p>
+                        <p>When:</p>
+                        <ul>
+                            <li>
+                                \(V_{us} \approx V_{us,0} \rightarrow\) right-hand side is small,
+                                the equilibrium is unstable and the 2D flow is a
+                                <span class="accent">tonic-spiking limit cycle</span>
+                            </li>
+                            <li>
+                                \(V_{us}\) far from \(V_{us,0} \rightarrow\) right-hand side
+                                dominates the depolarising drive, yielding a stable equilibrium, so
+                                the 2D flow
+                                <span class="accent">rests</span>
+                            </li>
+                        </ul>
+                        <p>
+                            At the critical value \(V_{us}^{\star}\), the equilibrium loses
+                            stability and a small oscillation appears in its place. That switch is a
+                            <span class="accent">Hopf bifurcation</span>
+                            , (the means by which an ODE flips from resting at a fixed point to
+                            orbiting a limit cycle as a state variable crosses some critical value).
+                        </p>
+                        <p>
+                            \(V_{us}\) slowly traverses \(V_{us}^{\star}\) in both directions, and
+                            that's what creates bursts.
+                        </p>
+                        <svg
+                            class="flow-figure"
+                            viewBox="0 0 560 220"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            aria-label="V_us as a function of time: stair-step climb during a burst, exponential decay during quiet, threshold V_us-star marked as a dashed line"
                         >
-                            CPG review
-                        </a>
-                        ):
-                    </p>
-                    <svg
-                        class="gait-figure"
-                        viewBox="0 0 720 195"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-label="Gait timing diagrams for walk, trot, and bound, with per-leg colour coding"
-                    >
-                        <text x="140" y="18" text-anchor="middle" class="panel-title">Walk</text>
-                        <text x="45" y="49" text-anchor="end" class="leg-label">FL</text>
-                        <text x="45" y="79" text-anchor="end" class="leg-label">FR</text>
-                        <text x="45" y="109" text-anchor="end" class="leg-label">BL</text>
-                        <text x="45" y="139" text-anchor="end" class="leg-label">BR</text>
-                        <rect class="burst burst-fl" x="55" y="38" width="85" height="14" />
-                        <rect class="burst burst-fr" x="140" y="68" width="85" height="14" />
-                        <rect class="burst burst-bl" x="97.5" y="98" width="85" height="14" />
-                        <rect class="burst burst-br" x="182.5" y="128" width="42.5" height="14" />
-                        <rect class="burst burst-br" x="55" y="128" width="42.5" height="14" />
-                        <line x1="55" y1="155" x2="225" y2="155" class="time-axis" />
-                        <text x="140" y="172" text-anchor="middle" class="axis-label">time</text>
+                            <line x1="40" y1="180" x2="540" y2="180" class="edge" />
+                            <text x="540" y="200" text-anchor="end" class="box-sub">time</text>
+                            <text x="40" y="20" text-anchor="middle" class="box-sub">V_us</text>
 
-                        <text x="380" y="18" text-anchor="middle" class="panel-title">Trot</text>
-                        <text x="285" y="49" text-anchor="end" class="leg-label">FL</text>
-                        <text x="285" y="79" text-anchor="end" class="leg-label">FR</text>
-                        <text x="285" y="109" text-anchor="end" class="leg-label">BL</text>
-                        <text x="285" y="139" text-anchor="end" class="leg-label">BR</text>
-                        <rect class="burst burst-fl" x="295" y="38" width="85" height="14" />
-                        <rect class="burst burst-fr" x="380" y="68" width="85" height="14" />
-                        <rect class="burst burst-bl" x="380" y="98" width="85" height="14" />
-                        <rect class="burst burst-br" x="295" y="128" width="85" height="14" />
-                        <line x1="295" y1="155" x2="465" y2="155" class="time-axis" />
-                        <text x="380" y="172" text-anchor="middle" class="axis-label">time</text>
+                            <line x1="40" y1="110" x2="540" y2="110" class="threshold" />
+                            <text x="510" y="102" text-anchor="start" class="latent-label">
+                                V_us*
+                            </text>
 
-                        <text x="620" y="18" text-anchor="middle" class="panel-title">Bound</text>
-                        <text x="525" y="49" text-anchor="end" class="leg-label">FL</text>
-                        <text x="525" y="79" text-anchor="end" class="leg-label">FR</text>
-                        <text x="525" y="109" text-anchor="end" class="leg-label">BL</text>
-                        <text x="525" y="139" text-anchor="end" class="leg-label">BR</text>
-                        <rect class="burst burst-fl" x="535" y="38" width="85" height="14" />
-                        <rect class="burst burst-fr" x="535" y="68" width="85" height="14" />
-                        <rect class="burst burst-bl" x="620" y="98" width="85" height="14" />
-                        <rect class="burst burst-br" x="620" y="128" width="85" height="14" />
-                        <line x1="535" y1="155" x2="705" y2="155" class="time-axis" />
-                        <text x="620" y="172" text-anchor="middle" class="axis-label">time</text>
-                    </svg>
-                    <p class="gif-label svg-caption">
-                        Stance windows per leg, time along x. Front-left (FL) and front-right (FR)
-                        are top/orange, back-left (BL) and back-right (BR) are bottom/purple-ish.
-                        Same four units, different inhibition adjacency.
-                        <strong>Walk</strong>
-                        : four-beat sequence (one leg at a time).
-                        <strong>Trot</strong>
-                        : diagonal pairs sync.
-                        <strong>Bound</strong>
-                        : front pair (FL+FR) synced, then back pair (BL+BR).
-                    </p>
-                    <h2 id="adaptation">Adaptation</h2>
-                    <p>
-                        When input current \(I\) is raised and the firing rate increases, gait
-                        frequency climbs with it. Swap the inhibition graph and the gait swaps. A
-                        handful of hyperparams/inputs replaces an entire neural network!
-                    </p>
-                    <p>
-                        This TED talk on a CPG-driven salamander robot shows how robust the idea is.
-                        Swimming is typically a difficult control problem, but CPGs handle it
-                        naturally.
-                    </p>
-                    <div class="video-single">
-                        <div class="video-embed">
-                            <iframe
-                                src="https://www.youtube.com/embed/K926HAKRFvw"
-                                title="Auke Ijspeert TED talk on neuromorphic robots"
-                                allowfullscreen
-                            ></iframe>
-                        </div>
-                        <div class="gif-label">TED talk on CPG-driven amphibious robots.</div>
-                    </div>
-                </div>
+                            <polyline
+                                class="past"
+                                stroke-width="1.6"
+                                points="50,170 70,170 70,150 95,150 95,130 120,130 120,110 145,110 145,90 170,90 170,70 195,70 220,80 260,105 310,140 380,165 430,172 450,172 450,152 475,152 475,132 500,132 500,112"
+                            />
 
-                <div class="section-major">
-                    <h2 id="mechanics">The Build</h2>
-                </div>
-                <div class="requirement-section">
-                    <h2 id="motor-degrees-of-freedom">1. Motor degrees of freedom</h2>
-                    <div class="gif-row gif-row-pair">
-                        <div class="gif-item">
+                            <text x="78" y="162" text-anchor="start" class="note">+Δ_us</text>
+
+                            <text x="122" y="40" text-anchor="middle" class="latent-label">
+                                burst
+                            </text>
+                            <text x="122" y="54" text-anchor="middle" class="note">
+                                V_us climbs
+                            </text>
+
+                            <text x="312" y="40" text-anchor="middle" class="latent-label">
+                                quiet
+                            </text>
+                            <text x="312" y="54" text-anchor="middle" class="note">
+                                V_us decays at 1/τ_us
+                            </text>
+
+                            <text x="488" y="40" text-anchor="middle" class="latent-label">
+                                burst
+                            </text>
+                        </svg>
+                        <p class="gif-label svg-caption">
+                            Each spike kicks \(V_{us}\) up by \(\Delta_{us}\). After a few spikes
+                            \(V_{us}\) crosses \(V_{us}^{\star}\) and the fast subsystem silences.
+                            With \(V\) at rest, \(V_{us}\) decays back, crosses \(V_{us}^{\star}\)
+                            the other way, and the next burst starts.
+                        </p>
+                        <p>
+                            The closed three-dimensional loop is a
+                            <span class="accent">stable limit cycle</span>
+                            - a periodic trajectory that nearby states are attracted to. Push or
+                            disturb the neuron, the dynamics pull it back to the cycle:
+                        </p>
+                        <div class="limit-cycle-figure">
                             <img
-                                src="../images/prototype.gif"
-                                alt="Joints-only dog-leg prototype, no motors yet, moved by hand"
+                                src="../images/limit_cycle.gif"
+                                alt="MQIF bursting: V(t) trace and (V, V_us) phase portrait showing two initial conditions converging onto the bursting limit cycle"
                             />
                             <div class="gif-label">
-                                Dog leg prototype, joints+band only, (like a muscle)
+                                Two initial conditions, IC\(_A\) (orange square, near rest) and
+                                IC\(_B\) (blue square, far from the cycle), converge onto the same
+                                bursting limit cycle in the \((V, V_{us})\) plane, despite starting
+                                from very different places. Each burst climbs \(V_{us}\) by
+                                \(\Delta_{us}\) per spike past \(V_{us}^{\star}\), the quiet phase
+                                relaxes \(V_{us}\) back. Parameters from
+                                <a
+                                    href="https://github.com/Cambridge-Control-Lab/QuadBot-NeuroMorphic"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    QuadBot-NeuroMorphic
+                                </a>
                             </div>
                         </div>
-                        <div class="gif-item">
-                            <img
-                                src="../images/another_proto.gif"
-                                alt="Single-motor spider-leg prototype"
-                            />
-                            <div class="gif-label">Spider leg prototype One motor, one joint</div>
-                        </div>
-                    </div>
-                    <p>
-                        The dog leg featured two antagonistic joints (later replaced by motors)
-                        joined by an elastic band acting as a tendon. Joints rotating together swung
-                        the leg, rotating against extended/contracted it.
-                    </p>
-                </div>
+                        <h3 id="half-centre-cpg">Half-centre CPG</h3>
+                        <p>
+                            A half-centre CPG is two coupled MQIF units \(A\) and \(B\) with
+                            inhibitory synapses.
+                        </p>
+                        <p>
+                            Each synapse has a gating variable \(s\) that lags pre-synaptic activity
+                            with time constant \(\tau_{syn}\) and feeds back as an inhibitory
+                            current with conductance \(g_{syn}\):
+                        </p>
+                        <p>
+                            \[ \tau_{syn}\, \dot s_{AB} \;=\; \sigma(V_A - V_{syn}) - s_{AB}, \qquad
+                            I_B \;=\; I_{ext} - g_{syn}\, s_{AB}, \]
+                        </p>
+                        <p>
+                            and symmetrically for the \(B \to A\) synapse, where \(\sigma\) is the
+                            sigmoid function.
+                        </p>
+                        <p>
+                            When \(A\) bursts, \(s_{AB}\) saturates near 1 and the inhibitory
+                            current to \(B\) holds it silent. Once \(V_{us}\) of neuron \(A\)
+                            surpasses \(V_{us}^{\star}\) and bursting dies, \(s_{AB}\) decays, the
+                            inhibition lifts, and \(B\) fires and in turn silences \(A\). The pair
+                            alternates with no external clock. This is a
+                            <span class="accent">half-centre CPG oscillator</span>
+                            .
+                        </p>
 
-                <div class="requirement-section">
-                    <h2 id="mechanical-strength">2. Mechanical strength</h2>
-                    <p>The motors alone could not carry the payload :(</p>
-                    <div class="video-single">
-                        <div class="video-embed">
-                            <video
-                                src="../images/breakage.mp4"
-                                controls
-                                muted
-                                playsinline
-                                preload="metadata"
-                            ></video>
-                        </div>
-                        <div class="gif-label">
-                            Early iteration snapping under load. Each failure became the next
-                            reinforcement.
-                        </div>
-                    </div>
-                    <p>Fixed in 3 ways:</p>
-                    <ul>
-                        <li>
-                            <span class="accent">gear ratios</span>
-                            for torque, \(\sim 3:1\) force multiplication
-                        </li>
-                        <li>
-                            <span class="accent">double-side axle support</span>
-                            - otherwise cantilevered axles bend, slip, and chew through
-                        </li>
-                        <li>
-                            <span class="accent">leg tuned for shear</span>
-                            and laser-cut narrow where moments were large
-                        </li>
-                    </ul>
-                    <div class="gif-grid-2">
-                        <div class="gif-item">
-                            <img
-                                src="../images/use_gears.gif"
-                                alt="Gear train multiplying motor torque"
+                        <h3 id="phase-selects-gait">Phase selects gait</h3>
+                        <p>
+                            Four units connected like above in a directed inhibition graph give a
+                            quad-centre CPG, one neuron per leg. The graph's adjacency matrix
+                            encodes phase relationships: which legs inhibit which, which pairs
+                            synchronise, which alternate. Different inhibition patterns select
+                            different gaits (
+                            <a
+                                href="https://doi.org/10.1016/j.neunet.2008.03.014"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                CPG review
+                            </a>
+                            ):
+                        </p>
+                        <svg
+                            class="gait-figure"
+                            viewBox="0 0 720 195"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            aria-label="Gait timing diagrams for walk, trot, and bound, with per-leg colour coding"
+                        >
+                            <text x="140" y="18" text-anchor="middle" class="panel-title">
+                                Walk
+                            </text>
+                            <text x="45" y="49" text-anchor="end" class="leg-label">FL</text>
+                            <text x="45" y="79" text-anchor="end" class="leg-label">FR</text>
+                            <text x="45" y="109" text-anchor="end" class="leg-label">BL</text>
+                            <text x="45" y="139" text-anchor="end" class="leg-label">BR</text>
+                            <rect class="burst burst-fl" x="55" y="38" width="85" height="14" />
+                            <rect class="burst burst-fr" x="140" y="68" width="85" height="14" />
+                            <rect class="burst burst-bl" x="97.5" y="98" width="85" height="14" />
+                            <rect
+                                class="burst burst-br"
+                                x="182.5"
+                                y="128"
+                                width="42.5"
+                                height="14"
                             />
-                            <div class="gif-label">Gear ratios for torque under payload.</div>
-                        </div>
-                        <div class="gif-item">
-                            <img
-                                src="../images/support_axles.gif"
-                                alt="Pillow-block brackets supporting axles on both sides"
-                            />
-                            <div class="gif-label">
-                                Old cantilevered axles - replaced with double support
-                            </div>
-                        </div>
-                        <div class="gif-item">
-                            <img
-                                src="../images/dog_cap.gif"
-                                alt="Joint with both sides supported"
-                            />
-                            <div class="gif-label">Joint supported in two places, not one.</div>
-                        </div>
-                        <div class="gif-item">
-                            <img src="../images/3D_print.gif" alt="3D-printed axle housing" />
-                            <div class="gif-label">
-                                3D-printed housings hold axles in alignment.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            <rect class="burst burst-br" x="55" y="128" width="42.5" height="14" />
+                            <line x1="55" y1="155" x2="225" y2="155" class="time-axis" />
+                            <text x="140" y="172" text-anchor="middle" class="axis-label">
+                                time
+                            </text>
 
-                <div class="requirement-section">
-                    <h2 id="finished-legs">3. Finished legs</h2>
-                    <div class="gif-row gif-row-pair">
-                        <div class="gif-item">
-                            <img src="../images/spider_leg.jpg" alt="Synapider leg, final design" />
-                            <div class="gif-label">Synapider leg</div>
-                        </div>
-                        <div class="gif-item">
-                            <img src="../images/dog_leg.jpg" alt="NeuroPup leg, final design" />
-                            <div class="gif-label">NeuroPup leg</div>
+                            <text x="380" y="18" text-anchor="middle" class="panel-title">
+                                Trot
+                            </text>
+                            <text x="285" y="49" text-anchor="end" class="leg-label">FL</text>
+                            <text x="285" y="79" text-anchor="end" class="leg-label">FR</text>
+                            <text x="285" y="109" text-anchor="end" class="leg-label">BL</text>
+                            <text x="285" y="139" text-anchor="end" class="leg-label">BR</text>
+                            <rect class="burst burst-fl" x="295" y="38" width="85" height="14" />
+                            <rect class="burst burst-fr" x="380" y="68" width="85" height="14" />
+                            <rect class="burst burst-bl" x="380" y="98" width="85" height="14" />
+                            <rect class="burst burst-br" x="295" y="128" width="85" height="14" />
+                            <line x1="295" y1="155" x2="465" y2="155" class="time-axis" />
+                            <text x="380" y="172" text-anchor="middle" class="axis-label">
+                                time
+                            </text>
+
+                            <text x="620" y="18" text-anchor="middle" class="panel-title">
+                                Bound
+                            </text>
+                            <text x="525" y="49" text-anchor="end" class="leg-label">FL</text>
+                            <text x="525" y="79" text-anchor="end" class="leg-label">FR</text>
+                            <text x="525" y="109" text-anchor="end" class="leg-label">BL</text>
+                            <text x="525" y="139" text-anchor="end" class="leg-label">BR</text>
+                            <rect class="burst burst-fl" x="535" y="38" width="85" height="14" />
+                            <rect class="burst burst-fr" x="535" y="68" width="85" height="14" />
+                            <rect class="burst burst-bl" x="620" y="98" width="85" height="14" />
+                            <rect class="burst burst-br" x="620" y="128" width="85" height="14" />
+                            <line x1="535" y1="155" x2="705" y2="155" class="time-axis" />
+                            <text x="620" y="172" text-anchor="middle" class="axis-label">
+                                time
+                            </text>
+                        </svg>
+                        <p class="gif-label svg-caption">
+                            Stance/contact windows per leg, time along x. Front-left (FL) and
+                            front-right (FR) are top/orange, back-left (BL) and back-right (BR) are
+                            bottom/purple-ish. Same four units, different inhibition adjacency.
+                            <strong>Walk</strong>
+                            : four-beat sequence (one leg at a time).
+                            <strong>Trot</strong>
+                            : diagonal pairs sync.
+                            <strong>Bound</strong>
+                            : front pair (FL+FR) synced, then back pair (BL+BR).
+                        </p>
+                        <h2 id="adaptation">Adaptation</h2>
+                        <p>
+                            When input current \(I\) is raised and the firing rate increases, gait
+                            frequency climbs with it. Swap the inhibition graph and the gait swaps.
+                            A handful of hyperparams/inputs replaces an entire neural network!
+                        </p>
+                        <p>
+                            This TED talk on a CPG-driven salamander robot shows how robust the idea
+                            is. Swimming is typically a difficult control problem, but CPGs handle
+                            it naturally.
+                        </p>
+                        <div class="video-single">
+                            <div class="video-embed">
+                                <iframe
+                                    src="https://www.youtube.com/embed/K926HAKRFvw"
+                                    title="Auke Ijspeert TED talk on neuromorphic robots"
+                                    allowfullscreen
+                                ></iframe>
+                            </div>
+                            <div class="gif-label">TED talk on CPG-driven amphibious robots.</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="requirement-section">
-                    <h2 id="the-gaits">4. The gaits</h2>
-                    <p>
-                        MQIF units, half-centre and quad-centre coupling, implemented in Simulink.
-                        No neural network, no MPC solver, no online optimisation.
-                    </p>
-                    <div class="gif-row gif-row-pair">
-                        <div class="gif-item">
-                            <img
-                                src="../images/robots.gif"
-                                alt="Synapider and NeuroPup walking under CPG control"
-                            />
-                            <div class="gif-label">
-                                Synapider and NeuroPup walking under CPG control.
+                    <div class="section-major">
+                        <h1 id="closing">Closing</h1>
+                    </div>
+
+                    <div class="requirement-section">
+                        <p>
+                            Below are the two walking quadrupedal robots, controlled by CPGs and
+                            Simulink MQIF spiking neurons.
+                        </p>
+                        <p>No neural network.</p>
+                        <p>No MPC solver.</p>
+                        <p>No online optimisation.</p>
+                        <div class="gif-row gif-row-pair">
+                            <div class="gif-item">
+                                <img
+                                    src="../images/robots.gif"
+                                    alt="Synapider and NeuroPup walking under CPG control"
+                                />
+                                <div class="gif-label">
+                                    Synapider and NeuroPup walking under CPG control.
+                                </div>
                             </div>
-                        </div>
-                        <div class="gif-item">
-                            <img
-                                src="../images/neuron.gif"
-                                alt="Single Izhikevich/MQIF unit voltage trace showing a burst pattern"
-                            />
-                            <div class="gif-label">Single integrate-and-fire unit.</div>
+                            <div class="gif-item">
+                                <img
+                                    src="../images/neuron.gif"
+                                    alt="Single Izhikevich/MQIF unit voltage trace showing a burst pattern"
+                                />
+                                <div class="gif-label">Single integrate-and-fire unit.</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -692,7 +762,7 @@
                 <div class="requirement-section">
                     <p>In nature, locomotion is resolved by attractor dynamics.</p>
                     <p>
-                        <span class="accent">For rhythm does not need to be learned.</span>
+                        <span class="accent">Because rhythm does not need to be learned.</span>
                     </p>
                     <p class="closing-line">It's in our wiring ;)</p>
                 </div>
