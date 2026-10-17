@@ -105,7 +105,7 @@
                             <span class="def-name">Epistemic</span>
                             <span class="def-expand">reducible lack of knowledge</span>
                             <p class="def-body">
-                                What the dataset doesn't reflect because nothing nearby has been
+                                What the dataset reflects poorly because nothing nearby has been
                                 measured. Can be reduced by taking measurements around or expanding
                                 the training set to unseen regions of the problem domain.
                             </p>
@@ -202,14 +202,14 @@
                         </li>
                         <li>
                             <span class="accent">model choice</span>
-                            - kernel encodes assumptions (smoothness, scale). If wrong, the model is
-                            biased!
+                            - kernel encodes assumptions (smoothness, scale). Wrong kernel &rarr;
+                            the model is biased
                         </li>
                         <li>
                             <span class="accent">inducing-point selection</span>
-                            - sparse approximations replace the full posterior with one supported on
-                            a smaller set of representative points. Picked badly and much of the
-                            space remains unseen
+                            - sparse approximations replace the full-dataset posterior with one
+                            supported on a smaller sample of representative points. Picked badly and
+                            much of the space remains unseen
                         </li>
                     </ul>
                 </div>
@@ -246,9 +246,9 @@
                     <p>
                         With \(n\) observations \(y_i = f(x_i) + \varepsilon_i\) where
                         \(\varepsilon_i \sim \mathcal{N}(0, \lambda)\) (the aleatoric noise),
-                        predict \(f\) at new inputs \(X_*\). Gaussian prior + Gaussian noise -> the
-                        joint is also Gaussian:
+                        predict \(f\) at new inputs \(X_*\).
                     </p>
+                    <p>Gaussian prior + Gaussian noise &rarr; the joint is also Gaussian:</p>
                     <p>
                         \[ \begin{pmatrix} \mathbf{y} \\ \mathbf{f}_* \end{pmatrix} \;\sim\;
                         \mathcal{N}\!\left(\mathbf{0},\; \begin{pmatrix} K + \lambda I & K_{n*} \\
@@ -306,9 +306,9 @@
                     </p>
                     <p>
                         A flexible model (short length scale) makes the data-fit term small but
-                        inflates the eigenvalues of \(K\) and incurs a complexity penalty. The max
-                        solution balances them and Occam's razor falls out as a side effect. The
-                        data picks the simplest adequate model. GPs are implicitly regularised.
+                        inflates the eigenvalues of \(K\) and incurs a complexity penalty. The
+                        maximum-likelihood solution balances them and the data picks the simplest
+                        model, (Occam's razor). GPs are naturally regularised.
                     </p>
                     <p>
                         Fit the hyperparameters this way and you get the posterior uncertainty
@@ -346,10 +346,9 @@
                         Every kernel comes with its own
                         <span class="accent">reproducing-kernel Hilbert space (RKHS)</span>
                         \(\mathcal{H}_k\): the space of functions it can represent. Smoother kernels
-                        assign a bigger norm to functions that vary wildly, so during
-                        marginal-likelihood fitting the GP pays a complexity penalty for fitting
-                        something its kernel can't naturally express. Meaning kernels provide
-                        natural inductive bias to guide learning:
+                        assign a bigger norm to functions that vary wildly, so the GP pays a
+                        complexity penalty for fitting something its kernel can't naturally express.
+                        Meaning kernels provide natural inductive bias to guide learning:
                     </p>
                     <div class="def-grid">
                         <div class="def-card">
@@ -384,12 +383,6 @@
                             </p>
                         </div>
                     </div>
-                    <p>
-                        Per-dimension length scales \(\sigma_i\) give
-                        <span class="accent">automatic relevance determination</span>
-                        : dimensions that don't affect \(f\) drift to large \(\sigma_i\) at the
-                        marginal-likelihood optimum, effectively dropping out.
-                    </p>
                 </div>
 
                 <div class="requirement-section">
@@ -467,16 +460,17 @@
                     <p>
                         The posterior variance \(\Sigma_*\) at each candidate point says how much
                         labelling it would reduce the model's epistemic uncertainty.
+                    </p>
+                    <p>
                         <span class="accent">Regions of high uncertainty</span>
                         guide where you'll next prioritise experimentation, synthesis, or risk
                         assessments.
                     </p>
                     <p>
-                        <span class="accent">
-                            It's not enough to simply make decisions. You have to quantify the
-                            validity of them.
-                        </span>
+                        <span class="accent">It's not enough to simply make decisions.</span>
                     </p>
+
+                    <p><span class="accent">You have to quantify the validity of them.</span></p>
 
                     <div class="gif-single">
                         <img

@@ -51,7 +51,7 @@
                     <h2 id="intro-to-sciml">An intro to scientific machine learning</h2>
                     <p>
                         On the axes of big worldly problems, we have two resources at our disposal
-                        to model said problems: acquired human knowledge, and acquired data!
+                        to model said problems: acquired human knowledge, and acquired data:
                     </p>
                     <svg
                         class="ml-plot"
@@ -126,15 +126,15 @@
                             <p class="def-body">
                                 \(F = ma\) predicts trajectories from initial conditions. Maxwell's
                                 equations are closed-form. Newtonian mechanics gets you to the Moon
-                                and back.
+                                and then some.
                             </p>
                         </div>
                         <div class="def-card">
                             <span class="def-name">low-right</span>
                             <p class="def-body">
-                                Pretrain on the internet, LLMs pick up natural language without
-                                anyone writing down the dynamics of speech. In recent history, this
-                                has been the point of deep learning as an endeavour.
+                                LLMs pick up natural language without anyone writing down the
+                                dynamics of speech. In recent history, this has been the point of
+                                deep learning as an endeavour.
                             </p>
                         </div>
                         <div class="def-card">
@@ -178,6 +178,11 @@
                         argument. Historically, general methods that scale with compute have beaten
                         hand-crafted human knowledge, but that lesson is drawn from domains with
                         effectively unlimited data, (language, vision, games with simulators).
+                    </p>
+                    <p>
+                        We'll cover some examples below - specifically with contrast against
+                        standard neural network mechanics, like the Attention mechanism and
+                        Convolutional Neural Networks.
                     </p>
                 </div>
 
@@ -255,11 +260,12 @@
                             <p class="def-body">
                                 Same translation-invariant kernel \(\kappa(x - y)\) , global
                                 support. The convolution theorem turns the integral into a pointwise
-                                multiplication in the spectral domain, (spectral convolution),
-                                \((\mathcal{K} v)(x) = \mathcal{F}^{-1}\!\left(R_\theta \cdot
-                                \mathcal{F}(v)\right)(x)\) , with learnable weights \(R_\theta\) on
-                                a finite set of modes. Bias toward dynamics in a low-frequency band,
-                                (holds for many smooth PDEs).
+                                multiplication in the spectral domain, (spectral convolution), well
+                                suited to acceleration. \((\mathcal{K} v)(x) =
+                                \mathcal{F}^{-1}\!\left(R_\theta \cdot \mathcal{F}(v)\right)(x)\) ,
+                                with learnable weights \(R_\theta\) on a finite set of modes. Has
+                                bias toward dynamics in a low-frequency band, (holds for many smooth
+                                PDEs).
                             </p>
                         </div>
                         <div class="def-card">
@@ -298,7 +304,7 @@
                 </div>
 
                 <div class="section-major">
-                    <h2 id="personal-speculation">Attention</h2>
+                    <h2 id="personal-speculation">The Mechanics of Language</h2>
                     <p>
                         Transformers and attention have sequence length dimension (temporal) and an
                         embedding dimension (spatial). Almost like a discretised 2D field.
@@ -326,7 +332,8 @@
                             target="_blank"
                             rel="noopener"
                         >
-                            (interesting example, still a Transformer).
+                            (interesting example with Continous Diffusion Modelling, still a
+                            Transformer).
                         </a>
                     </p>
                     <p>
@@ -431,7 +438,7 @@
                     <ol>
                         <li>
                             <span class="accent">PDE bias</span>
-                            - it's a neural operator!
+                            - it's a neural operator.
                         </li>
                         <li>
                             <span class="accent">time-series bias</span>
@@ -463,7 +470,11 @@
                     </p>
                     <p>Goal: models have to learn the operator \(a \to u\).</p>
                     <p>
-                        No iterative PDE solver at inference time, just a single forward pass!
+                        <span class="accent">
+                            No iterative PDE solver at inference time, just a single forward pass!
+                        </span>
+                    </p>
+                    <p>
                         People think AI is unsustainable, but these neural operators are a potential
                         replacement for the slow, iterative solvers running on today's HPCs.
                         \[-\nabla \cdot (a(x)\, \nabla u(x)) = f(x), \; x \in (0, 1)^2\]
