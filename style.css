@@ -215,7 +215,10 @@ h1 {
 /* Heading */
 
 .divider {
-    display: none;
+    display: block;
+    border: none;
+    height: 1px;
+    margin: 32px 0;
 }
 
 .list-heading {
