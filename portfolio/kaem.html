@@ -46,12 +46,12 @@
                     <strong>THIS IS WORK IN PROGRESS!</strong>
                 </p>
                 <p>
-                    I'll explain it properly soon. I've been planning on it for a while, but I have
-                    a lot on my plate at the moment. Thanks for the interest.
+                    I'll explain/finish it properly soon, but I have a lot on my plate at the
+                    moment. Thanks for the interest.
                 </p>
                 <p class="kaem-question">
-                    What are the requirements for discovering the true, agreed-upon, standard
-                    representations across images, language, and scientific data?
+                    What are the requirements for representation discovery in unsupervised learning
+                    models?
                 </p>
                 <ol class="requirements">
                     <li>
@@ -195,7 +195,15 @@
                         Inference is the largest slice, so KAEM keeps it fast (single forward pass).
                         The generative process is also entirely static and deterministic, prior
                         sampling can just be look up table (LUT for \(\psi_{q,p} : [0,1] \to
-                        \mathbb{R}\) ).
+                        \mathbb{R}\); see
+                        <a
+                            href="https://github.com/PritRaj1/kaem-hls"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            FPGA acceleration
+                        </a>
+                        ).
                     </p>
                     <p>
                         <a href="../annealing.html">Annealing</a>
@@ -211,11 +219,11 @@
                             alt="Sampling time: KAEM vs VAE, neural latent EBM, and DDPM across latent dimensions"
                         />
                         <div class="gif-label">
-                            Sampling speed comparable to VAE, ~700x faster than DDPM
+                            Sampling speed comparable to VAE on GPU, ~700x faster than DDPM
                         </div>
                     </div>
                     <p>
-                        The small gap to VAE can be closed by optimizing or caching the ITS
+                        The small gap to VAE above can be closed by optimizing or caching the ITS
                         computational kernel, (since the partition/normalizing constant does not
                         need recomputing per generation), or by choosing a different KAN basis.
                     </p>
@@ -625,7 +633,7 @@
                         </div>
                     </div>
 
-                    <p>The compiler stack underneath:</p>
+                    <p>Technical details on the compiler stack underneath:</p>
 
                     <div class="def-grid">
                         <div class="def-card">
